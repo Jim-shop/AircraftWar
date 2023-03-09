@@ -1,6 +1,6 @@
 package edu.hitsz.aircraft;
 
-import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 
 import java.util.List;
@@ -24,10 +24,10 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         this.maxHp = hp;
     }
 
-    public void decreaseHp(int decrease){
+    public void decreaseHp(int decrease) {
         hp -= decrease;
-        if(hp <= 0){
-            hp=0;
+        if (hp <= 0) {
+            hp = 0;
             vanish();
         }
     }
@@ -39,11 +39,11 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
 
     /**
      * 飞机射击方法，可射击对象必须实现
-     * @return
-     *  可射击对象需实现，返回子弹
-     *  非可射击对象空实现，返回null
+     *
+     * @return 可射击对象需实现，返回子弹
+     * 非可射击对象空实现，返回null
      */
-    public abstract List<BaseBullet> shoot();
+    public abstract List<AbstractBullet> shoot();
 
 }
 
