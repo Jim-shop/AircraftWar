@@ -1,7 +1,7 @@
-package edu.hitsz.aircraft;
+package net.imshit.aircraft;
 
-import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.bullet.HeroBullet;
+import net.imshit.bullet.AbstractBullet;
+import net.imshit.bullet.HeroBullet;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,11 +46,13 @@ public class HeroAircraft extends AbstractAircraft {
         // 英雄机由鼠标控制，不通过forward函数移动
     }
 
-    @Override
+
     /**
      * 通过射击产生子弹
      * @return 射击出的子弹List
-     */ public List<AbstractBullet> shoot() {
+     */
+    @Override
+    public List<AbstractBullet> shoot() {
         List<AbstractBullet> res = new LinkedList<>();
         int x = this.getLocationX();
         int y = this.getLocationY() + direction * 2;

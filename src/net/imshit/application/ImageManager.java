@@ -1,14 +1,14 @@
-package edu.hitsz.application;
+package net.imshit.application;
 
 
-import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.aircraft.enemy.MobEnemy;
-import edu.hitsz.aircraft.enemy.EliteEnemy;
-import edu.hitsz.bullet.EnemyBullet;
-import edu.hitsz.bullet.HeroBullet;
-import edu.hitsz.prop.BloodProp;
-import edu.hitsz.prop.BombProp;
-import edu.hitsz.prop.BulletProp;
+import net.imshit.aircraft.HeroAircraft;
+import net.imshit.aircraft.enemy.MobEnemy;
+import net.imshit.aircraft.enemy.EliteEnemy;
+import net.imshit.bullet.EnemyBullet;
+import net.imshit.bullet.HeroBullet;
+import net.imshit.prop.BloodProp;
+import net.imshit.prop.BombProp;
+import net.imshit.prop.BulletProp;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

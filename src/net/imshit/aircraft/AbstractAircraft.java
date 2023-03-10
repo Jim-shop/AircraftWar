@@ -1,7 +1,7 @@
-package edu.hitsz.aircraft;
+package net.imshit.aircraft;
 
-import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.basic.AbstractFlyingObject;
+import net.imshit.bullet.AbstractBullet;
+import net.imshit.basic.AbstractFlyingObject;
 
 import java.util.List;
 

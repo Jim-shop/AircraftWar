@@ -1,8 +1,8 @@
-package edu.hitsz.prop;
+package net.imshit.prop;
 
-import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.application.Main;
-import edu.hitsz.basic.AbstractFlyingObject;
+import net.imshit.aircraft.HeroAircraft;
+import net.imshit.application.Main;
+import net.imshit.basic.AbstractFlyingObject;
 
 public abstract class AbstractProp extends AbstractFlyingObject {
 

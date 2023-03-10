@@ -1,6 +1,6 @@
-package edu.hitsz.prop;
+package net.imshit.prop;
 
-import edu.hitsz.aircraft.HeroAircraft;
+import net.imshit.aircraft.HeroAircraft;
 
 public class BulletProp extends AbstractProp {
 

@@ -1,8 +1,5 @@
-package edu.hitsz.bullet;
+package net.imshit.bullet;
 
-/**
- * @Author jim-shop
- */
 public class EnemyBullet extends AbstractBullet {
 
     public EnemyBullet(int locationX, int locationY, int speedX, int speedY, int power) {

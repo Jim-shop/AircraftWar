@@ -1,4 +1,4 @@
-package edu.hitsz.application;
+package net.imshit.application;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
-package edu.hitsz.application;
+package net.imshit.application;
 
-import edu.hitsz.aircraft.HeroAircraft;
+import net.imshit.aircraft.HeroAircraft;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

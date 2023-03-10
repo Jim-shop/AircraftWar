@@ -1,11 +1,4 @@
-package edu.hitsz.aircraft.enemy;
-
-import edu.hitsz.aircraft.AbstractAircraft;
-import edu.hitsz.application.Main;
-import edu.hitsz.bullet.AbstractBullet;
-
-import java.util.LinkedList;
-import java.util.List;
+package net.imshit.aircraft.enemy;
 
 /**
  * 普通敌机

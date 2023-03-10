@@ -1,13 +1,13 @@
-package edu.hitsz.application;
+package net.imshit.application;
 
-import edu.hitsz.aircraft.AbstractAircraft;
-import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.aircraft.enemy.AbstractEnemy;
-import edu.hitsz.aircraft.enemy.EliteEnemy;
-import edu.hitsz.aircraft.enemy.MobEnemy;
-import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.prop.AbstractProp;
+import net.imshit.aircraft.AbstractAircraft;
+import net.imshit.aircraft.HeroAircraft;
+import net.imshit.aircraft.enemy.AbstractEnemy;
+import net.imshit.aircraft.enemy.EliteEnemy;
+import net.imshit.aircraft.enemy.MobEnemy;
+import net.imshit.basic.AbstractFlyingObject;
+import net.imshit.bullet.AbstractBullet;
+import net.imshit.prop.AbstractProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -279,8 +279,6 @@ public class Game extends JPanel {
     /**
      * 重写paint方法
      * 通过重复调用paint方法，实现游戏动画
-     *
-     * @param g
      */
     @Override
     public void paint(Graphics g) {

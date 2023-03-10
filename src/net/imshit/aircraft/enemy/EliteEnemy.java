@@ -1,11 +1,11 @@
-package edu.hitsz.aircraft.enemy;
+package net.imshit.aircraft.enemy;
 
-import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.bullet.EnemyBullet;
-import edu.hitsz.prop.AbstractProp;
-import edu.hitsz.prop.BloodProp;
-import edu.hitsz.prop.BombProp;
-import edu.hitsz.prop.BulletProp;
+import net.imshit.bullet.AbstractBullet;
+import net.imshit.bullet.EnemyBullet;
+import net.imshit.prop.AbstractProp;
+import net.imshit.prop.BloodProp;
+import net.imshit.prop.BombProp;
+import net.imshit.prop.BulletProp;
 
 import java.util.LinkedList;
 import java.util.List;

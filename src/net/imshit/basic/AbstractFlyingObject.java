@@ -1,8 +1,8 @@
-package edu.hitsz.basic;
+package net.imshit.basic;
 
-import edu.hitsz.aircraft.AbstractAircraft;
-import edu.hitsz.application.ImageManager;
-import edu.hitsz.application.Main;
+import net.imshit.aircraft.AbstractAircraft;
+import net.imshit.application.ImageManager;
+import net.imshit.application.Main;
 
 import java.awt.image.BufferedImage;
 
