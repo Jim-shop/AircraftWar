@@ -19,5 +19,12 @@ class RandomEnemyFactory extends AbstractEnemyFactory {
 RandomEnemyFactory --> EliteEnemyFactory
 RandomEnemyFactory --> MobEnemyFactory
 
+EliteEnemyFactory ..> EliteEnemy
+MobEnemyFactory ..> MobEnemy
+RandomEnemyFactory ..> AbstractEnemy
+
+class Game {}
+
+Game -> RandomEnemyFactory
 
 @enduml

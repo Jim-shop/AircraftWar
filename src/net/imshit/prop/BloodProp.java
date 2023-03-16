@@ -10,6 +10,6 @@ public class BloodProp extends AbstractProp {
 
     @Override
     public void use(HeroAircraft hero) {
-        hero.increaseHp(30);
+        hero.increaseHp(100);
     }
 }

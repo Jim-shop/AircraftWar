@@ -26,4 +26,12 @@ RandomPropFactory --> BloodPropFactory
 RandomPropFactory --> BombPropFactory
 RandomPropFactory --> BulletPropFactory
 
+BloodPropFactory ..> BloodProp
+BombPropFactory ..> BombProp
+BulletPropFactory ..> BulletProp
+RandomPropFactory ..> AbstractProp
+
+class EliteEnemy{}
+EliteEnemy -> RandomPropFactory
+
 @enduml
