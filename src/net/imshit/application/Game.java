@@ -71,8 +71,7 @@ public class Game extends JPanel {
     private boolean gameOverFlag = false;
 
     public Game() {
-        heroAircraft = new HeroAircraft(Main.WINDOW_WIDTH / 2, Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 100);
-
+        heroAircraft = HeroAircraft.getInstance();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
@@ -211,7 +210,6 @@ public class Game extends JPanel {
     private void crashCheckAction() {
         // 敌机子弹攻击英雄
         for (var bullet : enemyBullets) {
-            if (bullet.notValid()) continue;
             if (heroAircraft.crash(bullet)) {
                 heroAircraft.decreaseHp(bullet.getPower());
                 bullet.vanish();
@@ -249,7 +247,6 @@ public class Game extends JPanel {
 
         // 我方获得道具，道具生效
         for (var prop : enemyProps) {
-            if (prop.notValid()) continue;
             if (heroAircraft.crash((prop))) {
                 prop.use(heroAircraft);
                 prop.vanish();

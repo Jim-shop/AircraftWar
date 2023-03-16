@@ -56,11 +56,11 @@ public class EliteEnemy extends AbstractEnemy {
         int y = this.getLocationY() + 2;
         int speedX = 0, speedY = this.getSpeedY() / 2;
         AbstractProp p = null;
-        if (rand < 0.1) {
+        if (rand < 0.3) {
             p = new BloodProp(x, y, speedX, speedY);
-        } else if (rand < 0.2) {
+        } else if (rand < 0.6) {
             p = new BombProp(x, y, speedX, speedY);
-        } else if (rand < 0.3) {
+        } else if (rand < 0.9) {
             p = new BulletProp(x, y, speedX, speedY);
         }
         if (p != null)

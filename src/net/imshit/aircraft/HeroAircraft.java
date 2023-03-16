@@ -1,5 +1,7 @@
 package net.imshit.aircraft;
 
+import net.imshit.application.ImageManager;
+import net.imshit.application.Main;
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.bullet.HeroBullet;
 
@@ -8,10 +10,15 @@ import java.util.List;
 
 /**
  * 英雄飞机，游戏玩家操控
- *
- * @author jim-shop
  */
 public class HeroAircraft extends AbstractAircraft {
+
+    // 饿汉式捏
+    public static HeroAircraft instance = new HeroAircraft(Main.WINDOW_WIDTH / 2, Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000);
+
+    public static HeroAircraft getInstance() {
+        return instance;
+    }
 
     /*攻击方式 */
 
@@ -37,7 +44,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @param speedY    英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param hp        初始生命值
      */
-    public HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
+    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
     }
 
@@ -49,6 +56,7 @@ public class HeroAircraft extends AbstractAircraft {
 
     /**
      * 通过射击产生子弹
+     *
      * @return 射击出的子弹List
      */
     @Override
