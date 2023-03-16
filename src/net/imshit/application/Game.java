@@ -1,10 +1,10 @@
 package net.imshit.application;
 
 import net.imshit.aircraft.AbstractAircraft;
+import net.imshit.aircraft.enemy.*;
+import net.imshit.aircraft.enemy.factory.AbstractEnemyFactory;
+import net.imshit.aircraft.enemy.factory.RandomEnemyFactory;
 import net.imshit.aircraft.hero.HeroAircraft;
-import net.imshit.aircraft.enemy.AbstractEnemy;
-import net.imshit.aircraft.enemy.EliteEnemy;
-import net.imshit.aircraft.enemy.MobEnemy;
 import net.imshit.basic.AbstractFlyingObject;
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.prop.AbstractProp;
@@ -48,6 +48,8 @@ public class Game extends JPanel {
      * 屏幕中出现的敌机最大数量
      */
     private final int enemyMaxNumber = 5;
+    /** 敌机工厂 */
+    private final AbstractEnemyFactory enemyFactory = new RandomEnemyFactory();
 
     /**
      * 当前得分
@@ -104,16 +106,7 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    int locationX = (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()));
-                    int locationY = (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05);
-                    int speedX = 0, speedY = 10, hp = 30;
-                    AbstractEnemy newEnemy;
-                    if (Math.random() < 0.8) {
-                        newEnemy = new MobEnemy(locationX, locationY, speedX, speedY, hp);
-                    } else {
-                        newEnemy = new EliteEnemy(locationX, locationY, speedX, speedY, hp);
-                    }
-                    enemyAircrafts.add(newEnemy);
+                    enemyAircrafts.add(enemyFactory.createEnemy());
                 }
                 // 飞机射出子弹
                 shootAction();

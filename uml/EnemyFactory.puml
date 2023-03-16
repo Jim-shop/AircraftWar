@@ -1,0 +1,23 @@
+@startuml
+
+abstract class AbstractEnemyFactory {
+    + {abstract} createEnemy(): AbstractEnemy
+}
+
+class EliteEnemyFactory extends AbstractEnemyFactory {
+    + createEnemy(): EliteEnemy
+}
+
+class MobEnemyFactory extends AbstractEnemyFactory {
+    + createEnemy(): MobEnemy
+}
+
+class RandomEnemyFactory extends AbstractEnemyFactory {
+    + createEnemy(): AbstractEnemy
+}
+
+RandomEnemyFactory --> EliteEnemyFactory
+RandomEnemyFactory --> MobEnemyFactory
+
+
+@enduml
