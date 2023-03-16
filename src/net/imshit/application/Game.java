@@ -48,7 +48,9 @@ public class Game extends JPanel {
      * 屏幕中出现的敌机最大数量
      */
     private final int enemyMaxNumber = 5;
-    /** 敌机工厂 */
+    /**
+     * 敌机工厂
+     */
     private final AbstractEnemyFactory enemyFactory = new RandomEnemyFactory();
 
     /**

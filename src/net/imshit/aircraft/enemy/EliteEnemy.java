@@ -1,11 +1,15 @@
 package net.imshit.aircraft.enemy;
 
+import net.imshit.aircraft.enemy.factory.AbstractEnemyFactory;
+import net.imshit.aircraft.enemy.factory.RandomEnemyFactory;
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.bullet.EnemyBullet;
 import net.imshit.prop.AbstractProp;
 import net.imshit.prop.BloodProp;
 import net.imshit.prop.BombProp;
 import net.imshit.prop.BulletProp;
+import net.imshit.prop.factory.AbstractPropFactory;
+import net.imshit.prop.factory.RandomPropFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +24,8 @@ public class EliteEnemy extends AbstractEnemy {
 
     private final int shootNum = 1;
     private final int power = 10;
+
+    private final AbstractPropFactory propFactory = new RandomPropFactory();
 
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
@@ -50,21 +56,9 @@ public class EliteEnemy extends AbstractEnemy {
 
     @Override
     public List<AbstractProp> prop() {
-        var rand = Math.random();
-        List<AbstractProp> result = new LinkedList<>();
-        int x = this.getLocationX();
-        int y = this.getLocationY() + 2;
-        int speedX = 0, speedY = this.getSpeedY() / 2;
-        AbstractProp p = null;
-        if (rand < 0.3) {
-            p = new BloodProp(x, y, speedX, speedY);
-        } else if (rand < 0.6) {
-            p = new BombProp(x, y, speedX, speedY);
-        } else if (rand < 0.9) {
-            p = new BulletProp(x, y, speedX, speedY);
-        }
-        if (p != null)
-            result.add(p);
-        return result;
+        var prop = propFactory.createProp(this.locationX, this.locationY);
+        if (prop != null)
+            return List.of(prop);
+        return List.of();
     }
 }

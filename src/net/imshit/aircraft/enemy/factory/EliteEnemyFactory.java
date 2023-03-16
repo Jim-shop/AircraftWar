@@ -9,9 +9,9 @@ public class EliteEnemyFactory extends AbstractEnemyFactory {
     public EliteEnemy createEnemy() {
         int locationX = (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth()));
         int locationY = (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05);
-        int speedX = 10;
+        int speedX = 5;
         int speedY = 5;
-        int hp = 100;
+        int hp = 60;
         return new EliteEnemy(locationX, locationY, speedX, speedY, hp);
     }
 }
