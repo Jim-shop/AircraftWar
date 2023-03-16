@@ -1,6 +1,6 @@
 package net.imshit.prop;
 
-import net.imshit.aircraft.HeroAircraft;
+import net.imshit.aircraft.hero.HeroAircraft;
 import net.imshit.application.Main;
 import net.imshit.basic.AbstractFlyingObject;
 

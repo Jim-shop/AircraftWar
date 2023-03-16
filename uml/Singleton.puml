@@ -1,0 +1,19 @@
+@startuml
+class HeroAircraft extends AbstractAircraft {
+    - shootNum: int
+    - power: int
+    - direction: int
+    - {static} instance: HeroAircraft
+    + getInstance(): HeroAircraft
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward(): void
+    + shoot(): List<AbstractBullet>
+    + increaseHp(int increment): void
+}
+
+class Game{}
+
+Game -> HeroAircraft
+HeroAircraft -> HeroAircraft
+
+@enduml

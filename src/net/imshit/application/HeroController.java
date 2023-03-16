@@ -1,6 +1,6 @@
 package net.imshit.application;
 
-import net.imshit.aircraft.HeroAircraft;
+import net.imshit.aircraft.hero.HeroAircraft;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

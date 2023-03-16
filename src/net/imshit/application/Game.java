@@ -1,7 +1,7 @@
 package net.imshit.application;
 
 import net.imshit.aircraft.AbstractAircraft;
-import net.imshit.aircraft.HeroAircraft;
+import net.imshit.aircraft.hero.HeroAircraft;
 import net.imshit.aircraft.enemy.AbstractEnemy;
 import net.imshit.aircraft.enemy.EliteEnemy;
 import net.imshit.aircraft.enemy.MobEnemy;

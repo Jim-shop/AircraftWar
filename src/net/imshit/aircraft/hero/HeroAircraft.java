@@ -1,5 +1,6 @@
-package net.imshit.aircraft;
+package net.imshit.aircraft.hero;
 
+import net.imshit.aircraft.AbstractAircraft;
 import net.imshit.application.ImageManager;
 import net.imshit.application.Main;
 import net.imshit.bullet.AbstractBullet;
