@@ -4,6 +4,9 @@ import net.imshit.aircraft.enemy.EliteEnemy;
 import net.imshit.application.ImageManager;
 import net.imshit.application.Main;
 
+/**
+ * @author Jim
+ */
 public class EliteEnemyFactory extends AbstractEnemyFactory {
     @Override
     public EliteEnemy createEnemy() {

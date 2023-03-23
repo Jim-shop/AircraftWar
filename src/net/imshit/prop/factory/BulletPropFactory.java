@@ -2,6 +2,9 @@ package net.imshit.prop.factory;
 
 import net.imshit.prop.BulletProp;
 
+/**
+ * @author Jim
+ */
 public class BulletPropFactory extends AbstractPropFactory {
     @Override
     public BulletProp createProp(int locationX, int locationY) {

@@ -11,28 +11,25 @@ import java.util.List;
 
 /**
  * 英雄飞机，游戏玩家操控
+ *
+ * @author Jim
  */
 public class HeroAircraft extends AbstractAircraft {
 
-    // 饿汉式捏
-    public static HeroAircraft instance = new HeroAircraft(Main.WINDOW_WIDTH / 2, Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000);
-
-    public static HeroAircraft getInstance() {
-        return instance;
-    }
-
-    /*攻击方式 */
-
+    /**
+     * 饿汉式单例模式
+     */
+    private static final HeroAircraft INSTANCE = new HeroAircraft(Main.WINDOW_WIDTH / 2, Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000);
     /**
      * 子弹一次发射数量
      */
     private final int shootNum = 1;
 
+    /*攻击方式 */
     /**
      * 子弹伤害
      */
     private final int power = 30;
-
     /**
      * 子弹射击方向 (向上发射：1，向下发射：-1)
      */
@@ -47,6 +44,10 @@ public class HeroAircraft extends AbstractAircraft {
      */
     private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
+    }
+
+    public static HeroAircraft getInstance() {
+        return INSTANCE;
     }
 
     @Override
@@ -67,19 +68,21 @@ public class HeroAircraft extends AbstractAircraft {
         int y = this.getLocationY() + direction * 2;
         int speedX = 0;
         int speedY = this.getSpeedY() + direction * 10;
-        AbstractBullet bullet;
         for (int i = 0; i < shootNum; i++) {
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            bullet = new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power);
-            res.add(bullet);
+            res.add(new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power));
         }
         return res;
     }
 
     public void increaseHp(int increment) {
-        hp += increment;
-        if (hp > maxHp) hp = maxHp;
+        if (increment > 0) {
+            hp += increment;
+            if (hp > maxHp || hp < 0) {
+                hp = maxHp;
+            }
+        }
     }
 
 }

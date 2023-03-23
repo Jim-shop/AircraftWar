@@ -8,6 +8,9 @@ import net.imshit.prop.AbstractProp;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author Jim
+ */
 public abstract class AbstractEnemy extends AbstractAircraft {
 
     public AbstractEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {

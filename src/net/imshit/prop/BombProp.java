@@ -2,6 +2,9 @@ package net.imshit.prop;
 
 import net.imshit.aircraft.hero.HeroAircraft;
 
+/**
+ * @author Jim
+ */
 public class BombProp extends AbstractProp {
 
     public BombProp(int locationX, int locationY, int speedX, int speedY) {

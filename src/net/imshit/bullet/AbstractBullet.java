@@ -11,7 +11,7 @@ import net.imshit.basic.AbstractFlyingObject;
  */
 public abstract class AbstractBullet extends AbstractFlyingObject {
 
-    private int power;
+    private final int power;
 
     public AbstractBullet(int locationX, int locationY, int speedX, int speedY, int power) {
         super(locationX, locationY, speedX, speedY);
@@ -28,10 +28,10 @@ public abstract class AbstractBullet extends AbstractFlyingObject {
         }
 
         // 判定 y 轴出界
-        if (speedY > 0 && locationY >= Main.WINDOW_HEIGHT ) {
+        if (speedY > 0 && locationY >= Main.WINDOW_HEIGHT) {
             // 向下飞行出界
             vanish();
-        }else if (locationY <= 0){
+        } else if (locationY <= 0) {
             // 向上飞行出界
             vanish();
         }

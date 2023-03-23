@@ -1,7 +1,7 @@
 package net.imshit.application;
 
 import net.imshit.aircraft.AbstractAircraft;
-import net.imshit.aircraft.enemy.*;
+import net.imshit.aircraft.enemy.AbstractEnemy;
 import net.imshit.aircraft.enemy.factory.AbstractEnemyFactory;
 import net.imshit.aircraft.enemy.factory.RandomEnemyFactory;
 import net.imshit.aircraft.hero.HeroAircraft;
@@ -26,24 +26,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class Game extends JPanel {
 
-    private int backGroundTop = 0;
-
     /**
      * Scheduled 线程池，用于任务调度
      */
     private final ScheduledExecutorService executorService;
-
     /**
      * 时间间隔(ms)，控制刷新频率
      */
     private final int timeInterval = 1000 / 45;
-
     private final HeroAircraft heroAircraft;
-    private final List<AbstractEnemy> enemyAircrafts;
+    private final List<AbstractEnemy> enemyAircraftObjects;
     private final List<AbstractBullet> heroBullets;
     private final List<AbstractBullet> enemyBullets;
     private final List<AbstractProp> enemyProps;
-
     /**
      * 屏幕中出现的敌机最大数量
      */
@@ -52,7 +47,12 @@ public class Game extends JPanel {
      * 敌机工厂
      */
     private final AbstractEnemyFactory enemyFactory = new RandomEnemyFactory();
-
+    /**
+     * 周期（ms)
+     * 指示子弹的发射、敌机的产生频率
+     */
+    private final int cycleDuration = 600;
+    private int backGroundTop = 0;
     /**
      * 当前得分
      */
@@ -61,12 +61,6 @@ public class Game extends JPanel {
      * 当前时刻
      */
     private int time = 0;
-
-    /**
-     * 周期（ms)
-     * 指示子弹的发射、敌机的产生频率
-     */
-    private final int cycleDuration = 600;
     private int cycleTime = 0;
 
     /**
@@ -76,7 +70,7 @@ public class Game extends JPanel {
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance();
-        enemyAircrafts = new LinkedList<>();
+        enemyAircraftObjects = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         enemyProps = new LinkedList<>();
@@ -107,8 +101,8 @@ public class Game extends JPanel {
             if (timeCountAndNewCycleJudge()) {
                 System.out.println(time);
                 // 新敌机产生
-                if (enemyAircrafts.size() < enemyMaxNumber) {
-                    enemyAircrafts.add(enemyFactory.createEnemy());
+                if (enemyAircraftObjects.size() < enemyMaxNumber) {
+                    enemyAircraftObjects.add(enemyFactory.createEnemy());
                 }
                 // 飞机射出子弹
                 shootAction();
@@ -118,7 +112,7 @@ public class Game extends JPanel {
             bulletsMoveAction();
 
             // 飞机移动
-            aircraftsMoveAction();
+            aircraftObjectsMoveAction();
 
             // 凋落物移动
             propsMoveAction();
@@ -167,7 +161,7 @@ public class Game extends JPanel {
 
     private void shootAction() {
         // 敌机射击
-        for (var enemy : enemyAircrafts) {
+        for (var enemy : enemyAircraftObjects) {
             enemyBullets.addAll(enemy.shoot());
         }
 
@@ -184,8 +178,8 @@ public class Game extends JPanel {
         }
     }
 
-    private void aircraftsMoveAction() {
-        for (AbstractAircraft enemyAircraft : enemyAircrafts) {
+    private void aircraftObjectsMoveAction() {
+        for (AbstractAircraft enemyAircraft : enemyAircraftObjects) {
             enemyAircraft.forward();
         }
     }
@@ -216,7 +210,7 @@ public class Game extends JPanel {
             if (bullet.notValid()) {
                 continue;
             }
-            for (var enemyAircraft : enemyAircrafts) {
+            for (var enemyAircraft : enemyAircraftObjects) {
                 if (enemyAircraft.notValid()) {
                     // 已被其他子弹击毁的敌机，不再检测
                     // 避免多个子弹重复击毁同一敌机的判定
@@ -259,7 +253,7 @@ public class Game extends JPanel {
     private void postProcessAction() {
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
-        enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
+        enemyAircraftObjects.removeIf(AbstractFlyingObject::notValid);
         enemyProps.removeIf(AbstractFlyingObject::notValid);
     }
 
@@ -290,7 +284,7 @@ public class Game extends JPanel {
         paintImageWithPositionRevised(g, enemyProps);
         paintImageWithPositionRevised(g, heroBullets);
 
-        paintImageWithPositionRevised(g, enemyAircrafts);
+        paintImageWithPositionRevised(g, enemyAircraftObjects);
 
         g.drawImage(ImageManager.HERO_IMAGE, heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2, heroAircraft.getLocationY() - ImageManager.HERO_IMAGE.getHeight() / 2, null);
 

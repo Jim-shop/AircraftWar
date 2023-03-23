@@ -1,7 +1,7 @@
 package net.imshit.aircraft;
 
-import net.imshit.bullet.AbstractBullet;
 import net.imshit.basic.AbstractFlyingObject;
+import net.imshit.bullet.AbstractBullet;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     /**
      * 生命值
      */
-    protected int maxHp;
+    protected final int maxHp;
     protected int hp;
 
     public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
@@ -25,10 +25,12 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     }
 
     public void decreaseHp(int decrease) {
-        hp -= decrease;
-        if (hp <= 0) {
-            hp = 0;
-            vanish();
+        if (decrease > 0) {
+            hp -= decrease;
+            if (hp <= 0) {
+                hp = 0;
+                vanish();
+            }
         }
     }
 

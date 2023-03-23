@@ -4,7 +4,12 @@ import net.imshit.aircraft.enemy.MobEnemy;
 import net.imshit.application.ImageManager;
 import net.imshit.application.Main;
 
-public class MobEnemyFactory extends AbstractEnemyFactory{
+/**
+ * 普通敌机的工厂
+ *
+ * @author Jim
+ */
+public class MobEnemyFactory extends AbstractEnemyFactory {
     @Override
     public MobEnemy createEnemy() {
         int locationX = (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()));

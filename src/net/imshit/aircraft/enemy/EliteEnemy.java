@@ -1,13 +1,8 @@
 package net.imshit.aircraft.enemy;
 
-import net.imshit.aircraft.enemy.factory.AbstractEnemyFactory;
-import net.imshit.aircraft.enemy.factory.RandomEnemyFactory;
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.bullet.EnemyBullet;
 import net.imshit.prop.AbstractProp;
-import net.imshit.prop.BloodProp;
-import net.imshit.prop.BombProp;
-import net.imshit.prop.BulletProp;
 import net.imshit.prop.factory.AbstractPropFactory;
 import net.imshit.prop.factory.RandomPropFactory;
 
@@ -44,12 +39,10 @@ public class EliteEnemy extends AbstractEnemy {
         int y = this.getLocationY() + 2;
         int speedX = 0;
         int speedY = this.getSpeedY() + 5;
-        EnemyBullet bullet;
         for (int i = 0; i < shootNum; i++) {
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            bullet = new EnemyBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power);
-            res.add(bullet);
+            res.add(new EnemyBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power));
         }
         return res;
     }
@@ -57,8 +50,9 @@ public class EliteEnemy extends AbstractEnemy {
     @Override
     public List<AbstractProp> prop() {
         var prop = propFactory.createProp(this.locationX, this.locationY);
-        if (prop != null)
+        if (prop != null) {
             return List.of(prop);
+        }
         return List.of();
     }
 }
