@@ -10,10 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 普通敌机
- * 不可射击
+ * 精英敌机
+ * 可射击
  *
- * @author hitsz
+ * @author jim
  */
 public class EliteEnemy extends AbstractEnemy {
 
