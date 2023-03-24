@@ -1,6 +1,7 @@
 package net.imshit.application;
 
 
+import net.imshit.aircraft.enemy.BossEnemy;
 import net.imshit.aircraft.enemy.EliteEnemy;
 import net.imshit.aircraft.enemy.MobEnemy;
 import net.imshit.aircraft.hero.HeroAircraft;
@@ -37,6 +38,7 @@ public class ImageManager {
     public static BufferedImage ENEMY_BULLET_IMAGE;
     public static BufferedImage MOB_ENEMY_IMAGE;
     public static BufferedImage ELITE_ENEMY_IMAGE;
+    public static BufferedImage BOSS_ENEMY_IMAGE;
     public static BufferedImage PROP_BLOOD_ENEMY_IMAGE;
     public static BufferedImage PROP_BOMB_ENEMY_IMAGE;
     public static BufferedImage PROP_BULLET_ENEMY_IMAGE;
@@ -49,6 +51,7 @@ public class ImageManager {
             ENEMY_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/images/bullet_enemy.png"));
             MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/mob.png"));
             ELITE_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/elite.png"));
+            BOSS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/boss.png"));
             PROP_BLOOD_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_blood.png"));
             PROP_BOMB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_bomb.png"));
             PROP_BULLET_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_bullet.png"));
@@ -58,6 +61,7 @@ public class ImageManager {
             CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), ENEMY_BULLET_IMAGE);
             CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
             CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(BossEnemy.class.getName(), BOSS_ENEMY_IMAGE);
             CLASSNAME_IMAGE_MAP.put(BloodProp.class.getName(), PROP_BLOOD_ENEMY_IMAGE);
             CLASSNAME_IMAGE_MAP.put(BombProp.class.getName(), PROP_BOMB_ENEMY_IMAGE);
             CLASSNAME_IMAGE_MAP.put(BulletProp.class.getName(), PROP_BULLET_ENEMY_IMAGE);

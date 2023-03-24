@@ -7,17 +7,23 @@ import net.imshit.aircraft.enemy.AbstractEnemy;
  *
  * @author Jim
  */
-public class RandomEnemyFactory extends AbstractEnemyFactory {
+public class RandomEnemyFactory {
     private final MobEnemyFactory mobFactory = new MobEnemyFactory();
     private final EliteEnemyFactory eliteFactory = new EliteEnemyFactory();
+    private final BossEnemyFactory bossFactory = new BossEnemyFactory();
 
-    @Override
-    public AbstractEnemy createEnemy() {
-        double mobProb = 0.8;
-        if (Math.random() < mobProb) {
-            return mobFactory.createEnemy();
+    public AbstractEnemy createEnemy(int score) {
+        var bossScoreThreshold = 300;
+        var bossProb = 0.05;
+        var mobProb = 0.8;
+        if (score > bossScoreThreshold && Math.random() < bossProb) {
+            return bossFactory.createEnemy();
         } else {
-            return eliteFactory.createEnemy();
+            if (Math.random() < mobProb) {
+                return mobFactory.createEnemy();
+            } else {
+                return eliteFactory.createEnemy();
+            }
         }
     }
 }

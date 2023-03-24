@@ -2,7 +2,6 @@ package net.imshit.application;
 
 import net.imshit.aircraft.AbstractAircraft;
 import net.imshit.aircraft.enemy.AbstractEnemy;
-import net.imshit.aircraft.enemy.factory.AbstractEnemyFactory;
 import net.imshit.aircraft.enemy.factory.RandomEnemyFactory;
 import net.imshit.aircraft.hero.HeroAircraft;
 import net.imshit.basic.AbstractFlyingObject;
@@ -46,7 +45,7 @@ public class Game extends JPanel {
     /**
      * 敌机工厂
      */
-    private final AbstractEnemyFactory enemyFactory = new RandomEnemyFactory();
+    private final RandomEnemyFactory enemyFactory = new RandomEnemyFactory();
     /**
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
@@ -102,7 +101,7 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
                 if (enemyAircraftObjects.size() < enemyMaxNumber) {
-                    enemyAircraftObjects.add(enemyFactory.createEnemy());
+                    enemyAircraftObjects.add(enemyFactory.createEnemy(score));
                 }
                 // 飞机射出子弹
                 shootAction();
@@ -223,7 +222,7 @@ public class Game extends JPanel {
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         enemyProps.addAll(enemyAircraft.prop());
-                        score += 10;
+                        score += 30;
                     }
                 }
                 // 英雄机 与 敌机 相撞，均损毁
