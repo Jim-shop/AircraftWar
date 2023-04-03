@@ -16,8 +16,7 @@ public class EliteEnemy extends AbstractEnemy {
     private final AbstractPropFactory propFactory = new RandomPropFactory();
 
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
-        super(locationX, locationY, speedX, speedY, hp);
-        this.shootNum = 1;
+        super(locationX, locationY, speedX, speedY, hp, 20, 1);
     }
 
     @Override

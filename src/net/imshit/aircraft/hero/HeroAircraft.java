@@ -3,11 +3,7 @@ package net.imshit.aircraft.hero;
 import net.imshit.aircraft.AbstractAircraft;
 import net.imshit.application.ImageManager;
 import net.imshit.application.Main;
-import net.imshit.bullet.AbstractBullet;
-import net.imshit.bullet.HeroBullet;
-
-import java.util.LinkedList;
-import java.util.List;
+import net.imshit.shoot.hero.HeroShootStrategyFactory;
 
 /**
  * 英雄飞机，游戏玩家操控
@@ -19,21 +15,7 @@ public class HeroAircraft extends AbstractAircraft {
     /**
      * 饿汉式单例模式
      */
-    private static final HeroAircraft INSTANCE = new HeroAircraft(Main.WINDOW_WIDTH / 2, Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000);
-    /**
-     * 子弹一次发射数量
-     */
-    private final int shootNum = 1;
-
-    /*攻击方式 */
-    /**
-     * 子弹伤害
-     */
-    private final int power = 30;
-    /**
-     * 子弹射击方向 (向上发射：1，向下发射：-1)
-     */
-    private final int direction = -1;
+    private static final HeroAircraft INSTANCE = new HeroAircraft(Main.WINDOW_WIDTH / 2, Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000, 30, 1);
 
     /**
      * @param locationX 英雄机位置x坐标
@@ -41,9 +23,11 @@ public class HeroAircraft extends AbstractAircraft {
      * @param speedX    英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param speedY    英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param hp        初始生命值
+     * @param power     英雄机战斗力
+     * @param shootNum  英雄机单次发射子弹数
      */
-    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
-        super(locationX, locationY, speedX, speedY, hp);
+    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int power, int shootNum) {
+        super(locationX, locationY, speedX, speedY, hp, power, new HeroShootStrategyFactory(), shootNum);
     }
 
     public static HeroAircraft getInstance() {
@@ -53,27 +37,6 @@ public class HeroAircraft extends AbstractAircraft {
     @Override
     public void forward() {
         // 英雄机由鼠标控制，不通过forward函数移动
-    }
-
-
-    /**
-     * 通过射击产生子弹
-     *
-     * @return 射击出的子弹List
-     */
-    @Override
-    public List<AbstractBullet> shoot() {
-        List<AbstractBullet> res = new LinkedList<>();
-        int x = this.getLocationX();
-        int y = this.getLocationY() + direction * 2;
-        int speedX = 0;
-        int speedY = this.getSpeedY() + direction * 10;
-        for (int i = 0; i < shootNum; i++) {
-            // 子弹发射位置相对飞机位置向前偏移
-            // 多个子弹横向分散
-            res.add(new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power));
-        }
-        return res;
     }
 
     public void increaseHp(int increment) {

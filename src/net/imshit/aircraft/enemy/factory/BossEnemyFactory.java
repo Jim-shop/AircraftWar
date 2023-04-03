@@ -15,6 +15,7 @@ public class BossEnemyFactory extends AbstractEnemyFactory {
         int speedX = 5 * (Math.random() < 0.5 ? -1 : 1);
         int speedY = 0;
         int hp = 300;
-        return new BossEnemy(locationX, locationY, speedX, speedY, hp);
+        int power = 20;
+        return new BossEnemy(locationX, locationY, speedX, speedY, hp, power);
     }
 }

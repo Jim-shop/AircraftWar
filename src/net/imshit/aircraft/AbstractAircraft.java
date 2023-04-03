@@ -2,7 +2,10 @@ package net.imshit.aircraft;
 
 import net.imshit.basic.AbstractFlyingObject;
 import net.imshit.bullet.AbstractBullet;
+import net.imshit.shoot.ShootStrategy;
+import net.imshit.shoot.ShootStrategyFactory;
 
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
 /**
@@ -17,11 +20,22 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      */
     protected final int maxHp;
     protected int hp;
+    private int power;
 
-    public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
+    protected ShootStrategy shootStrategy;
+    protected ShootStrategyFactory shootStrategyFactory;
+
+    public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int power, ShootStrategyFactory strategyFactory, int shootNum) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;
         this.maxHp = hp;
+        this.power = power;
+        this.shootStrategyFactory = strategyFactory;
+        this.shootStrategy = strategyFactory.getStrategy(shootNum);
+    }
+
+    public void setShootNum(int shootNum) {
+        this.shootStrategy = this.shootStrategyFactory.getStrategy(shootNum);
     }
 
     public void decreaseHp(int decrease) {
@@ -40,12 +54,13 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
 
 
     /**
-     * 飞机射击方法，可射击对象必须实现
+     * 飞机射击方法
      *
-     * @return 可射击对象需实现，返回子弹
-     * 非可射击对象空实现，返回null
+     * @return 返回射出的子弹列表（可为空）
      */
-    public abstract List<AbstractBullet> shoot();
+    public List<AbstractBullet> shoot() {
+        return this.shootStrategy.shoot(this.locationX, this.locationY, this.speedY, this.power);
+    }
 
 }
 

@@ -17,9 +17,8 @@ public class BossEnemy extends AbstractEnemy {
 
     private final AbstractPropFactory propFactory = new RandomPropFactory();
 
-    public BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
-        super(locationX, locationY, speedX, speedY, hp);
-        this.shootNum = 3;
+    public BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int power) {
+        super(locationX, locationY, speedX, speedY, hp, power, 3);
     }
 
     @Override

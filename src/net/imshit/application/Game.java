@@ -2,6 +2,9 @@ package net.imshit.application;
 
 import net.imshit.aircraft.AbstractAircraft;
 import net.imshit.aircraft.enemy.AbstractEnemy;
+import net.imshit.aircraft.enemy.BossEnemy;
+import net.imshit.aircraft.enemy.factory.AbstractEnemyFactory;
+import net.imshit.aircraft.enemy.factory.BossEnemyFactory;
 import net.imshit.aircraft.enemy.factory.RandomEnemyFactory;
 import net.imshit.aircraft.hero.HeroAircraft;
 import net.imshit.basic.AbstractFlyingObject;
@@ -43,9 +46,22 @@ public class Game extends JPanel {
      */
     private final int enemyMaxNumber = 5;
     /**
+     * 多少分之后出现 BOSS
+     */
+    private final int bossScoreThreshold = 300;
+    /**
+     * 生成 BOSS 概率
+     */
+    private final double bossProb = 0.05;
+    /**
+     * BOSS 机
+     */
+    private BossEnemy boss = null;
+    /**
      * 敌机工厂
      */
-    private final RandomEnemyFactory enemyFactory = new RandomEnemyFactory();
+    private final AbstractEnemyFactory enemyFactory = new RandomEnemyFactory();
+    private final BossEnemyFactory bossFactory = new BossEnemyFactory();
     /**
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
@@ -99,9 +115,14 @@ public class Game extends JPanel {
             // 周期性执行（控制频率）
             if (timeCountAndNewCycleJudge()) {
                 System.out.println(time);
+                // BOSS 机产生
+                if (score > bossScoreThreshold && boss == null && Math.random() < bossProb) {
+                    boss = bossFactory.createEnemy();
+                    enemyAircraftObjects.add(bossFactory.createEnemy());
+                }
                 // 新敌机产生
                 if (enemyAircraftObjects.size() < enemyMaxNumber) {
-                    enemyAircraftObjects.add(enemyFactory.createEnemy(score));
+                    enemyAircraftObjects.add(enemyFactory.createEnemy());
                 }
                 // 飞机射出子弹
                 shootAction();
@@ -124,6 +145,11 @@ public class Game extends JPanel {
 
             //每个时刻重绘界面
             repaint();
+
+            // 检查BOSS机是否存活
+            if (boss != null && boss.getHp() <= 0) {
+                boss = null;
+            }
 
             // 游戏结束检查英雄机是否存活
             if (heroAircraft.getHp() <= 0) {
