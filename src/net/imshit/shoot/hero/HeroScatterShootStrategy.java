@@ -19,7 +19,7 @@ public class HeroScatterShootStrategy implements HeroShootStrategy {
         for (int i = 0; i < shootNum; i++) {
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            res.add(new HeroBullet(bulletX + (i * 2 - shootNum + 1) * 10, bulletY, bulletCenterSpeedX + (i * 2 - shootNum + 1) * 1, bulletCenterSpeedY, power));
+            res.add(new HeroBullet(bulletX + (i * 2 - shootNum + 1) * 10, bulletY, bulletCenterSpeedX + (i * 2 - shootNum + 1), bulletCenterSpeedY, power));
         }
         return res;
     }

@@ -54,10 +54,6 @@ public class Game extends JPanel {
      */
     private final double bossProb = 0.05;
     /**
-     * BOSS 机
-     */
-    private BossEnemy boss = null;
-    /**
      * 敌机工厂
      */
     private final AbstractEnemyFactory enemyFactory = new RandomEnemyFactory();
@@ -67,6 +63,10 @@ public class Game extends JPanel {
      * 指示子弹的发射、敌机的产生频率
      */
     private final int cycleDuration = 600;
+    /**
+     * BOSS 机
+     */
+    private BossEnemy boss = null;
     private int backGroundTop = 0;
     /**
      * 当前得分
@@ -118,7 +118,7 @@ public class Game extends JPanel {
                 // BOSS 机产生
                 if (score > bossScoreThreshold && boss == null && Math.random() < bossProb) {
                     boss = bossFactory.createEnemy();
-                    enemyAircraftObjects.add(bossFactory.createEnemy());
+                    enemyAircraftObjects.add(boss);
                 }
                 // 新敌机产生
                 if (enemyAircraftObjects.size() < enemyMaxNumber) {
@@ -147,7 +147,7 @@ public class Game extends JPanel {
             repaint();
 
             // 检查BOSS机是否存活
-            if (boss != null && boss.getHp() <= 0) {
+            if (boss != null && boss.notValid()) {
                 boss = null;
             }
 
@@ -175,7 +175,7 @@ public class Game extends JPanel {
 
     private boolean timeCountAndNewCycleJudge() {
         cycleTime += timeInterval;
-        if (cycleTime >= cycleDuration && cycleTime - timeInterval < cycleTime) {
+        if (cycleTime >= cycleDuration) {
             // 跨越到新的周期
             cycleTime %= cycleDuration;
             return true;

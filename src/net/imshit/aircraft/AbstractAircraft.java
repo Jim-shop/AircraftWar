@@ -5,7 +5,6 @@ import net.imshit.bullet.AbstractBullet;
 import net.imshit.shoot.ShootStrategy;
 import net.imshit.shoot.ShootStrategyFactory;
 
-import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
 /**
@@ -19,9 +18,8 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      * 生命值
      */
     protected final int maxHp;
+    private final int power;
     protected int hp;
-    private int power;
-
     protected ShootStrategy shootStrategy;
     protected ShootStrategyFactory shootStrategyFactory;
 

@@ -2,8 +2,6 @@ package net.imshit.aircraft.enemy;
 
 import net.imshit.aircraft.AbstractAircraft;
 import net.imshit.application.Main;
-import net.imshit.bullet.AbstractBullet;
-import net.imshit.bullet.EnemyBullet;
 import net.imshit.prop.AbstractProp;
 import net.imshit.shoot.enemy.EnemyShootStrategyFactory;
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 英雄机直射策略
+ *
  * @author Jim
  */
 public class HeroDirectShootStrategy implements HeroShootStrategy {

@@ -2,11 +2,14 @@ package net.imshit.shoot.enemy;
 
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.bullet.EnemyBullet;
-import net.imshit.bullet.HeroBullet;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 敌机散射策略
+ * @author Jim
+ */
 public class EnemyScatterShootStrategy implements EnemyShootStrategy {
     @Override
     public List<AbstractBullet> shoot(int x, int y, int speedY, int power) {
@@ -20,7 +23,7 @@ public class EnemyScatterShootStrategy implements EnemyShootStrategy {
         for (int i = 0; i < shootNum; i++) {
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            res.add(new EnemyBullet(bulletX + (i * 2 - shootNum + 1) * 10, bulletY, bulletCenterSpeedX + (i * 2 - shootNum + 1) * 1, bulletCenterSpeedY, power));
+            res.add(new EnemyBullet(bulletX + (i * 2 - shootNum + 1) * 10, bulletY, bulletCenterSpeedX + (i * 2 - shootNum + 1), bulletCenterSpeedY, power));
         }
         return res;
     }

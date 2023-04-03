@@ -2,12 +2,14 @@ package net.imshit.shoot.enemy;
 
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.bullet.EnemyBullet;
-import net.imshit.bullet.HeroBullet;
-import net.imshit.shoot.hero.HeroShootStrategy;
 
 import java.util.List;
 
-public class EnemyDirectShootStrategy implements EnemyShootStrategy{
+/**
+ * 敌机直射策略
+ * @author Jim
+ */
+public class EnemyDirectShootStrategy implements EnemyShootStrategy {
     @Override
     public List<AbstractBullet> shoot(int x, int y, int speedY, int power) {
         int direction = 1;
