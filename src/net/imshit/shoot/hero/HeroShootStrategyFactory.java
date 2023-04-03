@@ -1,9 +1,13 @@
 package net.imshit.shoot.hero;
 
 import net.imshit.shoot.ShootStrategy;
-import net.imshit.shoot.ShootStrategyFactory;
+import net.imshit.shoot.AbstractShootStrategyFactory;
 
-public class HeroShootStrategyFactory extends ShootStrategyFactory {
+/**
+ * 英雄机策略工厂
+ * @author Jim
+ */
+public class HeroShootStrategyFactory extends AbstractShootStrategyFactory {
     @Override
     public ShootStrategy getStrategy(int shootNum) {
         return switch (shootNum) {

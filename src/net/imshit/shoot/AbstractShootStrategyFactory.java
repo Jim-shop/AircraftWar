@@ -5,7 +5,7 @@ package net.imshit.shoot;
  *
  * @author Jim
  */
-public abstract class ShootStrategyFactory {
+public abstract class AbstractShootStrategyFactory {
     /**
      * 根据发射量大小获取对应的发射策略
      *

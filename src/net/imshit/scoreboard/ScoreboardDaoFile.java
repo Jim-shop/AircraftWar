@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * 计分板DAO的文件实现
+ * @author Jim
+ */
 public class ScoreboardDaoFile implements ScoreboardDao {
 
-    private File f;
+    private final File f;
     private List<ScoreInfo> buffer;
 
     public ScoreboardDaoFile(String path) {

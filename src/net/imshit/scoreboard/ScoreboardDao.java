@@ -2,6 +2,10 @@ package net.imshit.scoreboard;
 
 import java.util.List;
 
+/**
+ * 计分板DAO模型
+ * @author Jim
+ */
 public interface ScoreboardDao {
     /**
      * 返回最好的k条记录
@@ -9,6 +13,16 @@ public interface ScoreboardDao {
      * @return 返回记录列表
      */
     List<ScoreInfo> getTopKItem(int topK);
+
+    /**
+     * 向计分板添加项目（去重）
+     * @param item 项目
+     */
     void addItem(ScoreInfo item);
+
+    /**
+     * 从计分板删除项目
+     * @param item 项目
+     */
     void deleteItem(ScoreInfo item);
 }

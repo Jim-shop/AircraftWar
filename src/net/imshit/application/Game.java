@@ -87,7 +87,7 @@ public class Game extends JPanel {
      */
     private boolean gameOverFlag = false;
 
-    private ScoreboardDao scoreboard = null;
+    private final ScoreboardDao scoreboard;
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance();

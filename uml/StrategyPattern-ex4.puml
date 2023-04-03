@@ -32,15 +32,15 @@ class EnemyScatterShootStrategy implements EnemyShootStrategy {
     + shoot(int x, int y, int speedY, int power): List<EnemyBullet>
 }
 
-abstract class ShootStrategyFactory {
+abstract class AbstractShootStrategyFactory {
     + getStrategy(int shootNum): ShootStrategy
 }
 
-class HeroShootStrategyFactory extends ShootStrategyFactory {
+class HeroShootStrategyFactory extends AbstractShootStrategyFactory {
     + getStrategy(int shootNum): HeroShootStrategy
 }
 
-class EnemyShootStrategyFactory extends ShootStrategyFactory {
+class EnemyShootStrategyFactory extends AbstractShootStrategyFactory {
     + getStrategy(int shootNum): HeroShootStrategy
 }
 
@@ -49,9 +49,9 @@ EnemyShootStrategyFactory ..> EnemyShootStrategy
 
 abstract class AbstractAircraft {
     # shootStrategy: ShootStrategy
-    # shootStrategyFactory: ShootStrategyFactory
+    # shootStrategyFactory: AbstractShootStrategyFactory
     + setShootNum(int shootNum): void
-    + setStrategyFactory(ShootStrategyFactory strategyFactory): void
+    + setStrategyFactory(AbstractShootStrategyFactory strategyFactory): void
 '    + setStrategy(ShootStrategy strategy): void
     + shoot(): void
 }
@@ -60,7 +60,7 @@ AbstractAircraft o--> ShootStrategy
 
 class Game {}
 
-ShootStrategyFactory -> AbstractAircraft
+AbstractShootStrategyFactory -> AbstractAircraft
 Game -> AbstractAircraft
 
 @enduml

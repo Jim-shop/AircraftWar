@@ -6,6 +6,10 @@ import net.imshit.bullet.HeroBullet;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 英雄机策略
+ * @author Jim
+ */
 public class HeroScatterShootStrategy implements HeroShootStrategy {
     @Override
     public List<AbstractBullet> shoot(int x, int y, int speedY, int power) {

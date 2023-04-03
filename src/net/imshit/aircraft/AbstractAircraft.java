@@ -3,7 +3,7 @@ package net.imshit.aircraft;
 import net.imshit.basic.AbstractFlyingObject;
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.shoot.ShootStrategy;
-import net.imshit.shoot.ShootStrategyFactory;
+import net.imshit.shoot.AbstractShootStrategyFactory;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     private final int power;
     protected int hp;
     protected ShootStrategy shootStrategy;
-    protected ShootStrategyFactory shootStrategyFactory;
+    protected final AbstractShootStrategyFactory shootStrategyFactory;
 
-    public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int power, ShootStrategyFactory strategyFactory, int shootNum) {
+    public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int power, AbstractShootStrategyFactory strategyFactory, int shootNum) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;
         this.maxHp = hp;
