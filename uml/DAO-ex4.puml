@@ -1,0 +1,43 @@
+@startuml
+
+interface ScoreboardDao {
+    + getTopKItem(int topK): List<ScoreInfo>
+    + addItem(ScoreInfo item): void
+    + deleteItem(ScoreInfo item): void
+}
+
+class ScoreboardDaoFile implements ScoreboardDao {
+    - file: File
+    + ScoreboardDaoFile(String path)
+    + getTopKItem(int topK): List<ScoreInfo>
+    + addItem(ScoreInfo item): void
+    + deleteItem(ScoreInfo item): void
+}
+
+class ScoreInfo {
+    - name: String
+    - score: int
+    - time: LocalDatetime
+    + ScoreInfo(String name, int score, LocalDatetime time)
+    + getName(): String
+    + getScore(): int
+    + getTime(): LocalDatetime
+}
+
+'class Record {
+'    - rank: int
+'    - info: ScoreInfo
+'    + Record(int rank, ScoreInfo info)
+'    + getRank(): int
+'    + getInfo(): ScoreInfo
+'}
+'
+'Record *-> ScoreInfo
+
+ScoreboardDaoFile -> ScoreInfo
+
+class Game {}
+
+Game ..> ScoreboardDao
+
+@enduml

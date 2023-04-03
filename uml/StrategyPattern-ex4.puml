@@ -60,6 +60,7 @@ AbstractAircraft o--> ShootStrategy
 
 class Game {}
 
+ShootStrategyFactory -> AbstractAircraft
 Game -> AbstractAircraft
 
 @enduml

@@ -10,11 +10,15 @@ import net.imshit.aircraft.hero.HeroAircraft;
 import net.imshit.basic.AbstractFlyingObject;
 import net.imshit.bullet.AbstractBullet;
 import net.imshit.prop.AbstractProp;
+import net.imshit.scoreboard.ScoreInfo;
+import net.imshit.scoreboard.ScoreboardDao;
+import net.imshit.scoreboard.ScoreboardDaoFile;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -83,12 +87,16 @@ public class Game extends JPanel {
      */
     private boolean gameOverFlag = false;
 
+    private ScoreboardDao scoreboard = null;
+
     public Game() {
         heroAircraft = HeroAircraft.getInstance();
         enemyAircraftObjects = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         enemyProps = new LinkedList<>();
+
+        scoreboard = new ScoreboardDaoFile("./record");
 
         /*
           Scheduled 线程池，用于定时任务调度
@@ -157,6 +165,14 @@ public class Game extends JPanel {
                 executorService.shutdown();
                 gameOverFlag = true;
                 System.out.println("Game Over!");
+                scoreboard.addItem(new ScoreInfo("大哥", score, LocalDateTime.now()));
+                var scores = scoreboard.getTopKItem(-1);
+                var iter = scores.iterator();
+                var index = 0;
+                while (iter.hasNext()) {
+                    var item = iter.next();
+                    System.out.printf("第%d名，姓名：%s，成绩：%d，时间：%s\n", index++, item.name(), item.score(), item.time());
+                }
             }
 
         };
