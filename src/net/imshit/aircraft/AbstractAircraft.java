@@ -2,8 +2,8 @@ package net.imshit.aircraft;
 
 import net.imshit.basic.AbstractFlyingObject;
 import net.imshit.bullet.AbstractBullet;
-import net.imshit.shoot.ShootStrategy;
 import net.imshit.shoot.AbstractShootStrategyFactory;
+import net.imshit.shoot.ShootStrategy;
 
 import java.util.List;
 

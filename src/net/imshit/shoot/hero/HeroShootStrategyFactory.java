@@ -1,7 +1,7 @@
 package net.imshit.shoot.hero;
 
-import net.imshit.shoot.ShootStrategy;
 import net.imshit.shoot.AbstractShootStrategyFactory;
+import net.imshit.shoot.ShootStrategy;
 
 /**
  * 英雄机策略工厂

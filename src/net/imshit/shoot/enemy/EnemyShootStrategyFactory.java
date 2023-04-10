@@ -1,7 +1,7 @@
 package net.imshit.shoot.enemy;
 
-import net.imshit.shoot.ShootStrategy;
 import net.imshit.shoot.AbstractShootStrategyFactory;
+import net.imshit.shoot.ShootStrategy;
 
 /**
  * 敌机策略工厂

@@ -4,7 +4,10 @@ import net.imshit.aircraft.enemy.EliteEnemy;
 import net.imshit.aircraft.hero.HeroAircraft;
 import net.imshit.application.ImageManager;
 import net.imshit.application.Main;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
