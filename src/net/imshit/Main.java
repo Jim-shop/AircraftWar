@@ -1,5 +1,6 @@
 package net.imshit;
 
+import mdlaf.MaterialLookAndFeel;
 import net.imshit.gui.GamePanel;
 import net.imshit.gui.ScoreboardPanel;
 import net.imshit.gui.SettingPanel;
@@ -17,12 +18,12 @@ public class Main {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-//            // 加载 MD 材质
-//            try {
-//                UIManager.setLookAndFeel(new MaterialLookAndFeel());
-//            } catch (UnsupportedLookAndFeelException e) {
-//                e.printStackTrace();
-//            }
+            // 加载 MD 材质
+            try {
+                UIManager.setLookAndFeel(new MaterialLookAndFeel());
+            } catch (UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            }
 
             // 初始化 Frame
             var frame = new JFrame("Aircraft War");

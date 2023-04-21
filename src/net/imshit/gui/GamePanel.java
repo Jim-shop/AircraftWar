@@ -1,5 +1,6 @@
 package net.imshit.gui;
 
+import net.imshit.Config;
 import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.enemy.BossEnemy;
@@ -41,10 +42,6 @@ public class GamePanel extends JPanel {
      * Scheduled 线程池，用于任务调度
      */
     private final ScheduledExecutorService executorService;
-    /**
-     * 时间间隔(ms)，控制刷新频率
-     */
-    private final int timeInterval = 1000 / 45;
     private final HeroAircraft heroAircraft;
     private final List<AbstractEnemy> enemyAircraftObjects;
     private final List<AbstractBullet> heroBullets;
@@ -135,16 +132,9 @@ public class GamePanel extends JPanel {
                 generateStrategy = new EasyGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_EASY);
             }
-            case MEDIUM -> {
-                paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_MEDIUM);
-            }
-            case HARD -> {
-                paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_HARD);
-            }
-            default -> {
-                // 不应该执行到这
-                generateStrategy = new EasyGenerateStrategy();
-            }
+            case MEDIUM -> paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_MEDIUM);
+            case HARD -> paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_HARD);
+            default -> generateStrategy = new EasyGenerateStrategy();
         }
     }
 
@@ -160,7 +150,7 @@ public class GamePanel extends JPanel {
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
-            time += timeInterval;
+            time += Config.REFRESH_INTERVAL;
 
             // 周期性执行（控制频率）
             if (timeCountAndNewCycleJudge()) {
@@ -210,11 +200,8 @@ public class GamePanel extends JPanel {
 
         };
 
-        /**
-         * 以固定延迟时间进行执行
-         * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
-         */
-        executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
+        // 以固定延迟时间进行执行
+        executorService.scheduleWithFixedDelay(task, Config.REFRESH_INTERVAL, Config.REFRESH_INTERVAL, TimeUnit.MILLISECONDS);
 
         // 启动 BGM
         musicStrategy.setBgm(AbstractMusicStrategy.BgmType.NORMAL);
@@ -237,7 +224,7 @@ public class GamePanel extends JPanel {
     //***********************
 
     private boolean timeCountAndNewCycleJudge() {
-        cycleTime += timeInterval;
+        cycleTime += Config.REFRESH_INTERVAL;
         if (cycleTime >= cycleDuration) {
             // 跨越到新的周期
             cycleTime %= cycleDuration;

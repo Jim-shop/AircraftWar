@@ -21,7 +21,7 @@ public class SimplePaintStrategy extends AbstractPaintStrategy {
         for (var object : objects) {
             var image = object.getImage();
             assert image != null : objects.getClass().getName() + " has no image! ";
-            g.drawImage(image, object.getLocationX() - image.getWidth() / 2, object.getLocationY() - image.getHeight() / 2, null);
+            g.drawImage(image, (int) (object.getLocationX() - image.getWidth() / 2), (int) (object.getLocationY() - image.getHeight() / 2), null);
         }
     }
 
@@ -54,7 +54,7 @@ public class SimplePaintStrategy extends AbstractPaintStrategy {
         this.paintObjects(g, enemyAircraftObjects);
 
         // 英雄机
-        g.drawImage(ImageManager.HERO_IMAGE, heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2, heroAircraft.getLocationY() - ImageManager.HERO_IMAGE.getHeight() / 2, null);
+        g.drawImage(ImageManager.HERO_IMAGE, (int) (heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2), (int) (heroAircraft.getLocationY() - ImageManager.HERO_IMAGE.getHeight() / 2), null);
 
         //绘制得分和生命值
         this.paintScoreAndLife(g, heroAircraft, score);

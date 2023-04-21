@@ -7,7 +7,7 @@ import net.imshit.element.aircraft.hero.HeroAircraft;
  */
 public class BloodProp extends AbstractProp {
 
-    public BloodProp(int locationX, int locationY, int speedX, int speedY) {
+    public BloodProp(float locationX, float locationY, float speedX, float speedY) {
         super(locationX, locationY, speedX, speedY);
     }
 

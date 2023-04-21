@@ -1,5 +1,6 @@
 package net.imshit.element.aircraft.enemy;
 
+import net.imshit.Config;
 import net.imshit.element.prop.AbstractProp;
 import net.imshit.element.prop.factory.AbstractPropFactory;
 import net.imshit.element.prop.factory.RandomPropFactory;
@@ -17,8 +18,16 @@ public class BossEnemy extends AbstractEnemy {
 
     private final AbstractPropFactory propFactory = new RandomPropFactory();
 
-    public BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int power) {
-        super(locationX, locationY, speedX, speedY, hp, power, 3);
+    public BossEnemy(float locationX, float locationY, float speedX, float speedY, int hp, int power, int shootNum) {
+        super(locationX, locationY, speedX, speedY, hp, power, shootNum);
+    }
+
+    @Override
+    public void forward() {
+        locationX += speedX * Config.REFRESH_INTERVAL;
+        if (locationX < 0 || locationX >= Config.WINDOW_WIDTH) {
+            speedX = -speedX;
+        }
     }
 
     @Override

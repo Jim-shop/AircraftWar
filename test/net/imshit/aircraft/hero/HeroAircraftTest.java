@@ -73,29 +73,29 @@ class HeroAircraftTest {
     @DisplayName("Test plane crash detection")
     void planeCrash() {
         // 中心完全重合
-        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20);
+        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20, 20);
         assertTrue(this.heroAircraft.crash(same));
         var midWidthDis = (this.heroAircraft.getWidth() + same.getWidth()) / 2;
         assertAll(
                 // 右侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100, 20))),
                 // 右侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100))),
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100, 20))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100, 20))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100)))
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20)))
         );
         var midHeightDis = (this.heroAircraft.getHeight() + same.getHeight()) / 2 / 2;
         assertAll(
                 // 上侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100, 20))),
                 // 上侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100))),
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100, 20))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100, 20))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100)))
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100, 20)))
 
         );
     }

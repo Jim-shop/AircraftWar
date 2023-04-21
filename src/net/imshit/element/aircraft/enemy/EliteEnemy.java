@@ -15,8 +15,8 @@ import java.util.List;
 public class EliteEnemy extends AbstractEnemy {
     private final AbstractPropFactory propFactory = new RandomPropFactory();
 
-    public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
-        super(locationX, locationY, speedX, speedY, hp, 20, 1);
+    public EliteEnemy(float locationX, float locationY, float speedX, float speedY, int hp, int power) {
+        super(locationX, locationY, speedX, speedY, hp, power, 1);
     }
 
     @Override

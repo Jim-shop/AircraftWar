@@ -35,7 +35,7 @@ public class ScoreboardDaoFile implements ScoreboardDao {
     }
 
     @Override
-    public List<ScoreInfo> getTopKItem(int topK) {
+    public List<ScoreInfo> getTopK(int topK) {
         if (topK == -1) {
             return new ArrayList<>(buffer);
         } else {

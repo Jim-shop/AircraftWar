@@ -7,7 +7,7 @@ import net.imshit.element.aircraft.hero.HeroAircraft;
  */
 public class BombProp extends AbstractProp {
 
-    public BombProp(int locationX, int locationY, int speedX, int speedY) {
+    public BombProp(float locationX, float locationY, float speedX, float speedY) {
         super(locationX, locationY, speedX, speedY);
     }
 

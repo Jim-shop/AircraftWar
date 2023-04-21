@@ -15,7 +15,7 @@ public class HeroAircraft extends AbstractAircraft {
     /**
      * 饿汉式单例模式
      */
-    private static final HeroAircraft INSTANCE = new HeroAircraft(Config.WINDOW_WIDTH / 2, Config.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000, 30, 1);
+    private static final HeroAircraft INSTANCE = new HeroAircraft(Config.WINDOW_WIDTH / 2f, Config.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000, 30, 1);
 
     /**
      * @param locationX 英雄机位置x坐标
@@ -26,7 +26,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @param power     英雄机战斗力
      * @param shootNum  英雄机单次发射子弹数
      */
-    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int power, int shootNum) {
+    private HeroAircraft(float locationX, float locationY, float speedX, float speedY, int hp, int power, int shootNum) {
         super(locationX, locationY, speedX, speedY, hp, power, new HeroShootStrategyFactory(), shootNum);
     }
 

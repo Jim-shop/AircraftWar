@@ -12,7 +12,6 @@ public class EnemyShootStrategyFactory extends AbstractShootStrategyFactory {
     @Override
     public ShootStrategy getStrategy(int shootNum) {
         return switch (shootNum) {
-            case 0 -> new EnemyNoShootStrategy();
             case 1 -> new EnemyDirectShootStrategy();
             case 3 -> new EnemyScatterShootStrategy();
             default -> new EnemyNoShootStrategy();

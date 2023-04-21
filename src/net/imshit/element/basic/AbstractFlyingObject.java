@@ -16,22 +16,22 @@ public abstract class AbstractFlyingObject {
     /**
      * 图片中心 x 轴坐标
      */
-    protected int locationX;
+    protected float locationX;
 
     /**
      * 图片中心 y 轴坐标
      */
-    protected int locationY;
+    protected float locationY;
 
     /**
      * x 轴移动速度
      */
-    protected int speedX;
+    protected float speedX;
 
     /**
      * y 轴移动速度
      */
-    protected int speedY;
+    protected float speedY;
 
     /**
      * 图片
@@ -43,13 +43,13 @@ public abstract class AbstractFlyingObject {
      * x 轴长度，根据图片尺寸获得
      * -1 表示未设置
      */
-    protected int width = -1;
+    protected float width = -1;
 
     /**
      * y 轴长度，根据图片尺寸获得
      * -1 表示未设置
      */
-    protected int height = -1;
+    protected float height = -1;
 
     /**
      * 有效（生存）标记，
@@ -57,10 +57,7 @@ public abstract class AbstractFlyingObject {
      */
     protected boolean isValid = true;
 
-    public AbstractFlyingObject() {
-    }
-
-    public AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY) {
+    public AbstractFlyingObject(float locationX, float locationY, float speedX, float speedY) {
         this.locationX = locationX;
         this.locationY = locationY;
         this.speedX = speedX;
@@ -72,11 +69,10 @@ public abstract class AbstractFlyingObject {
      * 若飞行对象触碰到横向边界，横向速度反向
      */
     public void forward() {
-        locationX += speedX;
-        locationY += speedY;
-        if (locationX <= 0 || locationX >= Config.WINDOW_WIDTH) {
-            // 横向超出边界后反向
-            speedX = -speedX;
+        locationX += speedX * Config.REFRESH_INTERVAL;
+        locationY += speedY * Config.REFRESH_INTERVAL;
+        if (locationX < 0 || locationX >= Config.WINDOW_WIDTH || locationY >= Config.WINDOW_HEIGHT) {
+            vanish();
         }
     }
 
@@ -98,35 +94,35 @@ public abstract class AbstractFlyingObject {
     public boolean crash(AbstractFlyingObject flyingObject) {
         // 缩放因子，用于控制 y轴方向区域范围
         //我方
-        int factor = this instanceof AbstractAircraft ? 2 : 1;
+        var factor = this instanceof AbstractAircraft ? 2 : 1;
         //对方
-        int fFactor = flyingObject instanceof AbstractAircraft ? 2 : 1;
+        var fFactor = flyingObject instanceof AbstractAircraft ? 2 : 1;
         //对方坐标、宽度、高度
-        int x = flyingObject.getLocationX();
-        int y = flyingObject.getLocationY();
-        int fWidth = flyingObject.getWidth();
-        int fHeight = flyingObject.getHeight();
+        var x = flyingObject.getLocationX();
+        var y = flyingObject.getLocationY();
+        var fWidth = flyingObject.getWidth();
+        var fHeight = flyingObject.getHeight();
 
-        return x + (fWidth + this.getWidth()) / 2 > locationX
-                && x - (fWidth + this.getWidth()) / 2 < locationX
-                && y + (fHeight / fFactor + this.getHeight() / factor) / 2 > locationY
-                && y - (fHeight / fFactor + this.getHeight() / factor) / 2 < locationY;
+        return x + (fWidth + this.getWidth()) / 2f > locationX
+                && x - (fWidth + this.getWidth()) / 2f < locationX
+                && y + (fHeight / fFactor + this.getHeight() / factor) / 2f > locationY
+                && y - (fHeight / fFactor + this.getHeight() / factor) / 2f < locationY;
     }
 
-    public int getLocationX() {
+    public float getLocationX() {
         return locationX;
     }
 
-    public int getLocationY() {
+    public float getLocationY() {
         return locationY;
     }
 
-    public void setLocation(double locationX, double locationY) {
-        this.locationX = (int) locationX;
-        this.locationY = (int) locationY;
+    public void setLocation(float locationX, float locationY) {
+        this.locationX = locationX;
+        this.locationY = locationY;
     }
 
-    public int getSpeedY() {
+    public float getSpeedY() {
         return speedY;
     }
 
@@ -137,16 +133,16 @@ public abstract class AbstractFlyingObject {
         return image;
     }
 
-    public int getWidth() {
-        if (width == -1) {
+    public float getWidth() {
+        if (width < 0) {
             // 若未设置，则查询图片宽度并设置
             width = ImageManager.get(this).getWidth();
         }
         return width;
     }
 
-    public int getHeight() {
-        if (height == -1) {
+    public float getHeight() {
+        if (height < 0) {
             // 若未设置，则查询图片高度并设置
             height = ImageManager.get(this).getHeight();
         }

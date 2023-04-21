@@ -17,5 +17,5 @@ public interface ShootStrategy {
      * @param power  飞机攻击力
      * @return 发射子弹列表
      */
-    List<AbstractBullet> shoot(int x, int y, int speedY, int power);
+    List<AbstractBullet> shoot(float x, float y, float speedY, int power);
 }

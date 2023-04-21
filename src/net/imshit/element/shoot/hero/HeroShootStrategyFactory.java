@@ -10,10 +10,10 @@ import net.imshit.element.shoot.ShootStrategy;
 public class HeroShootStrategyFactory extends AbstractShootStrategyFactory {
     @Override
     public ShootStrategy getStrategy(int shootNum) {
-        return switch (shootNum) {
-            case 1 -> new HeroDirectShootStrategy();
-            case 3 -> new HeroScatterShootStrategy();
-            default -> new HeroDirectShootStrategy();
-        };
+        if (shootNum == 3) {
+            return new HeroScatterShootStrategy();
+        } else {
+            return new HeroDirectShootStrategy();
+        }
     }
 }

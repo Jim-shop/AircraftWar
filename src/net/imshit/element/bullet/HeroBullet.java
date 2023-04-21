@@ -7,7 +7,7 @@ package net.imshit.element.bullet;
  */
 public class HeroBullet extends AbstractBullet {
 
-    public HeroBullet(int locationX, int locationY, int speedX, int speedY, int power) {
+    public HeroBullet(float locationX, float locationY, float speedX, float speedY, int power) {
         super(locationX, locationY, speedX, speedY, power);
     }
 

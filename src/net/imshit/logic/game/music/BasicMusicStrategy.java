@@ -18,9 +18,7 @@ public class BasicMusicStrategy extends AbstractMusicStrategy {
             bgmThread.interrupt();
         }
         switch (bgmType) {
-            case NONE -> {
-                bgmThread = null;
-            }
+            case NONE -> bgmThread = null;
             case NORMAL -> {
                 bgmThread = new AudioThread(AudioManager.BGM, true);
                 bgmThread.start();
@@ -28,6 +26,8 @@ public class BasicMusicStrategy extends AbstractMusicStrategy {
             case BOSS -> {
                 bgmThread = new AudioThread(AudioManager.BGM_BOSS, true);
                 bgmThread.start();
+            }
+            default -> { // 已经列全了，不可能执行到这里
             }
         }
     }

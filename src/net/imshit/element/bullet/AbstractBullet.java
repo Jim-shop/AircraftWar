@@ -1,6 +1,5 @@
 package net.imshit.element.bullet;
 
-import net.imshit.Config;
 import net.imshit.element.basic.AbstractFlyingObject;
 
 /**
@@ -13,7 +12,7 @@ public abstract class AbstractBullet extends AbstractFlyingObject {
 
     private final int power;
 
-    public AbstractBullet(int locationX, int locationY, int speedX, int speedY, int power) {
+    public AbstractBullet(float locationX, float locationY, float speedX, float speedY, int power) {
         super(locationX, locationY, speedX, speedY);
         this.power = power;
     }
@@ -22,17 +21,8 @@ public abstract class AbstractBullet extends AbstractFlyingObject {
     public void forward() {
         super.forward();
 
-        // 判定 x 轴出界
-        if (locationX <= 0 || locationX >= Config.WINDOW_WIDTH) {
-            vanish();
-        }
-
-        // 判定 y 轴出界
-        if (speedY > 0 && locationY >= Config.WINDOW_HEIGHT) {
-            // 向下飞行出界
-            vanish();
-        } else if (locationY <= 0) {
-            // 向上飞行出界
+        // 额外判定 y 轴出界
+        if (locationY <= 0) {
             vanish();
         }
     }

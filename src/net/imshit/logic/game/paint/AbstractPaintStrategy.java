@@ -24,6 +24,8 @@ public abstract class AbstractPaintStrategy {
      * @param enemyProps           敌机掉落物列表
      * @param heroBullets          英雄机子弹列表
      * @param enemyAircraftObjects 敌机列表
+     * @param heroAircraft         英雄机实例
+     * @param score                得分
      */
     public abstract void draw(Graphics g, java.util.List<? extends AbstractFlyingObject> enemyBullets, java.util.List<? extends AbstractFlyingObject> enemyProps, java.util.List<? extends AbstractFlyingObject> heroBullets, List<? extends AbstractFlyingObject> enemyAircraftObjects, HeroAircraft heroAircraft, int score);
 

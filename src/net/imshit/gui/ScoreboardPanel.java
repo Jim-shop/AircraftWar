@@ -50,7 +50,7 @@ public class ScoreboardPanel extends JPanel {
     }
 
     private void load() {
-        this.rawData = this.dao.getTopKItem(-1);
+        this.rawData = this.dao.getTopK(-1);
         this.displayData = new String[this.rawData.size()][];
         var index = 0;
         for (var item : this.rawData) {

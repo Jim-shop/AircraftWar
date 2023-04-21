@@ -20,7 +20,7 @@ class EliteEnemyTest {
 
     @BeforeEach
     void setUp() {
-        this.eliteEnemy = new EliteEnemy(initialX, initialY, initialSpeedX, initialSpeedY, initialHp);
+        this.eliteEnemy = new EliteEnemy(initialX, initialY, initialSpeedX, initialSpeedY, initialHp, 20);
     }
 
     @AfterEach
@@ -45,19 +45,9 @@ class EliteEnemyTest {
     @Test
     @DisplayName("Test `forward`, `getLocationX`, `getLocationY`, `getSpeedY`, `getHp`, `notValid`")
     void forward() {
-        assertAll(
-                () -> assertEquals(this.initialX, this.eliteEnemy.getLocationX()),
-                () -> assertEquals(this.initialY, this.eliteEnemy.getLocationY()),
-                () -> assertEquals(this.initialSpeedY, this.eliteEnemy.getSpeedY()),
-                () -> assertEquals(this.initialHp, this.eliteEnemy.getHp())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.eliteEnemy.getLocationX()), () -> assertEquals(this.initialY, this.eliteEnemy.getLocationY()), () -> assertEquals(this.initialSpeedY, this.eliteEnemy.getSpeedY()), () -> assertEquals(this.initialHp, this.eliteEnemy.getHp()));
         this.eliteEnemy.forward();
-        assertAll(
-                () -> assertEquals(this.initialX, this.eliteEnemy.getLocationX()),
-                () -> assertEquals(this.initialY + this.initialSpeedY, this.eliteEnemy.getLocationY()),
-                () -> assertEquals(this.initialSpeedY, this.eliteEnemy.getSpeedY()),
-                () -> assertEquals(this.initialHp, this.eliteEnemy.getHp())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.eliteEnemy.getLocationX()), () -> assertEquals(this.initialY + this.initialSpeedY, this.eliteEnemy.getLocationY()), () -> assertEquals(this.initialSpeedY, this.eliteEnemy.getSpeedY()), () -> assertEquals(this.initialHp, this.eliteEnemy.getHp()));
         assertFalse(this.eliteEnemy.notValid());
         for (var iter = (Config.WINDOW_HEIGHT - this.initialY) / this.initialSpeedY + 5; iter >= 0; iter--) {
             this.eliteEnemy.forward();
@@ -70,29 +60,28 @@ class EliteEnemyTest {
     @DisplayName("Test plane crash detection")
     void planeCrash() {
         // 中心完全重合
-        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20);
+        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20, 20);
         assertTrue(this.eliteEnemy.crash(same));
         var midWidthDis = (this.eliteEnemy.getWidth() + same.getWidth()) / 2;
         assertAll(
                 // 右侧挨着判定框
-                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100))),
+                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100, 20))),
                 // 右侧恰好进入判定框
-                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100))),
+                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100, 20))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100))),
+                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100, 20))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100)))
-        );
+                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20))));
         var midHeightDis = (this.eliteEnemy.getHeight() + same.getHeight()) / 2 / 2;
         assertAll(
                 // 上侧挨着判定框
-                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100))),
+                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100, 20))),
                 // 上侧恰好进入判定框
-                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100))),
+                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100, 20))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100))),
+                () -> assertFalse(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100, 20))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100)))
+                () -> assertTrue(this.eliteEnemy.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100, 20)))
 
         );
     }
@@ -113,8 +102,7 @@ class EliteEnemyTest {
                 // 左侧挨着判定框
                 () -> assertFalse(this.eliteEnemy.crash(new BloodProp(this.initialX - midWidthDis, this.initialY, 0, 0))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.eliteEnemy.crash(new BloodProp(this.initialX - midWidthDis + 1, this.initialY, 0, 0)))
-        );
+                () -> assertTrue(this.eliteEnemy.crash(new BloodProp(this.initialX - midWidthDis + 1, this.initialY, 0, 0))));
         var midHeightDis = (this.eliteEnemy.getHeight() / 2 + same.getHeight()) / 2;
         assertAll(
                 // 上侧挨着判定框
@@ -124,22 +112,15 @@ class EliteEnemyTest {
                 // 左侧挨着判定框
                 () -> assertFalse(this.eliteEnemy.crash(new BloodProp(this.initialX, this.initialY + midHeightDis, 0, 0))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.eliteEnemy.crash(new BloodProp(this.initialX, this.initialY + midHeightDis - 1, 0, 0)))
-        );
+                () -> assertTrue(this.eliteEnemy.crash(new BloodProp(this.initialX, this.initialY + midHeightDis - 1, 0, 0))));
     }
 
     @Test
     @DisplayName("Test `setLocation`, `getLocationX` and `getLocationY` method")
     void locationGetSet() {
-        assertAll(
-                () -> assertEquals(this.initialX, this.eliteEnemy.getLocationX()),
-                () -> assertEquals(this.initialY, this.eliteEnemy.getLocationY())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.eliteEnemy.getLocationX()), () -> assertEquals(this.initialY, this.eliteEnemy.getLocationY()));
         this.eliteEnemy.setLocation(114, 514);
-        assertAll(
-                () -> assertEquals(114, this.eliteEnemy.getLocationX()),
-                () -> assertEquals(514, this.eliteEnemy.getLocationY())
-        );
+        assertAll(() -> assertEquals(114, this.eliteEnemy.getLocationX()), () -> assertEquals(514, this.eliteEnemy.getLocationY()));
     }
 
     @Test

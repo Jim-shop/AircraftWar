@@ -8,22 +8,22 @@ import java.util.List;
 
 /**
  * 敌机散射策略
+ *
  * @author Jim
  */
 public class EnemyScatterShootStrategy implements EnemyShootStrategy {
     @Override
-    public List<AbstractBullet> shoot(int x, int y, int speedY, int power) {
+    public List<AbstractBullet> shoot(float x, float y, float speedY, int power) {
         List<AbstractBullet> res = new LinkedList<>();
         int direction = 1;
         int shootNum = 3;
-        int bulletX = x;
-        int bulletY = y + direction * 2;
-        int bulletCenterSpeedX = 0;
-        int bulletCenterSpeedY = speedY + direction * 10;
+        float bulletY = y + direction * 2;
+        float bulletCenterSpeedX = 0;
+        float bulletCenterSpeedY = speedY + direction * 0.1f;
         for (int i = 0; i < shootNum; i++) {
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            res.add(new EnemyBullet(bulletX + (i * 2 - shootNum + 1) * 10, bulletY, bulletCenterSpeedX + (i * 2 - shootNum + 1), bulletCenterSpeedY, power));
+            res.add(new EnemyBullet(x + (i * 2 - shootNum + 1) * 10, bulletY, bulletCenterSpeedX + (i * 2 - shootNum + 1) * 0.01f, bulletCenterSpeedY, power));
         }
         return res;
     }

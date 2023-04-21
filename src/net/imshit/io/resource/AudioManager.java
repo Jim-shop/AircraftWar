@@ -8,13 +8,13 @@ import java.io.File;
  * @author Jim
  */
 public class AudioManager {
-    public static File BGM;
-    public static File BGM_BOSS;
-    public static File BOMB_EXPLOSION;
-    public static File BULLET;
-    public static File BULLET_HIT;
-    public static File GAME_OVER;
-    public static File GET_SUPPLY;
+    public static final File BGM;
+    public static final File BGM_BOSS;
+    public static final File BOMB_EXPLOSION;
+    public static final File BULLET;
+    public static final File BULLET_HIT;
+    public static final File GAME_OVER;
+    public static final File GET_SUPPLY;
 
     static {
         BGM = getFile("resources/audio/bgm.wav");
@@ -27,13 +27,6 @@ public class AudioManager {
     }
 
     private static File getFile(String filePath) {
-//        try {
-//            return AudioSystem.getAudioInputStream(new File(filePath));
-//        } catch (UnsupportedAudioFileException | IOException e) {
-//            e.printStackTrace();
-//            System.exit(-1);
-//        }
-//        return null;
         return new File(filePath);
     }
 }

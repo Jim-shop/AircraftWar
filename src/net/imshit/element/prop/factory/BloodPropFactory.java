@@ -7,7 +7,7 @@ import net.imshit.element.prop.BloodProp;
  */
 public class BloodPropFactory extends AbstractPropFactory {
     @Override
-    public BloodProp createProp(int locationX, int locationY) {
+    public BloodProp createProp(float locationX, float locationY) {
         return new BloodProp(locationX, locationY, speedX, speedY);
     }
 }

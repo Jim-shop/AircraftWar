@@ -13,10 +13,10 @@ public class RandomPropFactory extends AbstractPropFactory {
     private final BulletPropFactory bulletFactory = new BulletPropFactory();
 
     @Override
-    public AbstractProp createProp(int locationX, int locationY) {
-        double bloodProb = 0.3;
-        double bombProb = 0.3;
-        double bulletProb = 0.3;
+    public AbstractProp createProp(float locationX, float locationY) {
+        var bloodProb = 0.3;
+        var bombProb = 0.3;
+        var bulletProb = 0.3;
         var rand = Math.random();
         if (rand < bloodProb) {
             return bloodFactory.createProp(locationX, locationY);

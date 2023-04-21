@@ -12,10 +12,10 @@ import net.imshit.io.resource.ImageManager;
 public class MobEnemyFactory extends AbstractEnemyFactory {
     @Override
     public MobEnemy createEnemy() {
-        int locationX = (int) (Math.random() * (Config.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()));
-        int locationY = (int) (Math.random() * Config.WINDOW_HEIGHT * 0.05);
-        int speedX = 0;
-        int speedY = 10;
+        float locationX = (float) (Math.random() * (Config.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()));
+        float locationY = 0;
+        float speedX = 0;
+        float speedY = 0.25f;
         int hp = 30;
         return new MobEnemy(locationX, locationY, speedX, speedY, hp);
     }

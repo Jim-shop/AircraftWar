@@ -7,7 +7,7 @@ import net.imshit.element.prop.BombProp;
  */
 public class BombPropFactory extends AbstractPropFactory {
     @Override
-    public BombProp createProp(int locationX, int locationY) {
+    public BombProp createProp(float locationX, float locationY) {
         return new BombProp(locationX, locationY, speedX, speedY);
     }
 }

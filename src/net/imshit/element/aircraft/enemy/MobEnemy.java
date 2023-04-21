@@ -8,8 +8,8 @@ package net.imshit.element.aircraft.enemy;
  */
 public class MobEnemy extends AbstractEnemy {
 
-    public MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
-        super(locationX, locationY, speedX, speedY, hp, 10, 0);
+    public MobEnemy(float locationX, float locationY, float speedX, float speedY, int hp) {
+        super(locationX, locationY, speedX, speedY, hp, 0, 0);
     }
 
 }

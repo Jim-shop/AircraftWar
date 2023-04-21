@@ -6,8 +6,8 @@ import net.imshit.element.prop.AbstractProp;
  * @author Jim
  */
 abstract public class AbstractPropFactory {
-    protected final int speedX = 0;
-    protected final int speedY = 3;
+    protected final float speedX = 0;
+    protected final float speedY = 0.1f;
 
     /**
      * 道具工厂创造道具
@@ -16,5 +16,5 @@ abstract public class AbstractPropFactory {
      * @param locationY 道具掉落垂直位置
      * @return 道具实例
      */
-    abstract public AbstractProp createProp(int locationX, int locationY);
+    abstract public AbstractProp createProp(float locationX, float locationY);
 }

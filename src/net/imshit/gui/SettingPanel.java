@@ -56,9 +56,7 @@ public class SettingPanel extends JPanel {
         soundGroup.add(soundPrompt);
         soundGroup.add(checkboxMusic);
 
-        checkboxMusic.addActionListener(event -> {
-            this.musicOn = checkboxMusic.isSelected();
-        });
+        checkboxMusic.addActionListener(event -> this.musicOn = checkboxMusic.isSelected());
     }
 
     public Difficulty getDifficulty() {

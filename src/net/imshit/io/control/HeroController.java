@@ -19,8 +19,8 @@ public class HeroController {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                int x = e.getX();
-                int y = e.getY();
+                var x = e.getX();
+                var y = e.getY();
                 if (x < 0 || x > Config.WINDOW_WIDTH || y < 0 || y > Config.WINDOW_HEIGHT) {
                     // 防止超出边界
                     return;

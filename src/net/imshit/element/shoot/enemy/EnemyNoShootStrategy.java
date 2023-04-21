@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class EnemyNoShootStrategy implements EnemyShootStrategy {
     @Override
-    public List<AbstractBullet> shoot(int x, int y, int speedY, int power) {
+    public List<AbstractBullet> shoot(float x, float y, float speedY, int power) {
         return List.of();
     }
 }

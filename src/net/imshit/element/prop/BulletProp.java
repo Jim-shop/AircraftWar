@@ -11,7 +11,7 @@ public class BulletProp extends AbstractProp {
 
     private final AtomicInteger usedCount = new AtomicInteger(0);
 
-    public BulletProp(int locationX, int locationY, int speedX, int speedY) {
+    public BulletProp(float locationX, float locationY, float speedX, float speedY) {
         super(locationX, locationY, speedX, speedY);
     }
 
