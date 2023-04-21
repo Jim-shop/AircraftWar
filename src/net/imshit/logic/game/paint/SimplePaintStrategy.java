@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class SimplePaintStrategy extends AbstractPaintStrategy {
 
-    private int backGroundTop = 0;
+    private float backGroundTop = 0;
 
     private void paintObjects(Graphics g, List<? extends AbstractFlyingObject> objects) {
         for (var object : objects) {
@@ -39,10 +39,10 @@ public class SimplePaintStrategy extends AbstractPaintStrategy {
     @Override
     public void draw(Graphics g, List<? extends AbstractFlyingObject> enemyBullets, List<? extends AbstractFlyingObject> enemyProps, List<? extends AbstractFlyingObject> heroBullets, List<? extends AbstractFlyingObject> enemyAircraftObjects, HeroAircraft heroAircraft, int score) {
         // 绘制背景,图片滚动
-        g.drawImage(this.backgroundImage, 0, this.backGroundTop - Config.WINDOW_HEIGHT, null);
-        g.drawImage(this.backgroundImage, 0, this.backGroundTop, null);
-        this.backGroundTop += 1;
-        if (this.backGroundTop == Config.WINDOW_HEIGHT) {
+        g.drawImage(this.backgroundImage, 0, (int) this.backGroundTop - Config.WINDOW_HEIGHT, null);
+        g.drawImage(this.backgroundImage, 0, (int) this.backGroundTop, null);
+        this.backGroundTop += 0.005 * Config.REFRESH_INTERVAL;
+        if ((int) this.backGroundTop >= Config.WINDOW_HEIGHT) {
             this.backGroundTop = 0;
         }
 

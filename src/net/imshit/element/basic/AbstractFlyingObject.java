@@ -153,6 +153,10 @@ public abstract class AbstractFlyingObject {
         return !this.isValid;
     }
 
+    public boolean valid() {
+        return this.isValid;
+    }
+
     /**
      * 标记消失，
      * isValid = false.

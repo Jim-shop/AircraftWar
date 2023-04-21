@@ -29,15 +29,16 @@ public class AudioThread extends Thread {
             var clip = AudioSystem.getClip();
             clip.open(audioIn);
             clip.loop(this.loop ? Clip.LOOP_CONTINUOUSLY : 0);
-            while (!this.isInterrupted()) {
-                try {
+            try {
+                while (!this.isInterrupted()) {
                     Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    break;
                 }
+            } catch (InterruptedException ignored) {
+            } finally {
+                clip.stop();
+                clip.close();
+                audioIn.close();
             }
-            clip.stop();
-            clip.close();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }

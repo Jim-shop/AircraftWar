@@ -22,7 +22,7 @@ public class BulletProp extends AbstractProp {
         new Thread(() -> {
             try {
                 Thread.sleep(3000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
             if (usedCount.decrementAndGet() == 0) {
                 hero.setShootNum(1);

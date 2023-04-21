@@ -61,6 +61,8 @@ public class Main {
                 cardLayout.next(panel);
                 scoreboard.action(host);
             });
+
+            scoreboard.addScoreboardReturnCallback(host -> cardLayout.first(panel));
         });
     }
 }

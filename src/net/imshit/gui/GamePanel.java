@@ -1,12 +1,7 @@
 package net.imshit.gui;
 
 import net.imshit.Config;
-import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
-import net.imshit.element.aircraft.enemy.BossEnemy;
-import net.imshit.element.aircraft.enemy.factory.AbstractEnemyFactory;
-import net.imshit.element.aircraft.enemy.factory.BossEnemyFactory;
-import net.imshit.element.aircraft.enemy.factory.RandomEnemyFactory;
 import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.basic.AbstractFlyingObject;
 import net.imshit.element.bullet.AbstractBullet;
@@ -41,70 +36,28 @@ public class GamePanel extends JPanel {
     /**
      * Scheduled 线程池，用于任务调度
      */
-    private final ScheduledExecutorService executorService;
-    private final HeroAircraft heroAircraft;
-    private final List<AbstractEnemy> enemyAircraftObjects;
-    private final List<AbstractBullet> heroBullets;
-    private final List<AbstractBullet> enemyBullets;
-    private final List<AbstractProp> enemyProps;
-    /**
-     * 屏幕中出现的敌机最大数量
-     */
-    private final int enemyMaxNumber = 5;
-    /**
-     * 多少分之后出现 BOSS
-     */
-    private final int bossScoreThreshold = 300;
-    /**
-     * 生成 BOSS 概率
-     */
-    private final double bossProb = 0.05;
-    /**
-     * 敌机工厂
-     */
-    private final AbstractEnemyFactory enemyFactory = new RandomEnemyFactory();
-    private final BossEnemyFactory bossFactory = new BossEnemyFactory();
-    /**
-     * 周期（ms)
-     * 指示子弹的发射、敌机的产生频率
-     */
-    private final int cycleDuration = 600;
-    private final List<GameOverCallback> callbacks;
+    private final ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
+    private final HeroAircraft heroAircraft = HeroAircraft.getInstance();
+    private final List<AbstractEnemy> enemyAircraftObjects = new LinkedList<>();
+    private final List<AbstractBullet> heroBullets = new LinkedList<>();
+    private final List<AbstractBullet> enemyBullets = new LinkedList<>();
+    private final List<AbstractProp> enemyProps = new LinkedList<>();
+    private final List<GameOverCallback> callbacks = new LinkedList<>();
     /**
      * BOSS 机
      */
-    private BossEnemy boss = null;
+    private AbstractEnemy boss = null;
 
     /**
      * 当前得分
      */
     private int score = 0;
-    /**
-     * 当前时刻
-     */
-    private int cycleTime = 0;
-    private int time = 0;
     private Difficulty difficulty;
     private AbstractGenerateStrategy generateStrategy = new EasyGenerateStrategy();
     private final AbstractPaintStrategy paintStrategy = new SimplePaintStrategy();
     private AbstractMusicStrategy musicStrategy = new BasicMusicStrategy();
 
     public GamePanel() {
-        heroAircraft = HeroAircraft.getInstance();
-        enemyAircraftObjects = new LinkedList<>();
-        heroBullets = new LinkedList<>();
-        enemyBullets = new LinkedList<>();
-        enemyProps = new LinkedList<>();
-
-        callbacks = new LinkedList<>();
-
-        /*
-          Scheduled 线程池，用于定时任务调度
-          关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
-          apache 第三方库： org.apache.commons.lang3.concurrent.BasicThreadFactory
-         */
-        this.executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
-
         //启动英雄机鼠标监听
         new HeroController(this, heroAircraft);
     }
@@ -132,9 +85,16 @@ public class GamePanel extends JPanel {
                 generateStrategy = new EasyGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_EASY);
             }
-            case MEDIUM -> paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_MEDIUM);
-            case HARD -> paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_HARD);
-            default -> generateStrategy = new EasyGenerateStrategy();
+            case MEDIUM -> {
+                paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_MEDIUM);
+            }
+            case HARD -> {
+                paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_HARD);
+            }
+            default -> {
+                generateStrategy = new EasyGenerateStrategy();
+                paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_EASY);
+            }
         }
     }
 
@@ -150,49 +110,33 @@ public class GamePanel extends JPanel {
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
-            time += Config.REFRESH_INTERVAL;
-
             // 周期性执行（控制频率）
-            if (timeCountAndNewCycleJudge()) {
-//                enemyAircraftObjects.addAll(generateStrategy.generateEnemy(enemyAircraftObjects.size()));
+            if (generateStrategy.isTimeToGenerate()) {
                 // BOSS 机产生
-                if (score > bossScoreThreshold && boss == null && Math.random() < bossProb) {
-                    boss = bossFactory.createEnemy();
-                    enemyAircraftObjects.add(boss);
+                var newBoss = generateStrategy.generateBoss(this.boss, score);
+                if (newBoss != this.boss) {
+                    this.boss = newBoss;
+                    this.enemyAircraftObjects.add(this.boss);
                     musicStrategy.setBgm(AbstractMusicStrategy.BgmType.BOSS);
                 }
                 // 新敌机产生
-                if (enemyAircraftObjects.size() < enemyMaxNumber) {
-                    enemyAircraftObjects.add(enemyFactory.createEnemy());
-                }
+                enemyAircraftObjects.addAll(generateStrategy.generateEnemy(enemyAircraftObjects.size()));
                 // 飞机射出子弹
                 shootAction();
             }
-
-            // 子弹移动
-            bulletsMoveAction();
-
-            // 飞机移动
-            aircraftObjectsMoveAction();
-
-            // 凋落物移动
-            propsMoveAction();
-
+            // 飞行物移动
+            moveAction();
             // 撞击检测
             crashCheckAction();
-
-            // 后处理
-            postProcessAction();
-
+            // 清理已损毁的飞行物
+            cleanInvalid();
             //每个时刻重绘界面
             repaint();
-
             // 检查BOSS机是否存活
             if (boss != null && boss.notValid()) {
                 boss = null;
                 musicStrategy.setBgm(AbstractMusicStrategy.BgmType.NORMAL);
             }
-
             // 游戏结束检查英雄机是否存活
             if (heroAircraft.getHp() <= 0) {
                 gameOver();
@@ -207,32 +151,22 @@ public class GamePanel extends JPanel {
         musicStrategy.setBgm(AbstractMusicStrategy.BgmType.NORMAL);
     }
 
+    private void moveAction() {
+        heroBullets.forEach(AbstractBullet::forward);
+        enemyBullets.forEach(AbstractBullet::forward);
+        enemyAircraftObjects.forEach(AbstractEnemy::forward);
+        enemyProps.forEach(AbstractProp::forward);
+    }
+
     private void shootAction() {
-        // 敌机射击
-        for (var enemy : enemyAircraftObjects) {
-            enemyBullets.addAll(enemy.shoot());
-        }
-
-        // 英雄射击
+        enemyAircraftObjects.forEach(enemy -> enemyBullets.addAll(enemy.shoot()));
         heroBullets.addAll(heroAircraft.shoot());
-
         musicStrategy.playBullet();
     }
 
     //***********************
     //      Action 各部分
     //***********************
-
-    private boolean timeCountAndNewCycleJudge() {
-        cycleTime += Config.REFRESH_INTERVAL;
-        if (cycleTime >= cycleDuration) {
-            // 跨越到新的周期
-            cycleTime %= cycleDuration;
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * 碰撞检测：
@@ -242,73 +176,37 @@ public class GamePanel extends JPanel {
      */
     private void crashCheckAction() {
         // 敌机子弹攻击英雄
-        for (var bullet : enemyBullets) {
-            if (heroAircraft.crash(bullet)) {
-                heroAircraft.decreaseHp(bullet.getPower());
-                bullet.vanish();
-                musicStrategy.playBulletHit();
-            }
-        }
+        enemyBullets.stream().filter(heroAircraft::crash).forEach(bullet -> {
+            heroAircraft.decreaseHp(bullet.getPower());
+            bullet.vanish();
+            musicStrategy.playBulletHit();
+        });
 
         // 英雄子弹攻击敌机
-        for (AbstractBullet bullet : heroBullets) {
-            if (bullet.notValid()) {
-                continue;
-            }
-            for (var enemyAircraft : enemyAircraftObjects) {
+        heroBullets.stream().filter(AbstractBullet::valid).forEach(bullet -> {
+            enemyAircraftObjects.stream().filter(AbstractEnemy::valid).filter(bullet::crash).forEach(enemyAircraft -> {
+                enemyAircraft.decreaseHp(bullet.getPower());
                 if (enemyAircraft.notValid()) {
-                    // 已被其他子弹击毁的敌机，不再检测
-                    // 避免多个子弹重复击毁同一敌机的判定
-                    continue;
+                    enemyProps.addAll(enemyAircraft.prop());
+                    score += 30;
                 }
-                if (enemyAircraft.crash(bullet)) {
-                    // 敌机撞击到英雄机子弹
-                    // 敌机损失一定生命值
-                    enemyAircraft.decreaseHp(bullet.getPower());
-                    bullet.vanish();
-                    if (enemyAircraft.notValid()) {
-                        enemyProps.addAll(enemyAircraft.prop());
-                        score += 30;
-                    }
-                    musicStrategy.playBulletHit();
-                }
-                // 英雄机 与 敌机 相撞，均损毁
-                if (enemyAircraft.crash(heroAircraft) || heroAircraft.crash(enemyAircraft)) {
-                    enemyAircraft.vanish();
-                    heroAircraft.decreaseHp(Integer.MAX_VALUE);
-                }
-            }
-        }
+                bullet.vanish();
+                musicStrategy.playBulletHit();
+            });
+        });
+
+        // 英雄机 与 敌机 相撞，均损毁
+        enemyAircraftObjects.stream().filter(AbstractEnemy::valid).filter(heroAircraft::crash).forEach(enemyAircraft -> {
+            enemyAircraft.vanish();
+            heroAircraft.decreaseHp(Integer.MAX_VALUE);
+        });
 
         // 我方获得道具，道具生效
-        for (var prop : enemyProps) {
-            if (heroAircraft.crash((prop))) {
-                prop.use(heroAircraft);
-                prop.vanish();
-                musicStrategy.playGetSupply();
-            }
-        }
-    }
-
-    private void bulletsMoveAction() {
-        for (AbstractBullet bullet : heroBullets) {
-            bullet.forward();
-        }
-        for (AbstractBullet bullet : enemyBullets) {
-            bullet.forward();
-        }
-    }
-
-    private void aircraftObjectsMoveAction() {
-        for (AbstractAircraft enemyAircraft : enemyAircraftObjects) {
-            enemyAircraft.forward();
-        }
-    }
-
-    private void propsMoveAction() {
-        for (var enemyProp : enemyProps) {
-            enemyProp.forward();
-        }
+        enemyProps.stream().filter(heroAircraft::crash).forEach(prop -> {
+            prop.use(heroAircraft);
+            prop.vanish();
+            musicStrategy.playGetSupply();
+        });
     }
 
     private void gameOver() {
@@ -322,13 +220,9 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * 后处理：
-     * 1. 删除无效的子弹
-     * 2. 删除无效的敌机
-     * <p>
-     * 无效的原因可能是撞击或者飞出边界
+     * 删除无效的飞行物
      */
-    private void postProcessAction() {
+    private void cleanInvalid() {
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
         enemyAircraftObjects.removeIf(AbstractFlyingObject::notValid);
@@ -353,5 +247,4 @@ public class GamePanel extends JPanel {
          */
         void action(GamePanel host);
     }
-
 }
