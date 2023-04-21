@@ -1,8 +1,9 @@
 package net.imshit.aircraft.enemy;
 
-import net.imshit.application.ImageManager;
-import net.imshit.application.Main;
-import net.imshit.prop.BloodProp;
+import net.imshit.Config;
+import net.imshit.element.aircraft.enemy.EliteEnemy;
+import net.imshit.element.prop.BloodProp;
+import net.imshit.io.resource.ImageManager;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +59,7 @@ class EliteEnemyTest {
                 () -> assertEquals(this.initialHp, this.eliteEnemy.getHp())
         );
         assertFalse(this.eliteEnemy.notValid());
-        for (var iter = (Main.WINDOW_HEIGHT - this.initialY) / this.initialSpeedY + 5; iter >= 0; iter--) {
+        for (var iter = (Config.WINDOW_HEIGHT - this.initialY) / this.initialSpeedY + 5; iter >= 0; iter--) {
             this.eliteEnemy.forward();
         }
         assertTrue(this.eliteEnemy.notValid());

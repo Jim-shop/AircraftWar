@@ -1,9 +1,10 @@
 package net.imshit.aircraft.hero;
 
-import net.imshit.aircraft.enemy.EliteEnemy;
-import net.imshit.application.ImageManager;
-import net.imshit.application.Main;
-import net.imshit.prop.BloodProp;
+import net.imshit.Config;
+import net.imshit.element.aircraft.enemy.EliteEnemy;
+import net.imshit.element.aircraft.hero.HeroAircraft;
+import net.imshit.element.prop.BloodProp;
+import net.imshit.io.resource.ImageManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class HeroAircraftTest {
 
     private HeroAircraft heroAircraft;
-    private final int initialX = Main.WINDOW_WIDTH / 2;
-    private final int initialY = Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight();
+    private final int initialX = Config.WINDOW_WIDTH / 2;
+    private final int initialY = Config.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight();
     private final int initialSpeedY = 0;
     private final int initialHp = 1000;
     private final int shootNum = 1;

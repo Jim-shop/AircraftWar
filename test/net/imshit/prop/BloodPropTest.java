@@ -1,9 +1,10 @@
 package net.imshit.prop;
 
-import net.imshit.aircraft.enemy.EliteEnemy;
-import net.imshit.aircraft.hero.HeroAircraft;
-import net.imshit.application.ImageManager;
-import net.imshit.application.Main;
+import net.imshit.Config;
+import net.imshit.element.aircraft.enemy.EliteEnemy;
+import net.imshit.element.aircraft.hero.HeroAircraft;
+import net.imshit.element.prop.BloodProp;
+import net.imshit.io.resource.ImageManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +45,7 @@ class BloodPropTest {
                 () -> assertEquals(this.initialSpeedY, this.bloodProp.getSpeedY())
         );
         assertFalse(this.bloodProp.notValid());
-        for (var iter = (Main.WINDOW_HEIGHT - this.initialY) / this.initialSpeedY + 5; iter >= 0; iter--) {
+        for (var iter = (Config.WINDOW_HEIGHT - this.initialY) / this.initialSpeedY + 5; iter >= 0; iter--) {
             this.bloodProp.forward();
         }
         assertTrue(this.bloodProp.notValid());
