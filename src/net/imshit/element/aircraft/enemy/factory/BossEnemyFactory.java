@@ -10,7 +10,7 @@ import net.imshit.io.resource.ImageManager;
 public class BossEnemyFactory extends AbstractEnemyFactory {
     @Override
     public BossEnemy createEnemy() {
-        float locationX = (float) Math.random() * (Config.WINDOW_WIDTH - ImageManager.BOSS_ENEMY_IMAGE.getWidth());
+        float locationX = (float) Math.random() * (Config.WINDOW_WIDTH - ImageManager.get(BossEnemy.class).getWidth());
         float locationY = 0;
         float speedX = 0.05f * (Math.random() < 0.5 ? -1 : 1);
         float speedY = 0;

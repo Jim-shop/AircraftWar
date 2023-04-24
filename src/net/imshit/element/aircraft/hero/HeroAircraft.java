@@ -15,7 +15,7 @@ public class HeroAircraft extends AbstractAircraft {
     /**
      * 饿汉式单例模式
      */
-    private static final HeroAircraft INSTANCE = new HeroAircraft(Config.WINDOW_WIDTH / 2f, Config.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(), 0, 0, 1000, 30, 1);
+    private static final HeroAircraft INSTANCE = new HeroAircraft(Config.WINDOW_WIDTH / 2f, Config.WINDOW_HEIGHT - ImageManager.get(HeroAircraft.class).getHeight(), 0, 0, 1000, 30, 1);
 
     /**
      * @param locationX 英雄机位置x坐标
@@ -53,7 +53,7 @@ public class HeroAircraft extends AbstractAircraft {
         this.hp = maxHp;
         this.isValid = true;
         this.locationX = Config.WINDOW_WIDTH / 2f;
-        this.locationY = Config.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight();
+        this.locationY = Config.WINDOW_HEIGHT - ImageManager.get(HeroAircraft.class).getHeight();
         this.speedX = 0;
         this.speedY = 0;
         this.setShootNum(1);

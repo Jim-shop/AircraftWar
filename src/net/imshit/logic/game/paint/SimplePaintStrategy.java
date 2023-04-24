@@ -3,7 +3,6 @@ package net.imshit.logic.game.paint;
 import net.imshit.Config;
 import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.basic.AbstractFlyingObject;
-import net.imshit.io.resource.ImageManager;
 
 import java.awt.*;
 import java.util.List;
@@ -18,11 +17,12 @@ public class SimplePaintStrategy extends AbstractPaintStrategy {
     private float backGroundTop = 0;
 
     private void paintObjects(Graphics g, List<? extends AbstractFlyingObject> objects) {
-        for (var object : objects) {
-            var image = object.getImage();
-            assert image != null : objects.getClass().getName() + " has no image! ";
-            g.drawImage(image, (int) (object.getLocationX() - image.getWidth() / 2), (int) (object.getLocationY() - image.getHeight() / 2), null);
-        }
+        objects.forEach(object -> paintObject(g, object));
+    }
+
+    private void paintObject(Graphics g, AbstractFlyingObject object) {
+        var image = object.getImage();
+        g.drawImage(image, (int) (object.getLocationX() - image.getWidth() / 2), (int) (object.getLocationY() - image.getHeight() / 2), null);
     }
 
     private void paintScoreAndLife(Graphics g, HeroAircraft heroAircraft, int score) {
@@ -54,7 +54,7 @@ public class SimplePaintStrategy extends AbstractPaintStrategy {
         this.paintObjects(g, enemyAircraftObjects);
 
         // 英雄机
-        g.drawImage(ImageManager.HERO_IMAGE, (int) (heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2), (int) (heroAircraft.getLocationY() - ImageManager.HERO_IMAGE.getHeight() / 2), null);
+        this.paintObject(g, heroAircraft);
 
         //绘制得分和生命值
         this.paintScoreAndLife(g, heroAircraft, score);

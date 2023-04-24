@@ -34,6 +34,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="io.github.vincenzopalazzo.material.ui.swing" level="project" />
   </component>
 </module>

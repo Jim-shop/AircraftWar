@@ -13,10 +13,10 @@ import net.imshit.element.prop.BulletProp;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 综合管理图片的加载，访问
@@ -36,46 +36,32 @@ public class ImageManager {
     public static BufferedImage BACKGROUND_IMAGE_EASY;
     public static BufferedImage BACKGROUND_IMAGE_MEDIUM;
     public static BufferedImage BACKGROUND_IMAGE_HARD;
-    public static BufferedImage HERO_IMAGE;
-    public static BufferedImage HERO_BULLET_IMAGE;
-    public static BufferedImage ENEMY_BULLET_IMAGE;
-    public static BufferedImage MOB_ENEMY_IMAGE;
-    public static BufferedImage ELITE_ENEMY_IMAGE;
-    public static BufferedImage BOSS_ENEMY_IMAGE;
-    public static BufferedImage PROP_BLOOD_ENEMY_IMAGE;
-    public static BufferedImage PROP_BOMB_ENEMY_IMAGE;
-    public static BufferedImage PROP_BULLET_ENEMY_IMAGE;
+
 
     static {
         try {
-            ICON = ImageIO.read(new FileInputStream("resources/icon/icon.png"));
+            ICON = loadImage("icon/icon.png");
+            BACKGROUND_IMAGE_EASY = loadImage("image/bg.jpg");
+            BACKGROUND_IMAGE_MEDIUM = loadImage("image/bg2.jpg");
+            BACKGROUND_IMAGE_HARD = loadImage("image/bg3.jpg");
 
-            BACKGROUND_IMAGE_EASY = ImageIO.read(new FileInputStream("resources/image/bg.jpg"));
-            BACKGROUND_IMAGE_MEDIUM = ImageIO.read(new FileInputStream("resources/image/bg2.jpg"));
-            BACKGROUND_IMAGE_HARD = ImageIO.read(new FileInputStream("resources/image/bg3.jpg"));
-            HERO_IMAGE = ImageIO.read(new FileInputStream("resources/image/hero.png"));
-            HERO_BULLET_IMAGE = ImageIO.read(new FileInputStream("resources/image/bullet_hero.png"));
-            ENEMY_BULLET_IMAGE = ImageIO.read(new FileInputStream("resources/image/bullet_enemy.png"));
-            MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("resources/image/mob.png"));
-            ELITE_ENEMY_IMAGE = ImageIO.read(new FileInputStream("resources/image/elite.png"));
-            BOSS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("resources/image/boss.png"));
-            PROP_BLOOD_ENEMY_IMAGE = ImageIO.read(new FileInputStream("resources/image/prop_blood.png"));
-            PROP_BOMB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("resources/image/prop_bomb.png"));
-            PROP_BULLET_ENEMY_IMAGE = ImageIO.read(new FileInputStream("resources/image/prop_bullet.png"));
-
-            CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(HeroBullet.class.getName(), HERO_BULLET_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), ENEMY_BULLET_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(BossEnemy.class.getName(), BOSS_ENEMY_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(BloodProp.class.getName(), PROP_BLOOD_ENEMY_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(BombProp.class.getName(), PROP_BOMB_ENEMY_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(BulletProp.class.getName(), PROP_BULLET_ENEMY_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), loadImage("image/hero.png"));
+            CLASSNAME_IMAGE_MAP.put(HeroBullet.class.getName(), loadImage("image/bullet_hero.png"));
+            CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), loadImage("image/bullet_enemy.png"));
+            CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), loadImage("image/mob.png"));
+            CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), loadImage("image/elite.png"));
+            CLASSNAME_IMAGE_MAP.put(BossEnemy.class.getName(), loadImage("image/boss.png"));
+            CLASSNAME_IMAGE_MAP.put(BloodProp.class.getName(), loadImage("image/prop_blood.png"));
+            CLASSNAME_IMAGE_MAP.put(BombProp.class.getName(), loadImage("image/prop_bomb.png"));
+            CLASSNAME_IMAGE_MAP.put(BulletProp.class.getName(), loadImage("image/prop_bullet.png"));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
         }
+    }
+
+    private static BufferedImage loadImage(String path) throws IOException {
+        return ImageIO.read(Objects.requireNonNull(ImageManager.class.getClassLoader().getResourceAsStream(path)));
     }
 
     public static BufferedImage get(String className) {
@@ -86,7 +72,11 @@ public class ImageManager {
         if (obj == null) {
             return null;
         }
-        return get(obj.getClass().getName());
+        return get(obj.getClass());
+    }
+
+    public static BufferedImage get(Class<?> className) {
+        return get(className.getName());
     }
 
 }

@@ -15,7 +15,7 @@ class HeroAircraftTest {
 
     private HeroAircraft heroAircraft;
     private final int initialX = Config.WINDOW_WIDTH / 2;
-    private final int initialY = Config.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight();
+    private final int initialY = Config.WINDOW_HEIGHT - ImageManager.get(HeroAircraft.class).getHeight();
     private final int initialSpeedY = 0;
     private final int initialHp = 1000;
     private final int shootNum = 1;

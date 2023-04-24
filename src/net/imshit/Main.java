@@ -1,12 +1,12 @@
 package net.imshit;
 
-import mdlaf.MaterialLookAndFeel;
 import net.imshit.gui.GamePanel;
 import net.imshit.gui.ScoreboardPanel;
 import net.imshit.gui.SettingPanel;
 import net.imshit.io.resource.ImageManager;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 
 /**
@@ -17,15 +17,15 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            /* 加载 MD 材质 */
+            /* 加载材质 */
             try {
-                UIManager.setLookAndFeel(new MaterialLookAndFeel());
+                UIManager.setLookAndFeel(new NimbusLookAndFeel());
             } catch (UnsupportedLookAndFeelException e) {
                 e.printStackTrace();
             }
 
             /* 初始化 Frame */
-            var frame = new JFrame("Aircraft War");
+            var frame = new JFrame(Config.GAME_NAME);
             frame.setIconImage(ImageManager.ICON);
             frame.setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
             frame.setResizable(false);
