@@ -42,7 +42,11 @@ public abstract class AbstractMusicStrategy {
     public abstract void playGameOver();
 
     public enum BgmType {
-        // 普通，BOSS机，静音
-        NORMAL, BOSS, NONE
+        /* 普通 */
+        NORMAL,
+        /* BOSS */
+        BOSS,
+        /* 静音 */
+        NONE
     }
 }
