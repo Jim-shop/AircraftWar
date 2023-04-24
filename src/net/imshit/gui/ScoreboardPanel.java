@@ -21,11 +21,10 @@ public class ScoreboardPanel extends JPanel {
 
     private final JTable table = new JTable();
     private final String[] caption = {"Name", "Score", "Time"};
+    private final List<ScoreboardReturnCallback> callbacks = new LinkedList<>();
     private ScoreboardDaoFile dao;
     private List<ScoreInfo> rawData;
     private String[][] displayData;
-
-    private final List<ScoreboardReturnCallback> callbacks = new LinkedList<>();
     private Difficulty difficulty;
 
     public ScoreboardPanel() {
@@ -139,15 +138,6 @@ public class ScoreboardPanel extends JPanel {
         callbacks.add(callback);
     }
 
-    public interface ScoreboardReturnCallback {
-        /**
-         * 当点击返回主页按钮后，执行回调函数
-         *
-         * @param host Scoreboard对象本身
-         */
-        void action(ScoreboardPanel host);
-    }
-
     private void load() {
         this.dao = new ScoreboardDaoFile(switch (difficulty) {
             case EASY -> "./record-easy.dat";
@@ -181,5 +171,14 @@ public class ScoreboardPanel extends JPanel {
         this.difficulty = host.getDifficulty();
         this.load();
         this.askAndSave(host);
+    }
+
+    public interface ScoreboardReturnCallback {
+        /**
+         * 当点击返回主页按钮后，执行回调函数
+         *
+         * @param host Scoreboard对象本身
+         */
+        void action(ScoreboardPanel host);
     }
 }

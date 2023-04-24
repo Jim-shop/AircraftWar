@@ -18,10 +18,10 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      * 生命值
      */
     protected final int maxHp;
+    protected final AbstractShootStrategyFactory shootStrategyFactory;
     private final int power;
     protected int hp;
     protected ShootStrategy shootStrategy;
-    protected final AbstractShootStrategyFactory shootStrategyFactory;
 
     public AbstractAircraft(float locationX, float locationY, float speedX, float speedY, int hp, int power, AbstractShootStrategyFactory strategyFactory, int shootNum) {
         super(locationX, locationY, speedX, speedY);

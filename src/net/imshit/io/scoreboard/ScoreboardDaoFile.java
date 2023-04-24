@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * 计分板DAO的文件实现
+ *
  * @author Jim
  */
 public class ScoreboardDaoFile implements ScoreboardDao {
@@ -25,11 +26,15 @@ public class ScoreboardDaoFile implements ScoreboardDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        buffer = new ArrayList<>();
         try (var ois = new ObjectInputStream(new FileInputStream(f))) {
-            buffer = (ArrayList<ScoreInfo>) ois.readObject();
+            for (Object elem : (ArrayList<?>) ois.readObject()) {
+                if (elem instanceof ScoreInfo e) {
+                    buffer.add(e);
+                }
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            buffer = new ArrayList<>();
         }
         buffer.sort(Comparator.comparingInt(ScoreInfo::score).reversed());
     }

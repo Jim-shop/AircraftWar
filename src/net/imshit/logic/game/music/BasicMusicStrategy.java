@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class BasicMusicStrategy extends AbstractMusicStrategy {
 
-    private AudioThread bgmThread;
     private final ExecutorService pool = new ThreadPoolExecutor(32, 64, 20, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(512), new BasicThreadFactory.Builder().namingPattern("music-thread-%d").daemon(true).build());
+    private AudioThread bgmThread;
 
     @Override
     public void setBgm(BgmType bgmType) {

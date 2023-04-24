@@ -35,22 +35,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class GamePanel extends JPanel {
 
-    private ScheduledExecutorService executorService;
-
     private final HeroAircraft heroAircraft = HeroAircraft.getInstance();
     private final List<AbstractEnemy> enemyAircraftObjects = new LinkedList<>();
     private final List<AbstractBullet> heroBullets = new LinkedList<>();
     private final List<AbstractBullet> enemyBullets = new LinkedList<>();
     private final List<AbstractProp> enemyProps = new LinkedList<>();
     private final List<GameOverCallback> callbacks = new LinkedList<>();
-    private AbstractEnemy boss;
-
-    private AbstractGenerateStrategy generateStrategy = new EasyGenerateStrategy();
     private final AbstractPaintStrategy paintStrategy = new SimplePaintStrategy();
+    private ScheduledExecutorService executorService;
+    private AbstractEnemy boss;
+    private AbstractGenerateStrategy generateStrategy = new EasyGenerateStrategy();
     private AbstractMusicStrategy musicStrategy = new BasicMusicStrategy();
 
     private int score;
     private Difficulty difficulty;
+
+    public GamePanel() {
+        //启动英雄机鼠标监听
+        new HeroController(this, heroAircraft);
+    }
 
     public int getScore() {
         return score;
@@ -58,19 +61,6 @@ public class GamePanel extends JPanel {
 
     public Difficulty getDifficulty() {
         return difficulty;
-    }
-
-    public GamePanel() {
-        //启动英雄机鼠标监听
-        new HeroController(this, heroAircraft);
-    }
-
-    public void setMusicOn(boolean musicOn) {
-        if (musicOn) {
-            this.musicStrategy = new BasicMusicStrategy();
-        } else {
-            this.musicStrategy = new MuteMusicStrategy();
-        }
     }
 
     public void setDifficulty(Difficulty difficulty) {
@@ -90,6 +80,14 @@ public class GamePanel extends JPanel {
                 generateStrategy = new HardGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_HARD);
             }
+        }
+    }
+
+    public void setMusicOn(boolean musicOn) {
+        if (musicOn) {
+            this.musicStrategy = new BasicMusicStrategy();
+        } else {
+            this.musicStrategy = new MuteMusicStrategy();
         }
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * 计分板DAO模型
+ *
  * @author Jim
  */
 public interface ScoreboardDao {
@@ -17,12 +18,14 @@ public interface ScoreboardDao {
 
     /**
      * 向计分板添加项目（去重）
+     *
      * @param item 项目
      */
     void addItem(ScoreInfo item);
 
     /**
      * 从计分板删除项目
+     *
      * @param item 项目
      */
     void deleteItem(ScoreInfo item);

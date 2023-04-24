@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 敌机直射策略
+ *
  * @author Jim
  */
 public class EnemyDirectShootStrategy implements EnemyShootStrategy {
