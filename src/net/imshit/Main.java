@@ -15,17 +15,16 @@ import java.awt.*;
  * @author jim-shop
  */
 public class Main {
-
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            // 加载 MD 材质
+            /* 加载 MD 材质 */
             try {
                 UIManager.setLookAndFeel(new MaterialLookAndFeel());
             } catch (UnsupportedLookAndFeelException e) {
                 e.printStackTrace();
             }
 
-            // 初始化 Frame
+            /* 初始化 Frame */
             var frame = new JFrame("Aircraft War");
             frame.setIconImage(ImageManager.ICON);
             frame.setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
@@ -35,13 +34,13 @@ public class Main {
             // 设置退出策略
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            // 设置默认布局
+            /* 设置默认布局 */
             var cardLayout = new CardLayout(0, 0);
             var panel = new JPanel(cardLayout);
             frame.add(panel);
             frame.setVisible(true);
 
-            // 游戏界面
+            /* 游戏界面 */
             var setting = new SettingPanel();
             var game = new GamePanel();
             var scoreboard = new ScoreboardPanel();
@@ -49,20 +48,19 @@ public class Main {
             panel.add(game);
             panel.add(scoreboard);
 
-            // 界面切换逻辑
+            /* 界面切换逻辑 */
             setting.addDifficultyChangeCallback(host -> {
-                game.setDifficulty(host.getDifficulty());
-                game.setMusicOn(host.getMusicOn());
                 cardLayout.next(panel);
-                game.action();
+                game.action(host);
             });
-
             game.addGameOverCallback(host -> {
                 cardLayout.next(panel);
                 scoreboard.action(host);
             });
-
-            scoreboard.addScoreboardReturnCallback(host -> cardLayout.first(panel));
+            scoreboard.addScoreboardReturnCallback(host -> {
+                cardLayout.first(panel);
+                setting.action(host);
+            });
         });
     }
 }

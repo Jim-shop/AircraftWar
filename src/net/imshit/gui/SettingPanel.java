@@ -141,6 +141,9 @@ public class SettingPanel extends JPanel {
         }
     }
 
+    public void action(ScoreboardPanel scoreboardPanel) {
+    }
+
     public interface DifficultyChangeCallback {
 
         /**

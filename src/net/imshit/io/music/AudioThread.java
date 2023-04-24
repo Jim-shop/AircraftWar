@@ -24,23 +24,19 @@ public class AudioThread extends Thread {
 
     @Override
     public void run() {
-        try {
-            var audioIn = AudioSystem.getAudioInputStream(file);
-            var clip = AudioSystem.getClip();
+        try (var audioIn = AudioSystem.getAudioInputStream(file); var clip = AudioSystem.getClip()) {
             clip.open(audioIn);
-            clip.loop(this.loop ? Clip.LOOP_CONTINUOUSLY : 0);
-            try {
-                while (!this.isInterrupted()) {
-                    Thread.sleep(10);
-                }
-            } catch (InterruptedException ignored) {
-            } finally {
-                clip.stop();
-                clip.close();
-                audioIn.close();
+            if (this.loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                clip.start();
             }
+            do {
+                Thread.sleep(500);
+            } while (!this.isInterrupted() && clip.isActive());
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
+        } catch (InterruptedException ignored) {
         }
     }
 }

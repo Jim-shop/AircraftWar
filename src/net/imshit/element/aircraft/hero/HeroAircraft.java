@@ -30,6 +30,7 @@ public class HeroAircraft extends AbstractAircraft {
         super(locationX, locationY, speedX, speedY, hp, power, new HeroShootStrategyFactory(), shootNum);
     }
 
+
     public static HeroAircraft getInstance() {
         return INSTANCE;
     }
@@ -48,4 +49,13 @@ public class HeroAircraft extends AbstractAircraft {
         }
     }
 
+    public void reset() {
+        this.hp = maxHp;
+        this.isValid = true;
+        this.locationX = Config.WINDOW_WIDTH / 2f;
+        this.locationY = Config.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight();
+        this.speedX = 0;
+        this.speedY = 0;
+        this.setShootNum(1);
+    }
 }
