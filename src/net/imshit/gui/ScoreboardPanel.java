@@ -2,6 +2,7 @@ package net.imshit.gui;
 
 import net.imshit.io.scoreboard.ScoreInfo;
 import net.imshit.io.scoreboard.ScoreboardDaoFile;
+import net.imshit.logic.config.Difficulty;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,11 +21,12 @@ public class ScoreboardPanel extends JPanel {
 
     private final JTable table = new JTable();
     private final String[] caption = {"Name", "Score", "Time"};
-    private final ScoreboardDaoFile dao = new ScoreboardDaoFile("./record");
+    private ScoreboardDaoFile dao;
     private List<ScoreInfo> rawData;
     private String[][] displayData;
 
     private final List<ScoreboardReturnCallback> callbacks = new LinkedList<>();
+    private Difficulty difficulty;
 
     public ScoreboardPanel() {
         super(new GridBagLayout());
@@ -147,12 +149,17 @@ public class ScoreboardPanel extends JPanel {
     }
 
     private void load() {
+        this.dao = new ScoreboardDaoFile(switch (difficulty) {
+            case EASY -> "./record-easy.dat";
+            case MEDIUM -> "./record-medium.dat";
+            case HARD -> "./record-hard.dat";
+            default -> "./record.dat";
+        });
         this.rawData = this.dao.getTopK(-1);
         this.displayData = new String[this.rawData.size()][];
         var index = 0;
         for (var item : this.rawData) {
-            this.displayData[index] = new String[]{item.name(), String.valueOf(item.score()), item.time().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)};
-            index++;
+            this.displayData[index++] = new String[]{item.name(), String.valueOf(item.score()), item.time().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)};
         }
         this.table.setModel(new DefaultTableModel(this.displayData, this.caption) {
             @Override
@@ -169,6 +176,7 @@ public class ScoreboardPanel extends JPanel {
     }
 
     public void action(GamePanel host) {
+        this.difficulty = host.getDifficulty();
         this.load();
         this.askAndSave(host);
     }
