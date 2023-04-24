@@ -171,8 +171,10 @@ public class ScoreboardPanel extends JPanel {
 
     private void askAndSave(GamePanel host) {
         var name = JOptionPane.showInputDialog("Enter your name:", "player");
-        dao.addItem(new ScoreInfo(name, host.getScore(), LocalDateTime.now()));
-        this.load();
+        if (name != null) {
+            dao.addItem(new ScoreInfo(name, host.getScore(), LocalDateTime.now()));
+            this.load();
+        }
     }
 
     public void action(GamePanel host) {

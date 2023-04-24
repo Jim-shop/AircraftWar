@@ -11,6 +11,8 @@ import net.imshit.io.resource.ImageManager;
 import net.imshit.logic.config.Difficulty;
 import net.imshit.logic.game.generate.AbstractGenerateStrategy;
 import net.imshit.logic.game.generate.EasyGenerateStrategy;
+import net.imshit.logic.game.generate.HardGenerateStrategy;
+import net.imshit.logic.game.generate.MediumGenerateStrategy;
 import net.imshit.logic.game.music.AbstractMusicStrategy;
 import net.imshit.logic.game.music.BasicMusicStrategy;
 import net.imshit.logic.game.music.MuteMusicStrategy;
@@ -74,19 +76,19 @@ public class GamePanel extends JPanel {
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
         switch (difficulty) {
+            case NOTSET -> {
+            }
             case EASY -> {
                 generateStrategy = new EasyGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_EASY);
             }
             case MEDIUM -> {
+                generateStrategy = new MediumGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_MEDIUM);
             }
             case HARD -> {
+                generateStrategy = new HardGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_HARD);
-            }
-            default -> {
-                generateStrategy = new EasyGenerateStrategy();
-                paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_EASY);
             }
         }
     }
@@ -99,9 +101,13 @@ public class GamePanel extends JPanel {
      * 游戏启动入口，执行游戏逻辑
      */
     public void action(SettingPanel settingPanel) {
+        this.init(settingPanel.getDifficulty(), settingPanel.getMusicOn());
+        this.executorService.scheduleWithFixedDelay(this::update, Config.REFRESH_INTERVAL, Config.REFRESH_INTERVAL, TimeUnit.MILLISECONDS);
+    }
 
-        this.setDifficulty(settingPanel.getDifficulty());
-        this.setMusicOn(settingPanel.getMusicOn());
+    private void init(Difficulty difficulty, boolean musicOn) {
+        this.setDifficulty(difficulty);
+        this.setMusicOn(musicOn);
         this.musicStrategy.setBgm(AbstractMusicStrategy.BgmType.NORMAL);
 
         this.executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
@@ -112,8 +118,6 @@ public class GamePanel extends JPanel {
         this.enemyProps.clear();
         this.boss = null;
         this.score = 0;
-
-        this.executorService.scheduleWithFixedDelay(this::update, Config.REFRESH_INTERVAL, Config.REFRESH_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     private void update() {
@@ -158,16 +162,6 @@ public class GamePanel extends JPanel {
         this.musicStrategy.playBullet();
     }
 
-    //***********************
-    //      Action 各部分
-    //***********************
-
-    /**
-     * 碰撞检测：
-     * 1. 敌机攻击英雄
-     * 2. 英雄攻击/撞击敌机
-     * 3. 英雄获得补给
-     */
     private void crashCheckAction() {
         // 敌机子弹攻击英雄
         enemyBullets.stream().filter(heroAircraft::crash).forEach(bullet -> {
@@ -213,9 +207,6 @@ public class GamePanel extends JPanel {
         }
     }
 
-    /**
-     * 删除无效的飞行物
-     */
     private void cleanInvalid() {
         this.enemyBullets.removeIf(AbstractFlyingObject::notValid);
         this.heroBullets.removeIf(AbstractFlyingObject::notValid);
