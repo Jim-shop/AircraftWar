@@ -6,7 +6,8 @@ import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.basic.AbstractFlyingObject;
 import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.prop.AbstractProp;
-import net.imshit.io.control.HeroController;
+import net.imshit.utils.callback.Callback;
+import net.imshit.utils.control.HeroController;
 import net.imshit.io.resource.ImageManager;
 import net.imshit.logic.config.Difficulty;
 import net.imshit.logic.game.generate.AbstractGenerateStrategy;
@@ -40,7 +41,7 @@ public class GamePanel extends JPanel {
     private final List<AbstractBullet> heroBullets = new LinkedList<>();
     private final List<AbstractBullet> enemyBullets = new LinkedList<>();
     private final List<AbstractProp> enemyProps = new LinkedList<>();
-    private final List<GameOverCallback> callbacks = new LinkedList<>();
+    private final List<Callback<GamePanel>> callbacks = new LinkedList<>();
     private final AbstractPaintStrategy paintStrategy = new SimplePaintStrategy();
     private ScheduledExecutorService executorService;
     private AbstractEnemy boss;
@@ -91,7 +92,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void addGameOverCallback(GameOverCallback callback) {
+    public void addGameOverCallback(Callback<GamePanel> callback) {
         callbacks.add(callback);
     }
 
@@ -226,12 +227,4 @@ public class GamePanel extends JPanel {
         this.paintStrategy.draw(g, this.enemyBullets, this.enemyProps, this.heroBullets, this.enemyAircraftObjects, this.heroAircraft, this.score);
     }
 
-    public interface GameOverCallback {
-        /**
-         * 当游戏结束后，执行回调函数
-         *
-         * @param host Game对象本身
-         */
-        void action(GamePanel host);
-    }
 }

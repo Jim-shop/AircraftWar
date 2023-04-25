@@ -1,5 +1,6 @@
 package net.imshit.gui;
 
+import net.imshit.utils.callback.Callback;
 import net.imshit.io.scoreboard.ScoreInfo;
 import net.imshit.io.scoreboard.ScoreboardDaoFile;
 import net.imshit.logic.config.Difficulty;
@@ -21,7 +22,7 @@ public class ScoreboardPanel extends JPanel {
 
     private final JTable table = new JTable();
     private final String[] caption = {"Name", "Score", "Time"};
-    private final List<ScoreboardReturnCallback> callbacks = new LinkedList<>();
+    private final List<Callback<ScoreboardPanel>> callbacks = new LinkedList<>();
     private ScoreboardDaoFile dao;
     private List<ScoreInfo> rawData;
     private String[][] displayData;
@@ -134,7 +135,7 @@ public class ScoreboardPanel extends JPanel {
         this.add(new JPanel(), constrain);
     }
 
-    public void addScoreboardReturnCallback(ScoreboardReturnCallback callback) {
+    public void addScoreboardReturnCallback(Callback<ScoreboardPanel> callback) {
         callbacks.add(callback);
     }
 
@@ -173,12 +174,4 @@ public class ScoreboardPanel extends JPanel {
         this.askAndSave(host);
     }
 
-    public interface ScoreboardReturnCallback {
-        /**
-         * 当点击返回主页按钮后，执行回调函数
-         *
-         * @param host Scoreboard对象本身
-         */
-        void action(ScoreboardPanel host);
-    }
 }

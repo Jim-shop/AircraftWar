@@ -58,7 +58,7 @@ public class Main {
                 scoreboard.action(host);
             });
             scoreboard.addScoreboardReturnCallback(host -> {
-                cardLayout.first(panel);
+                cardLayout.next(panel);
                 setting.action(host);
             });
         });

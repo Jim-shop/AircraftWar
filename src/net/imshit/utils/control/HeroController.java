@@ -1,4 +1,4 @@
-package net.imshit.io.control;
+package net.imshit.utils.control;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.hero.HeroAircraft;

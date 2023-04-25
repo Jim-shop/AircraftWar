@@ -1,13 +1,10 @@
 package net.imshit.logic.game.music;
 
-import net.imshit.io.music.AudioThread;
+import net.imshit.utils.music.AudioThread;
 import net.imshit.io.resource.AudioManager;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 有音效
@@ -16,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BasicMusicStrategy extends AbstractMusicStrategy {
 
-    private final ExecutorService pool = new ThreadPoolExecutor(32, 64, 20, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(512), new BasicThreadFactory.Builder().namingPattern("music-thread-%d").daemon(true).build());
+    private final ExecutorService pool = new ThreadPoolExecutor(32, 64, 10, TimeUnit.SECONDS, new SynchronousQueue<>(), new BasicThreadFactory.Builder().namingPattern("music-thread-%d").daemon(true).build());
     private AudioThread bgmThread;
 
     @Override

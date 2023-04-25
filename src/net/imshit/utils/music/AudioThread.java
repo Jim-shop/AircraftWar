@@ -1,4 +1,4 @@
-package net.imshit.io.music;
+package net.imshit.utils.music;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -31,9 +31,11 @@ public class AudioThread extends Thread {
             } else {
                 clip.start();
             }
-            do {
-                Thread.sleep(500);
-            } while (!this.isInterrupted() && clip.isActive());
+            synchronized (this) {
+                do {
+                    this.wait(500);
+                } while (!this.isInterrupted() && clip.isActive());
+            }
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         } catch (InterruptedException ignored) {

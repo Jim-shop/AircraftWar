@@ -1,5 +1,6 @@
 package net.imshit.gui;
 
+import net.imshit.utils.callback.Callback;
 import net.imshit.logic.config.Difficulty;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Jim
  */
 public class SettingPanel extends JPanel {
-    private final List<DifficultyChangeCallback> callbacks = new LinkedList<>();
+    private final List<Callback<SettingPanel>> callbacks = new LinkedList<>();
     private Difficulty difficulty = Difficulty.NOTSET;
     private boolean musicOn = true;
 
@@ -131,7 +132,7 @@ public class SettingPanel extends JPanel {
         return musicOn;
     }
 
-    public void addDifficultyChangeCallback(DifficultyChangeCallback callback) {
+    public void addDifficultyChangeCallback(Callback<SettingPanel> callback) {
         callbacks.add(callback);
     }
 
