@@ -1,6 +1,6 @@
 package net.imshit.element.prop;
 
-import net.imshit.element.aircraft.hero.HeroAircraft;
+import net.imshit.gui.GamePanel;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,16 +16,17 @@ public class BulletProp extends AbstractProp {
     }
 
     @Override
-    public void use(HeroAircraft hero) {
+    public void activate(GamePanel game) {
         usedCount.getAndIncrement();
-        hero.setShootNum(3);
+        var heroAircraft = game.getHeroAircraft();
+        heroAircraft.setShootNum(3);
         new Thread(() -> {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(10000);
             } catch (InterruptedException ignored) {
             }
             if (usedCount.decrementAndGet() == 0) {
-                hero.setShootNum(1);
+                heroAircraft.setShootNum(1);
             }
         }).start();
     }

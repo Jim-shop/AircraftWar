@@ -1,13 +1,15 @@
 package net.imshit.gui;
 
-import net.imshit.utils.callback.Callback;
 import net.imshit.io.scoreboard.ScoreInfo;
 import net.imshit.io.scoreboard.ScoreboardDaoFile;
 import net.imshit.logic.config.Difficulty;
+import net.imshit.utils.callback.Callback;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.Closeable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -18,13 +20,12 @@ import java.util.List;
  *
  * @author Jim
  */
-public class ScoreboardPanel extends JPanel {
+public class ScoreboardPanel extends JPanel implements Closeable {
 
     private final JTable table = new JTable();
     private final String[] caption = {"Name", "Score", "Time"};
     private final List<Callback<ScoreboardPanel>> callbacks = new LinkedList<>();
     private ScoreboardDaoFile dao;
-    private List<ScoreInfo> rawData;
     private String[][] displayData;
     private Difficulty difficulty;
 
@@ -92,13 +93,7 @@ public class ScoreboardPanel extends JPanel {
         constrain.gridwidth = 2;
         constrain.weightx = 2;
         var buttonDelete = new JButton("Delete");
-        buttonDelete.addActionListener(event -> {
-            var rows = table.getSelectedRows();
-            for (var index : rows) {
-                dao.deleteItem(rawData.get(index));
-            }
-            this.load();
-        });
+        buttonDelete.addActionListener(this::removeItems);
         this.add(buttonDelete, constrain);
 
         // spacerM
@@ -133,6 +128,9 @@ public class ScoreboardPanel extends JPanel {
         constrain.weightx = 7;
         constrain.weighty = 1;
         this.add(new JPanel(), constrain);
+
+        /* 扫尾 */
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     public void addScoreboardReturnCallback(Callback<ScoreboardPanel> callback) {
@@ -140,16 +138,23 @@ public class ScoreboardPanel extends JPanel {
     }
 
     private void load() {
+        if (this.dao != null) {
+            this.dao.close();
+        }
         this.dao = new ScoreboardDaoFile(switch (difficulty) {
             case EASY -> "./record-easy.dat";
             case MEDIUM -> "./record-medium.dat";
             case HARD -> "./record-hard.dat";
             default -> "./record.dat";
         });
-        this.rawData = this.dao.getTopK(-1);
-        this.displayData = new String[this.rawData.size()][];
+        this.refresh();
+    }
+
+    private void refresh() {
+        var rawData = this.dao.getTopK(-1);
+        this.displayData = new String[rawData.size()][];
         var index = 0;
-        for (var item : this.rawData) {
+        for (var item : rawData) {
             this.displayData[index++] = new String[]{item.name(), String.valueOf(item.score()), item.time().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)};
         }
         this.table.setModel(new DefaultTableModel(this.displayData, this.caption) {
@@ -163,8 +168,8 @@ public class ScoreboardPanel extends JPanel {
     private void askAndSave(GamePanel host) {
         var name = JOptionPane.showInputDialog("Enter your name:", "player");
         if (name != null) {
-            dao.addItem(new ScoreInfo(name, host.getScore(), LocalDateTime.now()));
-            this.load();
+            this.dao.addItem(new ScoreInfo(name, host.getScore(), LocalDateTime.now()));
+            this.refresh();
         }
     }
 
@@ -174,4 +179,15 @@ public class ScoreboardPanel extends JPanel {
         this.askAndSave(host);
     }
 
+    @Override
+    public void close() {
+        if (this.dao != null) {
+            this.dao.close();
+        }
+    }
+
+    private void removeItems(ActionEvent event) {
+        this.dao.deleteItem(this.table.getSelectedRows());
+        this.refresh();
+    }
 }

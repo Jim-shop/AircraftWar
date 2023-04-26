@@ -6,8 +6,6 @@ import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.basic.AbstractFlyingObject;
 import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.prop.AbstractProp;
-import net.imshit.utils.callback.Callback;
-import net.imshit.utils.control.HeroController;
 import net.imshit.io.resource.ImageManager;
 import net.imshit.logic.config.Difficulty;
 import net.imshit.logic.game.generate.AbstractGenerateStrategy;
@@ -18,7 +16,9 @@ import net.imshit.logic.game.music.AbstractMusicStrategy;
 import net.imshit.logic.game.music.BasicMusicStrategy;
 import net.imshit.logic.game.music.MuteMusicStrategy;
 import net.imshit.logic.game.paint.AbstractPaintStrategy;
-import net.imshit.logic.game.paint.SimplePaintStrategy;
+import net.imshit.logic.game.paint.FancyPaintStrategy;
+import net.imshit.utils.callback.Callback;
+import net.imshit.utils.control.HeroController;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -42,7 +42,7 @@ public class GamePanel extends JPanel {
     private final List<AbstractBullet> enemyBullets = new LinkedList<>();
     private final List<AbstractProp> enemyProps = new LinkedList<>();
     private final List<Callback<GamePanel>> callbacks = new LinkedList<>();
-    private final AbstractPaintStrategy paintStrategy = new SimplePaintStrategy();
+    private final AbstractPaintStrategy paintStrategy = new FancyPaintStrategy();
     private ScheduledExecutorService executorService;
     private AbstractEnemy boss;
     private AbstractGenerateStrategy generateStrategy = new EasyGenerateStrategy();
@@ -56,6 +56,9 @@ public class GamePanel extends JPanel {
         new HeroController(this, heroAircraft);
     }
 
+    public HeroAircraft getHeroAircraft() {
+        return heroAircraft;
+    }
     public int getScore() {
         return score;
     }
@@ -175,7 +178,7 @@ public class GamePanel extends JPanel {
                 enemyAircraft.decreaseHp(bullet.getPower());
                 if (enemyAircraft.notValid()) {
                     enemyProps.addAll(enemyAircraft.prop());
-                    score += 30;
+                    score += enemyAircraft.getCredits();
                 }
                 bullet.vanish();
                 musicStrategy.playBulletHit();
@@ -190,7 +193,7 @@ public class GamePanel extends JPanel {
 
         // 我方获得道具，道具生效
         enemyProps.stream().filter(heroAircraft::crash).forEach(prop -> {
-            prop.use(heroAircraft);
+            prop.activate(this);
             prop.vanish();
             musicStrategy.playGetSupply();
         });

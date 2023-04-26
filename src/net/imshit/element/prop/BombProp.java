@@ -1,6 +1,6 @@
 package net.imshit.element.prop;
 
-import net.imshit.element.aircraft.hero.HeroAircraft;
+import net.imshit.gui.GamePanel;
 
 /**
  * @author Jim
@@ -12,7 +12,7 @@ public class BombProp extends AbstractProp {
     }
 
     @Override
-    public void use(HeroAircraft hero) {
-        System.out.println("FireSupply active!");
+    public void activate(GamePanel game) {
+        System.out.println("BombSupply active!");
     }
 }

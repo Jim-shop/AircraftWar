@@ -1,7 +1,7 @@
 package net.imshit.element.prop;
 
-import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.gui.GamePanel;
 
 /**
  * @author Jim
@@ -15,8 +15,7 @@ public abstract class AbstractProp extends AbstractFlyingObject {
     /**
      * 对英雄机使用道具
      *
-     * @param hero 英雄机实例
+     * @param game 英雄机实例
      */
-    public abstract void use(HeroAircraft hero);
-
+    public abstract void activate(GamePanel game);
 }

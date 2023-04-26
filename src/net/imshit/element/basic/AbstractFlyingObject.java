@@ -166,5 +166,8 @@ public abstract class AbstractFlyingObject {
         isValid = false;
     }
 
+    public int getCredits() {
+        return 0;
+    }
 }
 

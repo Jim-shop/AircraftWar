@@ -12,4 +12,8 @@ public class MobEnemy extends AbstractEnemy {
         super(locationX, locationY, speedX, speedY, hp, 0, 0);
     }
 
+    @Override
+    public int getCredits() {
+        return 60;
+    }
 }

@@ -2,8 +2,8 @@ package net.imshit.prop;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.enemy.EliteEnemy;
-import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.prop.BloodProp;
+import net.imshit.gui.GamePanel;
 import net.imshit.io.resource.ImageManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,17 +33,9 @@ class BloodPropTest {
     @Test
     @DisplayName("Test `forward`, `getLocationX`, `getLocationY`, `getSpeedY`, `getHp`, `notValid`")
     void forward() {
-        assertAll(
-                () -> assertEquals(this.initialX, this.bloodProp.getLocationX()),
-                () -> assertEquals(this.initialY, this.bloodProp.getLocationY()),
-                () -> assertEquals(this.initialSpeedY, this.bloodProp.getSpeedY())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.bloodProp.getLocationX()), () -> assertEquals(this.initialY, this.bloodProp.getLocationY()), () -> assertEquals(this.initialSpeedY, this.bloodProp.getSpeedY()));
         this.bloodProp.forward();
-        assertAll(
-                () -> assertEquals(this.initialX, this.bloodProp.getLocationX()),
-                () -> assertEquals(this.initialY + this.initialSpeedY, this.bloodProp.getLocationY()),
-                () -> assertEquals(this.initialSpeedY, this.bloodProp.getSpeedY())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.bloodProp.getLocationX()), () -> assertEquals(this.initialY + this.initialSpeedY, this.bloodProp.getLocationY()), () -> assertEquals(this.initialSpeedY, this.bloodProp.getSpeedY()));
         assertFalse(this.bloodProp.notValid());
         for (var iter = (Config.WINDOW_HEIGHT - this.initialY) / this.initialSpeedY + 5; iter >= 0; iter--) {
             this.bloodProp.forward();
@@ -67,8 +59,7 @@ class BloodPropTest {
                 // 左侧挨着判定框
                 () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100, 20))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20)))
-        );
+                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20))));
         var midHeightDis = (this.bloodProp.getHeight() + same.getHeight() / 2) / 2;
         assertAll(
                 // 上侧挨着判定框
@@ -99,8 +90,7 @@ class BloodPropTest {
                 // 左侧挨着判定框
                 () -> assertFalse(this.bloodProp.crash(new BloodProp(this.initialX - midWidthDis, this.initialY, 0, 0))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.bloodProp.crash(new BloodProp(this.initialX - midWidthDis + 1, this.initialY, 0, 0)))
-        );
+                () -> assertTrue(this.bloodProp.crash(new BloodProp(this.initialX - midWidthDis + 1, this.initialY, 0, 0))));
         var midHeightDis = (this.bloodProp.getHeight() + same.getHeight()) / 2;
         assertAll(
                 // 上侧挨着判定框
@@ -110,22 +100,15 @@ class BloodPropTest {
                 // 左侧挨着判定框
                 () -> assertFalse(this.bloodProp.crash(new BloodProp(this.initialX, this.initialY + midHeightDis, 0, 0))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.bloodProp.crash(new BloodProp(this.initialX, this.initialY + midHeightDis - 1, 0, 0)))
-        );
+                () -> assertTrue(this.bloodProp.crash(new BloodProp(this.initialX, this.initialY + midHeightDis - 1, 0, 0))));
     }
 
     @Test
     @DisplayName("Test `setLocation`, `getLocationX` and `getLocationY` method")
     void locationGetSet() {
-        assertAll(
-                () -> assertEquals(this.initialX, this.bloodProp.getLocationX()),
-                () -> assertEquals(this.initialY, this.bloodProp.getLocationY())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.bloodProp.getLocationX()), () -> assertEquals(this.initialY, this.bloodProp.getLocationY()));
         this.bloodProp.setLocation(114, 514);
-        assertAll(
-                () -> assertEquals(114, this.bloodProp.getLocationX()),
-                () -> assertEquals(514, this.bloodProp.getLocationY())
-        );
+        assertAll(() -> assertEquals(114, this.bloodProp.getLocationX()), () -> assertEquals(514, this.bloodProp.getLocationY()));
     }
 
     @Test
@@ -149,14 +132,15 @@ class BloodPropTest {
     @Test
     @DisplayName("Test `use` method")
     void use() {
-        var hero = HeroAircraft.getInstance();
+        var game = new GamePanel();
+        var hero = game.getHeroAircraft();
         hero.decreaseHp(114514);
         assertEquals(0, hero.getHp());
-        this.bloodProp.use(hero);
+        this.bloodProp.activate(game);
         assertEquals(100, hero.getHp());
         hero.increaseHp(811);
         assertEquals(911, hero.getHp());
-        this.bloodProp.use(hero);
+        this.bloodProp.activate(game);
         assertEquals(1000, hero.getHp());
     }
 }

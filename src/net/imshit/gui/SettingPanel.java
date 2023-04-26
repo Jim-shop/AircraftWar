@@ -144,14 +144,4 @@ public class SettingPanel extends JPanel {
 
     public void action(ScoreboardPanel scoreboardPanel) {
     }
-
-    public interface DifficultyChangeCallback {
-
-        /**
-         * 当游戏难度被选择时，调用回调函数
-         *
-         * @param host 难度选择面板本身
-         */
-        void action(SettingPanel host);
-    }
 }

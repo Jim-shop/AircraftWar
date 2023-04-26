@@ -42,4 +42,9 @@ public class BossEnemy extends AbstractEnemy {
         }
         return props;
     }
+
+    @Override
+    public int getCredits() {
+        return 200;
+    }
 }

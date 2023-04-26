@@ -1,7 +1,9 @@
 package net.imshit.logic.game.paint;
 
+import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
-import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.element.bullet.AbstractBullet;
+import net.imshit.element.prop.AbstractProp;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,6 +18,10 @@ public abstract class AbstractPaintStrategy {
 
     protected BufferedImage backgroundImage;
 
+    public void setBackgroundImage(BufferedImage backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
+
     /**
      * 绘制游戏界面
      *
@@ -27,9 +33,5 @@ public abstract class AbstractPaintStrategy {
      * @param heroAircraft         英雄机实例
      * @param score                得分
      */
-    public abstract void draw(Graphics g, java.util.List<? extends AbstractFlyingObject> enemyBullets, java.util.List<? extends AbstractFlyingObject> enemyProps, java.util.List<? extends AbstractFlyingObject> heroBullets, List<? extends AbstractFlyingObject> enemyAircraftObjects, HeroAircraft heroAircraft, int score);
-
-    public void setBackgroundImage(BufferedImage backgroundImage) {
-        this.backgroundImage = backgroundImage;
-    }
+    public abstract void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, HeroAircraft heroAircraft, int score);
 }

@@ -29,4 +29,10 @@ public interface ScoreboardDao {
      * @param item 项目
      */
     void deleteItem(ScoreInfo item);
+
+    /**
+     * 从计分板删除项目
+     * @param indices 内部序号
+     */
+    void deleteItem(int[] indices);
 }

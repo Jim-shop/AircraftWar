@@ -4,19 +4,19 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 计分板DAO的文件实现
  *
  * @author Jim
  */
-public class ScoreboardDaoFile implements ScoreboardDao {
+public class ScoreboardDaoFile implements ScoreboardDao, Closeable {
 
     private final File f;
-    private List<ScoreInfo> buffer;
+    private final List<ScoreInfo> buffer;
 
     public ScoreboardDaoFile(String path) {
         this.f = new File(path);
@@ -51,19 +51,24 @@ public class ScoreboardDaoFile implements ScoreboardDao {
 
     @Override
     public void addItem(ScoreInfo item) {
-        buffer.remove(item);
-        buffer.add(item);
-        buffer.sort(Comparator.comparingInt(ScoreInfo::score).reversed());
-        try (var oos = new ObjectOutputStream(new FileOutputStream(f))) {
-            oos.writeObject(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!buffer.contains(item)) {
+            buffer.add(item);
+            buffer.sort(Comparator.comparingInt(ScoreInfo::score).reversed());
         }
     }
 
     @Override
     public void deleteItem(ScoreInfo item) {
         buffer.remove(item);
+    }
+
+    @Override
+    public void deleteItem(int[] indices) {
+        Arrays.stream(indices).boxed().sorted(Comparator.reverseOrder()).forEach(index -> buffer.remove(index.intValue()));
+    }
+
+    @Override
+    public void close() {
         try (var oos = new ObjectOutputStream(new FileOutputStream(f))) {
             oos.writeObject(buffer);
         } catch (IOException e) {

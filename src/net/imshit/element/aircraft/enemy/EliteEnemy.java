@@ -27,4 +27,9 @@ public class EliteEnemy extends AbstractEnemy {
         }
         return List.of();
     }
+
+    @Override
+    public int getCredits() {
+        return 30;
+    }
 }

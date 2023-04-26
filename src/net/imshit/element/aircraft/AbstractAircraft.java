@@ -50,6 +50,9 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         return hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
 
     /**
      * 飞机射击方法

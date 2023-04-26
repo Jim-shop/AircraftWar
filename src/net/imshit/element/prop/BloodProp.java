@@ -1,6 +1,6 @@
 package net.imshit.element.prop;
 
-import net.imshit.element.aircraft.hero.HeroAircraft;
+import net.imshit.gui.GamePanel;
 
 /**
  * @author Jim
@@ -12,7 +12,7 @@ public class BloodProp extends AbstractProp {
     }
 
     @Override
-    public void use(HeroAircraft hero) {
-        hero.increaseHp(100);
+    public void activate(GamePanel game) {
+        game.getHeroAircraft().increaseHp(100);
     }
 }
