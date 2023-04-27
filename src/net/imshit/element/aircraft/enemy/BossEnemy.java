@@ -47,4 +47,9 @@ public class BossEnemy extends AbstractEnemy {
     public int getCredits() {
         return 200;
     }
+
+    @Override
+    public void explode() {
+        this.hp /= 2;
+    }
 }

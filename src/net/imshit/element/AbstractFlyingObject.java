@@ -1,4 +1,4 @@
-package net.imshit.element.basic;
+package net.imshit.element;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.AbstractAircraft;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 /**
  * 可飞行对象的父类
  *
- * @author hitsz
+ * @author jim
  */
 public abstract class AbstractFlyingObject {
 
@@ -93,20 +93,15 @@ public abstract class AbstractFlyingObject {
      */
     public boolean crash(AbstractFlyingObject flyingObject) {
         // 缩放因子，用于控制 y轴方向区域范围
-        //我方
         var factor = this instanceof AbstractAircraft ? 2 : 1;
-        //对方
         var fFactor = flyingObject instanceof AbstractAircraft ? 2 : 1;
-        //对方坐标、宽度、高度
-        var x = flyingObject.getLocationX();
-        var y = flyingObject.getLocationY();
-        var fWidth = flyingObject.getWidth();
-        var fHeight = flyingObject.getHeight();
 
-        return x + (fWidth + this.getWidth()) / 2f > locationX
-                && x - (fWidth + this.getWidth()) / 2f < locationX
-                && y + (fHeight / fFactor + this.getHeight() / factor) / 2f > locationY
-                && y - (fHeight / fFactor + this.getHeight() / factor) / 2f < locationY;
+        var fLocationX = flyingObject.getLocationX();
+        var fLocationY = flyingObject.getLocationY();
+        var xLimit = (this.getWidth() + flyingObject.getWidth()) / 2f;
+        var yLimit = (this.getHeight() / factor + flyingObject.getHeight() / fFactor) / 2f;
+
+        return Math.abs(locationX - fLocationX) < xLimit && Math.abs(locationY - fLocationY) < yLimit;
     }
 
     public float getLocationX() {
@@ -157,8 +152,11 @@ public abstract class AbstractFlyingObject {
         return this.isValid;
     }
 
+    public void explode() {
+        vanish();
+    }
+
     /**
-     * 标记消失，
      * isValid = false.
      * notValid() => true.
      */

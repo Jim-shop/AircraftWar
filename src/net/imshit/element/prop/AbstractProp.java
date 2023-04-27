@@ -1,6 +1,6 @@
 package net.imshit.element.prop;
 
-import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.element.AbstractFlyingObject;
 import net.imshit.gui.GamePanel;
 
 /**

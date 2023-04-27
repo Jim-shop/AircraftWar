@@ -1,9 +1,10 @@
 package net.imshit.logic.game.paint;
 
 import net.imshit.Config;
+import net.imshit.element.AbstractFlyingObject;
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
-import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.prop.AbstractProp;
 
@@ -40,7 +41,7 @@ public class SimplePaintStrategy extends AbstractPaintStrategy {
 
 
     @Override
-    public void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, HeroAircraft heroAircraft, int score) {
+    public void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, List<DyingAnimation> animations, HeroAircraft heroAircraft, int score) {
         // 绘制背景,图片滚动
         g.drawImage(this.backgroundImage, 0, (int) this.backGroundTop - Config.WINDOW_HEIGHT, null);
         g.drawImage(this.backgroundImage, 0, (int) this.backGroundTop, null);

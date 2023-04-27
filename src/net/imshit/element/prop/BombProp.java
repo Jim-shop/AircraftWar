@@ -13,6 +13,6 @@ public class BombProp extends AbstractProp {
 
     @Override
     public void activate(GamePanel game) {
-        System.out.println("BombSupply active!");
+        game.bombActivate();
     }
 }

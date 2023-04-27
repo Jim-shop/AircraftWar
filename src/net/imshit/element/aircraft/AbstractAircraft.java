@@ -1,6 +1,7 @@
 package net.imshit.element.aircraft;
 
-import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.element.AbstractFlyingObject;
+import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.shoot.AbstractShootStrategyFactory;
 import net.imshit.element.shoot.ShootStrategy;
@@ -61,6 +62,10 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      */
     public List<? extends AbstractBullet> shoot() {
         return this.shootStrategy.shoot(this.locationX, this.locationY, this.speedY, this.power);
+    }
+
+    public DyingAnimation getAnimation() {
+        return new DyingAnimation(this);
     }
 
 }

@@ -1,6 +1,6 @@
 package net.imshit.element.bullet;
 
-import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.element.AbstractFlyingObject;
 
 /**
  * 子弹类。

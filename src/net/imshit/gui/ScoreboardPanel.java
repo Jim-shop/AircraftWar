@@ -1,6 +1,7 @@
 package net.imshit.gui;
 
 import net.imshit.io.scoreboard.ScoreInfo;
+import net.imshit.io.scoreboard.ScoreboardDao;
 import net.imshit.io.scoreboard.ScoreboardDaoFile;
 import net.imshit.logic.config.Difficulty;
 import net.imshit.utils.callback.Callback;
@@ -25,7 +26,7 @@ public class ScoreboardPanel extends JPanel implements Closeable {
     private final JTable table = new JTable();
     private final String[] caption = {"Name", "Score", "Time"};
     private final List<Callback<ScoreboardPanel>> callbacks = new LinkedList<>();
-    private ScoreboardDaoFile dao;
+    private ScoreboardDao dao;
     private String[][] displayData;
     private Difficulty difficulty;
 

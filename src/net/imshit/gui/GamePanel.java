@@ -1,9 +1,10 @@
 package net.imshit.gui;
 
 import net.imshit.Config;
+import net.imshit.element.AbstractFlyingObject;
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
-import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.prop.AbstractProp;
 import net.imshit.io.resource.ImageManager;
@@ -23,11 +24,13 @@ import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 /**
  * 游戏主面板，游戏启动
@@ -41,8 +44,11 @@ public class GamePanel extends JPanel {
     private final List<AbstractBullet> heroBullets = new LinkedList<>();
     private final List<AbstractBullet> enemyBullets = new LinkedList<>();
     private final List<AbstractProp> enemyProps = new LinkedList<>();
+    private final List<DyingAnimation> animations = new LinkedList<>();
+    private final List<List<? extends AbstractFlyingObject>> elementLists = List.of(enemyAircraftObjects, heroBullets, enemyBullets, enemyProps, animations);
     private final List<Callback<GamePanel>> callbacks = new LinkedList<>();
     private final AbstractPaintStrategy paintStrategy = new FancyPaintStrategy();
+
     private ScheduledExecutorService executorService;
     private AbstractEnemy boss;
     private AbstractGenerateStrategy generateStrategy = new EasyGenerateStrategy();
@@ -59,6 +65,7 @@ public class GamePanel extends JPanel {
     public HeroAircraft getHeroAircraft() {
         return heroAircraft;
     }
+
     public int getScore() {
         return score;
     }
@@ -99,6 +106,15 @@ public class GamePanel extends JPanel {
         callbacks.add(callback);
     }
 
+    public void bombActivate() {
+        Stream.of(this.enemyAircraftObjects, this.enemyBullets).flatMap(Collection::stream).forEach(AbstractFlyingObject::explode);
+        this.enemyAircraftObjects.stream().filter(AbstractFlyingObject::notValid).forEach(aircraft -> {
+            this.animations.add(aircraft.getAnimation());
+            this.score += aircraft.getCredits();
+        });
+        this.musicStrategy.playBombExplosion();
+    }
+
     /**
      * 游戏启动入口，执行游戏逻辑
      */
@@ -114,10 +130,7 @@ public class GamePanel extends JPanel {
 
         this.executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
         this.heroAircraft.reset();
-        this.enemyAircraftObjects.clear();
-        this.heroBullets.clear();
-        this.enemyBullets.clear();
-        this.enemyProps.clear();
+        this.elementLists.forEach(List::clear);
         this.boss = null;
         this.score = 0;
     }
@@ -152,10 +165,7 @@ public class GamePanel extends JPanel {
     }
 
     private void moveAction() {
-        this.heroBullets.forEach(AbstractBullet::forward);
-        this.enemyBullets.forEach(AbstractBullet::forward);
-        this.enemyAircraftObjects.forEach(AbstractEnemy::forward);
-        this.enemyProps.forEach(AbstractProp::forward);
+        this.elementLists.forEach(list -> list.forEach(AbstractFlyingObject::forward));
     }
 
     private void shootAction() {
@@ -178,6 +188,7 @@ public class GamePanel extends JPanel {
                 enemyAircraft.decreaseHp(bullet.getPower());
                 if (enemyAircraft.notValid()) {
                     enemyProps.addAll(enemyAircraft.prop());
+                    animations.add(enemyAircraft.getAnimation());
                     score += enemyAircraft.getCredits();
                 }
                 bullet.vanish();
@@ -210,10 +221,7 @@ public class GamePanel extends JPanel {
     }
 
     private void cleanInvalid() {
-        this.enemyBullets.removeIf(AbstractFlyingObject::notValid);
-        this.heroBullets.removeIf(AbstractFlyingObject::notValid);
-        this.enemyAircraftObjects.removeIf(AbstractFlyingObject::notValid);
-        this.enemyProps.removeIf(AbstractFlyingObject::notValid);
+        this.elementLists.forEach((list -> list.removeIf(AbstractFlyingObject::notValid)));
         if (this.boss != null && this.boss.notValid()) {
             this.boss = null;
             this.musicStrategy.setBgm(AbstractMusicStrategy.BgmType.NORMAL);
@@ -227,7 +235,6 @@ public class GamePanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        this.paintStrategy.draw(g, this.enemyBullets, this.enemyProps, this.heroBullets, this.enemyAircraftObjects, this.heroAircraft, this.score);
+        this.paintStrategy.draw(g, this.enemyBullets, this.enemyProps, this.heroBullets, this.enemyAircraftObjects, this.animations, this.heroAircraft, this.score);
     }
-
 }

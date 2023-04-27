@@ -1,10 +1,11 @@
 package net.imshit.logic.game.paint;
 
 import net.imshit.Config;
+import net.imshit.element.AbstractFlyingObject;
 import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
-import net.imshit.element.basic.AbstractFlyingObject;
+import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.prop.AbstractProp;
 
@@ -23,11 +24,11 @@ public class FancyPaintStrategy extends AbstractPaintStrategy {
     public static final int BAR_OFFSET = 5;
     public static final Font BAR_FONT = new Font("SansSerif", Font.PLAIN, 10);
     public static final int BAR_TEXT_OFFSET = 5;
-    private static final int BAR_LENGTH = 20;
-    private static final int BAR_HEIGHT = 3;
     public static final int SCORE_X = 10;
     public static final int SCORE_Y = 25;
     public static final Font SCORE_FONT = new Font("SansSerif", Font.BOLD, 22);
+    private static final int BAR_LENGTH = 20;
+    private static final int BAR_HEIGHT = 3;
     private float backGroundTop = 0;
 
     private void paintObject(Graphics g, AbstractFlyingObject object) {
@@ -62,7 +63,7 @@ public class FancyPaintStrategy extends AbstractPaintStrategy {
 
 
     @Override
-    public void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, HeroAircraft heroAircraft, int score) {
+    public void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, List<DyingAnimation> animations, HeroAircraft heroAircraft, int score) {
         // 绘制背景,图片滚动
         g.drawImage(this.backgroundImage, 0, (int) this.backGroundTop - Config.WINDOW_HEIGHT, null);
         g.drawImage(this.backgroundImage, 0, (int) this.backGroundTop, null);
@@ -73,7 +74,7 @@ public class FancyPaintStrategy extends AbstractPaintStrategy {
 
         // 先绘制子弹，后绘制飞机
         // 这样子弹显示在飞机的下层
-        Stream.of(enemyBullets, enemyProps, heroBullets, enemyAircraftObjects, List.of(heroAircraft)).flatMap(Collection::stream).forEach(object -> this.paintObject(g, object));
+        Stream.of(animations, enemyProps, enemyBullets, heroBullets, enemyAircraftObjects, List.of(heroAircraft)).flatMap(Collection::stream).forEach(object -> this.paintObject(g, object));
         // 绘制血条
         Stream.of(enemyAircraftObjects, List.of(heroAircraft)).flatMap(Collection::stream).forEach(aircraft -> this.paintLife(g, aircraft));
         //绘制得分和生命值

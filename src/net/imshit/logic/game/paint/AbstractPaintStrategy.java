@@ -2,6 +2,7 @@ package net.imshit.logic.game.paint;
 
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
+import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.prop.AbstractProp;
 
@@ -30,8 +31,9 @@ public abstract class AbstractPaintStrategy {
      * @param enemyProps           敌机掉落物列表
      * @param heroBullets          英雄机子弹列表
      * @param enemyAircraftObjects 敌机列表
+     * @param animations           动画列表
      * @param heroAircraft         英雄机实例
      * @param score                得分
      */
-    public abstract void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, HeroAircraft heroAircraft, int score);
+    public abstract void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, List<DyingAnimation> animations, HeroAircraft heroAircraft, int score);
 }

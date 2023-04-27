@@ -32,7 +32,13 @@ public interface ScoreboardDao {
 
     /**
      * 从计分板删除项目
+     *
      * @param indices 内部序号
      */
     void deleteItem(int[] indices);
+
+    /**
+     * 关闭计分板数据模型（通常来说意味着缓存写回）
+     */
+    void close();
 }
