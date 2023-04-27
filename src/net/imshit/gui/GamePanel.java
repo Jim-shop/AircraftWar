@@ -146,7 +146,7 @@ public class GamePanel extends JPanel {
 
     private void update() {
         this.time += Config.REFRESH_INTERVAL;
-
+        this.generateStrategy.inform(this.time, this.score);
         // 产生新敌机
         this.generateEnemy();
         // 发射子弹
@@ -167,25 +167,25 @@ public class GamePanel extends JPanel {
 
     private void generateEnemy() {
         // BOSS 机产生
-        if (this.generateStrategy.isTimeToGenerateBoss(this.boss, this.score)) {
+        if (this.generateStrategy.isTimeToGenerateBoss(this.boss)) {
             this.boss = this.generateStrategy.generateBoss();
             this.enemyAircraftObjects.add(this.boss);
             this.musicStrategy.setBgm(AbstractMusicStrategy.BgmType.BOSS);
         }
         // 敌机产生
-        if (this.generateStrategy.isTimeToGenerateEnemy(this.time)) {
+        if (this.generateStrategy.isTimeToGenerateEnemy()) {
             this.enemyAircraftObjects.addAll(this.generateStrategy.generateEnemy(enemyAircraftObjects.size()));
         }
     }
 
     private void shootAction() {
         // 敌机射出子弹
-        if (this.generateStrategy.isTimeForEnemyShoot(this.time)) {
+        if (this.generateStrategy.isTimeForEnemyShoot()) {
             this.enemyAircraftObjects.forEach(enemy -> this.enemyBullets.addAll(enemy.shoot()));
             this.musicStrategy.playBullet();
         }
         // 英雄机射出子弹
-        if (this.generateStrategy.isTimeForHeroShoot(this.time)) {
+        if (this.generateStrategy.isTimeForHeroShoot()) {
             this.heroBullets.addAll(heroAircraft.shoot());
             this.musicStrategy.playBullet();
         }

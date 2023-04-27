@@ -16,11 +16,10 @@ public class BossEnemyFactory extends AbstractEnemyFactory {
     }
 
     @Override
-    public BossEnemy createEnemy(int hp, int power) {
+    public BossEnemy createEnemy(int hp, int power, float speed) {
         float locationX = (float) Math.random() * (Config.WINDOW_WIDTH - ImageManager.get(BossEnemy.class).getWidth());
-        float locationY = 0;
-        float speedX = 0.05f * (Math.random() < 0.5 ? -1 : 1);
+        float speedX = speed * (Math.random() < 0.5 ? -1 : 1);
         int shootNum = 3;
-        return new BossEnemy(locationX, locationY, speedX, hp, power, shootNum, this.propGenerateStrategy);
+        return new BossEnemy(locationX, 0, speedX, hp, power, 3, this.propGenerateStrategy);
     }
 }

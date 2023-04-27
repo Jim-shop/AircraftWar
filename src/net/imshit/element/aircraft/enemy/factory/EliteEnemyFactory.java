@@ -16,11 +16,8 @@ public class EliteEnemyFactory extends AbstractEnemyFactory {
     }
 
     @Override
-    public EliteEnemy createEnemy(int hp, int power) {
+    public EliteEnemy createEnemy(int hp, int power, float speed) {
         float locationX = (float) (Math.random() * (Config.WINDOW_WIDTH - ImageManager.get(EliteEnemy.class).getWidth()));
-        float locationY = 0;
-        float speedX = 0;
-        float speedY = 0.1f;
-        return new EliteEnemy(locationX, locationY, speedX, speedY, hp, power, this.propGenerateStrategy);
+        return new EliteEnemy(locationX, 0, 0, speed, hp, power, this.propGenerateStrategy);
     }
 }
