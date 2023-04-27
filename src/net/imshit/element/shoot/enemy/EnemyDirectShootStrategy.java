@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class EnemyDirectShootStrategy implements EnemyShootStrategy {
     @Override
-    public List<AbstractBullet> shoot(float x, float y, float speedY, int power) {
+    public List<EnemyBullet> shoot(float x, float y, float speedY, int power) {
         int direction = 1;
         float bulletY = y + direction * 2;
         float bulletSpeedX = 0;

@@ -14,6 +14,6 @@ public class MobEnemy extends AbstractEnemy {
 
     @Override
     public int getCredits() {
-        return 60;
+        return 30;
     }
 }

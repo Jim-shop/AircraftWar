@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Jim
  */
-public interface ShootStrategy {
+public interface ShootStrategy<T extends AbstractBullet> {
     /**
      * 返回子弹列表
      *
@@ -17,5 +17,5 @@ public interface ShootStrategy {
      * @param power  飞机攻击力
      * @return 发射子弹列表
      */
-    List<AbstractBullet> shoot(float x, float y, float speedY, int power);
+    List<T> shoot(float x, float y, float speedY, int power);
 }

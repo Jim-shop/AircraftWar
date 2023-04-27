@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class HeroScatterShootStrategy implements HeroShootStrategy {
     @Override
-    public List<AbstractBullet> shoot(float x, float y, float speedY, int power) {
-        List<AbstractBullet> res = new LinkedList<>();
+    public List<HeroBullet> shoot(float x, float y, float speedY, int power) {
+        List<HeroBullet> res = new LinkedList<>();
         int direction = -1;
         int shootNum = 3;
         float bulletY = y + direction * 2;

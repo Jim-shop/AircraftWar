@@ -30,6 +30,6 @@ public class EliteEnemy extends AbstractEnemy {
 
     @Override
     public int getCredits() {
-        return 30;
+        return 60;
     }
 }

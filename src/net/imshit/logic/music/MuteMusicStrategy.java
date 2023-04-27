@@ -1,4 +1,4 @@
-package net.imshit.logic.game.music;
+package net.imshit.logic.music;
 
 /**
  * 无音效

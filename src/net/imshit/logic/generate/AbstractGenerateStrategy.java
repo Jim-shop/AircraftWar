@@ -1,4 +1,4 @@
-package net.imshit.logic.game.generate;
+package net.imshit.logic.generate;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.enemy.AbstractEnemy;

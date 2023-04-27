@@ -3,6 +3,7 @@ package net.imshit.element.aircraft;
 import net.imshit.element.AbstractFlyingObject;
 import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
+import net.imshit.element.bullet.EnemyBullet;
 import net.imshit.element.shoot.AbstractShootStrategyFactory;
 import net.imshit.element.shoot.ShootStrategy;
 
@@ -14,17 +15,17 @@ import java.util.List;
  *
  * @author jim
  */
-public abstract class AbstractAircraft extends AbstractFlyingObject {
+public abstract class AbstractAircraft<T extends AbstractBullet> extends AbstractFlyingObject {
     /**
      * 生命值
      */
     protected final int maxHp;
-    protected final AbstractShootStrategyFactory shootStrategyFactory;
-    private final int power;
     protected int hp;
-    protected ShootStrategy shootStrategy;
+    protected final int power;
+    protected final AbstractShootStrategyFactory<T> shootStrategyFactory;
+    protected ShootStrategy<T> shootStrategy;
 
-    public AbstractAircraft(float locationX, float locationY, float speedX, float speedY, int hp, int power, AbstractShootStrategyFactory strategyFactory, int shootNum) {
+    public AbstractAircraft(float locationX, float locationY, float speedX, float speedY, int hp, int power, AbstractShootStrategyFactory<T> strategyFactory, int shootNum) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;
         this.maxHp = hp;
@@ -60,14 +61,13 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      *
      * @return 返回射出的子弹列表（可为空）
      */
-    public List<? extends AbstractBullet> shoot() {
+    public List<T> shoot() {
         return this.shootStrategy.shoot(this.locationX, this.locationY, this.speedY, this.power);
     }
 
     public DyingAnimation getAnimation() {
         return new DyingAnimation(this);
     }
-
 }
 
 

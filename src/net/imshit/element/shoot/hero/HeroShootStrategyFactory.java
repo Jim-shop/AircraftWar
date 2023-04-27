@@ -1,5 +1,6 @@
 package net.imshit.element.shoot.hero;
 
+import net.imshit.element.bullet.HeroBullet;
 import net.imshit.element.shoot.AbstractShootStrategyFactory;
 import net.imshit.element.shoot.ShootStrategy;
 
@@ -10,7 +11,7 @@ import net.imshit.element.shoot.ShootStrategy;
  */
 public class HeroShootStrategyFactory extends AbstractShootStrategyFactory {
     @Override
-    public ShootStrategy getStrategy(int shootNum) {
+    public ShootStrategy<HeroBullet> getStrategy(int shootNum) {
         if (shootNum == 3) {
             return new HeroScatterShootStrategy();
         } else {

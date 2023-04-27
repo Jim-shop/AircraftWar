@@ -1,6 +1,7 @@
 package net.imshit.element.shoot.enemy;
 
 import net.imshit.element.bullet.AbstractBullet;
+import net.imshit.element.bullet.EnemyBullet;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class EnemyNoShootStrategy implements EnemyShootStrategy {
     @Override
-    public List<AbstractBullet> shoot(float x, float y, float speedY, int power) {
+    public List<EnemyBullet> shoot(float x, float y, float speedY, int power) {
         return List.of();
     }
 }

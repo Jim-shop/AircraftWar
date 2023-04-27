@@ -1,9 +1,10 @@
-package net.imshit.logic.game.paint;
+package net.imshit.logic.paint;
 
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.animation.DyingAnimation;
-import net.imshit.element.bullet.AbstractBullet;
+import net.imshit.element.bullet.EnemyBullet;
+import net.imshit.element.bullet.HeroBullet;
 import net.imshit.element.prop.AbstractProp;
 
 import java.awt.*;
@@ -35,5 +36,5 @@ public abstract class AbstractPaintStrategy {
      * @param heroAircraft         英雄机实例
      * @param score                得分
      */
-    public abstract void draw(Graphics g, List<AbstractBullet> enemyBullets, List<AbstractProp> enemyProps, List<AbstractBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, List<DyingAnimation> animations, HeroAircraft heroAircraft, int score);
+    public abstract void draw(Graphics g, List<EnemyBullet> enemyBullets, List<AbstractProp> enemyProps, List<HeroBullet> heroBullets, List<AbstractEnemy> enemyAircraftObjects, List<DyingAnimation> animations, HeroAircraft heroAircraft, int score);
 }

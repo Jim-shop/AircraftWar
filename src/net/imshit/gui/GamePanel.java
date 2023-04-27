@@ -6,20 +6,24 @@ import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
+import net.imshit.element.bullet.EnemyBullet;
+import net.imshit.element.bullet.HeroBullet;
 import net.imshit.element.prop.AbstractProp;
 import net.imshit.io.resource.ImageManager;
 import net.imshit.logic.config.Difficulty;
-import net.imshit.logic.game.generate.AbstractGenerateStrategy;
-import net.imshit.logic.game.generate.EasyGenerateStrategy;
-import net.imshit.logic.game.generate.HardGenerateStrategy;
-import net.imshit.logic.game.generate.MediumGenerateStrategy;
-import net.imshit.logic.game.music.AbstractMusicStrategy;
-import net.imshit.logic.game.music.BasicMusicStrategy;
-import net.imshit.logic.game.music.MuteMusicStrategy;
-import net.imshit.logic.game.paint.AbstractPaintStrategy;
-import net.imshit.logic.game.paint.FancyPaintStrategy;
-import net.imshit.utils.callback.Callback;
-import net.imshit.utils.control.HeroController;
+import net.imshit.logic.generate.AbstractGenerateStrategy;
+import net.imshit.logic.generate.EasyGenerateStrategy;
+import net.imshit.logic.generate.HardGenerateStrategy;
+import net.imshit.logic.generate.MediumGenerateStrategy;
+import net.imshit.logic.listener.Event;
+import net.imshit.logic.music.AbstractMusicStrategy;
+import net.imshit.logic.music.BasicMusicStrategy;
+import net.imshit.logic.music.MuteMusicStrategy;
+import net.imshit.logic.paint.AbstractPaintStrategy;
+import net.imshit.logic.paint.FancyPaintStrategy;
+import net.imshit.logic.callback.Callback;
+import net.imshit.logic.control.HeroController;
+import net.imshit.logic.listener.EnemyListener;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -30,7 +34,6 @@ import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 /**
  * 游戏主面板，游戏启动
@@ -41,11 +44,12 @@ public class GamePanel extends JPanel {
 
     private final HeroAircraft heroAircraft = HeroAircraft.getInstance();
     private final List<AbstractEnemy> enemyAircraftObjects = new LinkedList<>();
-    private final List<AbstractBullet> heroBullets = new LinkedList<>();
-    private final List<AbstractBullet> enemyBullets = new LinkedList<>();
+    private final List<HeroBullet> heroBullets = new LinkedList<>();
+    private final List<EnemyBullet> enemyBullets = new LinkedList<>();
     private final List<AbstractProp> enemyProps = new LinkedList<>();
     private final List<DyingAnimation> animations = new LinkedList<>();
     private final List<List<? extends AbstractFlyingObject>> elementLists = List.of(enemyAircraftObjects, heroBullets, enemyBullets, enemyProps, animations);
+    private final List<List<? extends EnemyListener>> enemyListenerLists = List.of(enemyAircraftObjects, enemyBullets);
     private final List<Callback<GamePanel>> callbacks = new LinkedList<>();
     private final AbstractPaintStrategy paintStrategy = new FancyPaintStrategy();
 
@@ -106,13 +110,13 @@ public class GamePanel extends JPanel {
         callbacks.add(callback);
     }
 
-    public void bombActivate() {
-        Stream.of(this.enemyAircraftObjects, this.enemyBullets).flatMap(Collection::stream).forEach(AbstractFlyingObject::explode);
+    public void notify(Event e) {
+        this.musicStrategy.playBombExplosion();
+        this.enemyListenerLists.stream().flatMap(Collection::stream).forEach(item -> item.notify(e));
         this.enemyAircraftObjects.stream().filter(AbstractFlyingObject::notValid).forEach(aircraft -> {
             this.animations.add(aircraft.getAnimation());
             this.score += aircraft.getCredits();
         });
-        this.musicStrategy.playBombExplosion();
     }
 
     /**

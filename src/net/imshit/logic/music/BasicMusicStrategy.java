@@ -1,7 +1,6 @@
-package net.imshit.logic.game.music;
+package net.imshit.logic.music;
 
 import net.imshit.io.resource.AudioManager;
-import net.imshit.utils.music.AudioThread;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import java.util.concurrent.ExecutorService;

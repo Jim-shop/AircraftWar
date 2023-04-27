@@ -77,13 +77,13 @@ public abstract class AbstractFlyingObject {
     }
 
     /**
-     * 碰撞检测，当对方坐标进入我方范围，判定我方击中<br>
+     * 碰撞检测，当对方坐标进入我方范围，判定我方击中
      * 对方与我方覆盖区域有交叉即判定撞击。
-     * <br>
+     * <br />
      * 非飞机对象区域：
      * 横向，[x - width/2, x + width/2]
      * 纵向，[y - height/2, y + height/2]
-     * <br>
+     * <br />
      * 飞机对象区域：
      * 横向，[x - width/2, x + width/2]
      * 纵向，[y - height/4, y + height/4]
@@ -152,10 +152,6 @@ public abstract class AbstractFlyingObject {
         return this.isValid;
     }
 
-    public void explode() {
-        vanish();
-    }
-
     /**
      * isValid = false.
      * notValid() => true.
@@ -164,8 +160,5 @@ public abstract class AbstractFlyingObject {
         isValid = false;
     }
 
-    public int getCredits() {
-        return 0;
-    }
 }
 

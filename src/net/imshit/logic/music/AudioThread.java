@@ -1,4 +1,4 @@
-package net.imshit.utils.music;
+package net.imshit.logic.music;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;

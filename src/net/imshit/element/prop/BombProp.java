@@ -1,6 +1,7 @@
 package net.imshit.element.prop;
 
 import net.imshit.gui.GamePanel;
+import net.imshit.logic.listener.Event;
 
 /**
  * @author Jim
@@ -13,6 +14,6 @@ public class BombProp extends AbstractProp {
 
     @Override
     public void activate(GamePanel game) {
-        game.bombActivate();
+        game.notify(Event.BOMB_ACTIVATE);
     }
 }

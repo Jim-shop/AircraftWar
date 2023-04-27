@@ -4,6 +4,7 @@ import net.imshit.Config;
 import net.imshit.element.prop.AbstractProp;
 import net.imshit.element.prop.factory.AbstractPropFactory;
 import net.imshit.element.prop.factory.RandomPropFactory;
+import net.imshit.logic.listener.Event;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,8 +19,8 @@ public class BossEnemy extends AbstractEnemy {
 
     private final AbstractPropFactory propFactory = new RandomPropFactory();
 
-    public BossEnemy(float locationX, float locationY, float speedX, float speedY, int hp, int power, int shootNum) {
-        super(locationX, locationY, speedX, speedY, hp, power, shootNum);
+    public BossEnemy(float locationX, float locationY, float speedX, int hp, int power, int shootNum) {
+        super(locationX, locationY, speedX, 0, hp, power, shootNum);
     }
 
     @Override
@@ -49,7 +50,11 @@ public class BossEnemy extends AbstractEnemy {
     }
 
     @Override
-    public void explode() {
-        this.hp /= 2;
+    public void notify(Event e) {
+        switch (e) {
+            case BOMB_ACTIVATE -> this.hp /= 2;
+            default -> {
+            }
+        }
     }
 }

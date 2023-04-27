@@ -1,4 +1,4 @@
-package net.imshit.utils.callback;
+package net.imshit.logic.callback;
 
 /**
  * @author Jim

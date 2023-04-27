@@ -12,19 +12,14 @@ class MobEnemyFactory extends AbstractEnemyFactory {
     + createEnemy(): MobEnemy
 }
 
-class RandomEnemyFactory extends AbstractEnemyFactory {
-    + createEnemy(): AbstractEnemy
+class BossEnemyFactory extends AbstractEnemyFactory {
+    + createEnemy(): BossEnemy
 }
-
-RandomEnemyFactory --> EliteEnemyFactory
-RandomEnemyFactory --> MobEnemyFactory
 
 EliteEnemyFactory ..> EliteEnemy
 MobEnemyFactory ..> MobEnemy
-RandomEnemyFactory ..> AbstractEnemy
+BossEnemyFactory ..> BossEnemy
 
-class Game {}
-
-Game -> RandomEnemyFactory
+AbstractGenerateStrategy -> AbstractEnemyFactory
 
 @enduml

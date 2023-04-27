@@ -4,7 +4,7 @@ import net.imshit.io.scoreboard.ScoreInfo;
 import net.imshit.io.scoreboard.ScoreboardDao;
 import net.imshit.io.scoreboard.ScoreboardDaoFile;
 import net.imshit.logic.config.Difficulty;
-import net.imshit.utils.callback.Callback;
+import net.imshit.logic.callback.Callback;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

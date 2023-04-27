@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class EnemyScatterShootStrategy implements EnemyShootStrategy {
     @Override
-    public List<AbstractBullet> shoot(float x, float y, float speedY, int power) {
-        List<AbstractBullet> res = new LinkedList<>();
+    public List<EnemyBullet> shoot(float x, float y, float speedY, int power) {
+        List<EnemyBullet> res = new LinkedList<>();
         int direction = 1;
         int shootNum = 3;
         float bulletY = y + direction * 2;

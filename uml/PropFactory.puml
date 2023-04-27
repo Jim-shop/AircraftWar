@@ -1,25 +1,25 @@
 @startuml
 
 abstract class AbstractPropFactory {
-    # speedX: int
-    # speedY: int
-    + {abstract} createProp(int locationX, int locationY): AbstractProp
+    # speedX: float
+    # speedY: float
+    + {abstract} createProp(float locationX, float locationY): AbstractProp
 }
 
 class BloodPropFactory extends AbstractPropFactory {
-    + createProp(int locationX, int locationY): BloodProp
+    + createProp(float locationX, float locationY): BloodProp
 }
 
 class BombPropFactory extends AbstractPropFactory {
-    + createProp(int locationX, int locationY): BombProp
+    + createProp(float locationX, float locationY): BombProp
 }
 
 class BulletPropFactory extends AbstractPropFactory {
-    + createProp(int locationX, int locationY): BulletProp
+    + createProp(float locationX, float locationY): BulletProp
 }
 
 class RandomPropFactory extends AbstractPropFactory {
-    + createProp(int locationX, int locationY): AbstractProp
+    + createProp(float locationX, float locationY): AbstractProp
 }
 
 RandomPropFactory --> BloodPropFactory
@@ -31,7 +31,7 @@ BombPropFactory ..> BombProp
 BulletPropFactory ..> BulletProp
 RandomPropFactory ..> AbstractProp
 
-class EliteEnemy{}
 EliteEnemy -> RandomPropFactory
+BossEnemy -> RandomPropFactory
 
 @enduml

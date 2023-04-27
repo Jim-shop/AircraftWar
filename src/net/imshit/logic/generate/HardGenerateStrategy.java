@@ -1,4 +1,4 @@
-package net.imshit.logic.game.generate;
+package net.imshit.logic.generate;
 
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.enemy.factory.AbstractEnemyFactory;
@@ -13,12 +13,12 @@ import java.util.List;
  *
  * @author Jim
  */
-public class EasyGenerateStrategy extends AbstractGenerateStrategy {
+public class HardGenerateStrategy extends AbstractGenerateStrategy {
     private final AbstractEnemyFactory mobFactory = new MobEnemyFactory();
     private final AbstractEnemyFactory eliteFactory = new EliteEnemyFactory();
     private final AbstractEnemyFactory bossFactory = new BossEnemyFactory();
 
-    public EasyGenerateStrategy() {
+    public HardGenerateStrategy() {
         this.mobProbability = 0.8;
         this.enemyMaxNumber = 5;
         this.bossScoreThreshold = 200;
