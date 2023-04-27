@@ -2,11 +2,9 @@ package net.imshit.element.aircraft.enemy;
 
 import net.imshit.Config;
 import net.imshit.element.prop.AbstractProp;
-import net.imshit.element.prop.factory.AbstractPropFactory;
-import net.imshit.element.prop.factory.RandomPropFactory;
+import net.imshit.logic.generate.prop.AbstractPropGenerateStrategy;
 import net.imshit.logic.listener.Event;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,10 +15,11 @@ import java.util.List;
  */
 public class BossEnemy extends AbstractEnemy {
 
-    private final AbstractPropFactory propFactory = new RandomPropFactory();
+    private final AbstractPropGenerateStrategy propGenerateStrategy;
 
-    public BossEnemy(float locationX, float locationY, float speedX, int hp, int power, int shootNum) {
+    public BossEnemy(float locationX, float locationY, float speedX, int hp, int power, int shootNum, AbstractPropGenerateStrategy propGenerateStrategy) {
         super(locationX, locationY, speedX, 0, hp, power, shootNum);
+        this.propGenerateStrategy = propGenerateStrategy;
     }
 
     @Override
@@ -33,15 +32,11 @@ public class BossEnemy extends AbstractEnemy {
 
     @Override
     public List<AbstractProp> prop() {
-        var props = new LinkedList<AbstractProp>();
-        for (var i = -1; i <= 1; i++) {
-            AbstractProp prop = null;
-            while (prop == null) {
-                prop = propFactory.createProp(this.locationX + i * 20, this.locationY - Math.abs(i) * 10);
-            }
-            props.add(prop);
-        }
-        return props;
+        return List.of(
+                propGenerateStrategy.createPropNotNull(this.locationX - 20, this.locationY - 10),
+                propGenerateStrategy.createPropNotNull(this.locationX, this.locationY),
+                propGenerateStrategy.createPropNotNull(this.locationX + 20, this.locationY - 10)
+        );
     }
 
     @Override

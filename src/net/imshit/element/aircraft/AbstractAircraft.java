@@ -3,7 +3,6 @@ package net.imshit.element.aircraft;
 import net.imshit.element.AbstractFlyingObject;
 import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
-import net.imshit.element.bullet.EnemyBullet;
 import net.imshit.element.shoot.AbstractShootStrategyFactory;
 import net.imshit.element.shoot.ShootStrategy;
 

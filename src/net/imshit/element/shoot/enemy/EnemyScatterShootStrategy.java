@@ -1,6 +1,5 @@
 package net.imshit.element.shoot.enemy;
 
-import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.bullet.EnemyBullet;
 
 import java.util.LinkedList;

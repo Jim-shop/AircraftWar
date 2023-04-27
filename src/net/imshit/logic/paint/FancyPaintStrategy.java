@@ -6,6 +6,7 @@ import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.aircraft.enemy.AbstractEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.animation.DyingAnimation;
+import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.bullet.EnemyBullet;
 import net.imshit.element.bullet.HeroBullet;
 import net.imshit.element.prop.AbstractProp;
@@ -41,7 +42,7 @@ public class FancyPaintStrategy extends AbstractPaintStrategy {
         g.drawImage(image, leftUpX, leftUpY, null);
     }
 
-    private void paintLife(Graphics g, AbstractAircraft aircraft) {
+    private void paintLife(Graphics g, AbstractAircraft<? extends AbstractBullet> aircraft) {
         var hp = aircraft.getHp();
         var maxHp = aircraft.getMaxHp();
         var barXStart = (int) aircraft.getLocationX() - BAR_LENGTH / 2;

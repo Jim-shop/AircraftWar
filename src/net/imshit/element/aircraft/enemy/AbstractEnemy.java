@@ -1,7 +1,6 @@
 package net.imshit.element.aircraft.enemy;
 
 import net.imshit.element.aircraft.AbstractAircraft;
-import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.bullet.EnemyBullet;
 import net.imshit.element.prop.AbstractProp;
 import net.imshit.element.shoot.enemy.EnemyShootStrategyFactory;
@@ -35,10 +34,5 @@ public abstract class AbstractEnemy extends AbstractAircraft<EnemyBullet> implem
                 default -> {
                 }
             }
-    }
-
-    @Override
-    public List<EnemyBullet> shoot() {
-        return super.shoot();
     }
 }

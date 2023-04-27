@@ -1,7 +1,5 @@
 package net.imshit.element.shoot.hero;
 
-import net.imshit.element.aircraft.hero.HeroAircraft;
-import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.bullet.HeroBullet;
 
 import java.util.List;

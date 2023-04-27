@@ -2,12 +2,9 @@ package net.imshit.element.aircraft.hero;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.AbstractAircraft;
-import net.imshit.element.bullet.AbstractBullet;
 import net.imshit.element.bullet.HeroBullet;
 import net.imshit.element.shoot.hero.HeroShootStrategyFactory;
 import net.imshit.io.resource.ImageManager;
-
-import java.util.List;
 
 /**
  * 英雄飞机，游戏玩家操控
@@ -59,9 +56,5 @@ public class HeroAircraft extends AbstractAircraft<HeroBullet> {
         this.speedX = 0;
         this.speedY = 0;
         this.setShootNum(1);
-    }
-
-    public List<HeroBullet> shoot() {
-        return super.shoot();
     }
 }

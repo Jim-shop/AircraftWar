@@ -3,6 +3,7 @@ package net.imshit.element.animation;
 import net.imshit.Config;
 import net.imshit.element.AbstractFlyingObject;
 import net.imshit.element.aircraft.AbstractAircraft;
+import net.imshit.element.bullet.AbstractBullet;
 
 import java.awt.image.BufferedImage;
 
@@ -18,7 +19,7 @@ public class DyingAnimation extends AbstractFlyingObject {
     private final BufferedImage baseImage, lightImage;
     private int life = LIVE_MS;
 
-    public DyingAnimation(AbstractAircraft aircraft) {
+    public DyingAnimation(AbstractAircraft<? extends AbstractBullet> aircraft) {
         super(aircraft.getLocationX(), aircraft.getLocationY(), 0, 0);
         this.baseImage = aircraft.getImage();
         this.lightImage = this.makeLightImage(this.baseImage);

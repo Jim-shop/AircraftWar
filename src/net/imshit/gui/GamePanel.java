@@ -10,20 +10,20 @@ import net.imshit.element.bullet.EnemyBullet;
 import net.imshit.element.bullet.HeroBullet;
 import net.imshit.element.prop.AbstractProp;
 import net.imshit.io.resource.ImageManager;
+import net.imshit.logic.callback.Callback;
 import net.imshit.logic.config.Difficulty;
-import net.imshit.logic.generate.AbstractGenerateStrategy;
-import net.imshit.logic.generate.EasyGenerateStrategy;
-import net.imshit.logic.generate.HardGenerateStrategy;
-import net.imshit.logic.generate.MediumGenerateStrategy;
+import net.imshit.logic.control.HeroController;
+import net.imshit.logic.listener.EnemyListener;
 import net.imshit.logic.listener.Event;
 import net.imshit.logic.music.AbstractMusicStrategy;
 import net.imshit.logic.music.BasicMusicStrategy;
 import net.imshit.logic.music.MuteMusicStrategy;
 import net.imshit.logic.paint.AbstractPaintStrategy;
 import net.imshit.logic.paint.FancyPaintStrategy;
-import net.imshit.logic.callback.Callback;
-import net.imshit.logic.control.HeroController;
-import net.imshit.logic.listener.EnemyListener;
+import net.imshit.logic.generate.enemy.AbstractEnemyGenerateStrategy;
+import net.imshit.logic.generate.enemy.EasyEnemyGenerateStrategy;
+import net.imshit.logic.generate.enemy.HardEnemyGenerateStrategy;
+import net.imshit.logic.generate.enemy.MediumEnemyGenerateStrategy;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -48,18 +48,21 @@ public class GamePanel extends JPanel {
     private final List<EnemyBullet> enemyBullets = new LinkedList<>();
     private final List<AbstractProp> enemyProps = new LinkedList<>();
     private final List<DyingAnimation> animations = new LinkedList<>();
+    private AbstractEnemy boss;
+
     private final List<List<? extends AbstractFlyingObject>> elementLists = List.of(enemyAircraftObjects, heroBullets, enemyBullets, enemyProps, animations);
     private final List<List<? extends EnemyListener>> enemyListenerLists = List.of(enemyAircraftObjects, enemyBullets);
-    private final List<Callback<GamePanel>> callbacks = new LinkedList<>();
-    private final AbstractPaintStrategy paintStrategy = new FancyPaintStrategy();
 
     private ScheduledExecutorService executorService;
-    private AbstractEnemy boss;
-    private AbstractGenerateStrategy generateStrategy = new EasyGenerateStrategy();
+    private final List<Callback<GamePanel>> callbacks = new LinkedList<>();
+
+    private final AbstractPaintStrategy paintStrategy = new FancyPaintStrategy();
+    private AbstractEnemyGenerateStrategy generateStrategy = new EasyEnemyGenerateStrategy();
     private AbstractMusicStrategy musicStrategy = new BasicMusicStrategy();
 
     private int score;
     private Difficulty difficulty;
+    private int time;
 
     public GamePanel() {
         //启动英雄机鼠标监听
@@ -84,15 +87,15 @@ public class GamePanel extends JPanel {
             case NOTSET -> {
             }
             case EASY -> {
-                generateStrategy = new EasyGenerateStrategy();
+                generateStrategy = new EasyEnemyGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_EASY);
             }
             case MEDIUM -> {
-                generateStrategy = new MediumGenerateStrategy();
+                generateStrategy = new MediumEnemyGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_MEDIUM);
             }
             case HARD -> {
-                generateStrategy = new HardGenerateStrategy();
+                generateStrategy = new HardEnemyGenerateStrategy();
                 paintStrategy.setBackgroundImage(ImageManager.BACKGROUND_IMAGE_HARD);
             }
         }
@@ -135,25 +138,19 @@ public class GamePanel extends JPanel {
         this.executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
         this.heroAircraft.reset();
         this.elementLists.forEach(List::clear);
+        this.generateStrategy.reset();
         this.boss = null;
         this.score = 0;
+        this.time = 0;
     }
 
     private void update() {
-        // 周期性执行（控制频率）
-        if (this.generateStrategy.isTimeToGenerate()) {
-            // BOSS 机产生
-            var newBoss = this.generateStrategy.generateBoss(this.boss, this.score);
-            if (newBoss != this.boss) {
-                this.boss = newBoss;
-                this.enemyAircraftObjects.add(this.boss);
-                this.musicStrategy.setBgm(AbstractMusicStrategy.BgmType.BOSS);
-            }
-            // 新敌机产生
-            this.enemyAircraftObjects.addAll(this.generateStrategy.generateEnemy(enemyAircraftObjects.size()));
-            // 飞机射出子弹
-            this.shootAction();
-        }
+        this.time += Config.REFRESH_INTERVAL;
+
+        // 产生新敌机
+        this.generateEnemy();
+        // 发射子弹
+        this.shootAction();
         // 飞行物移动
         this.moveAction();
         // 撞击检测
@@ -168,14 +165,34 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void moveAction() {
-        this.elementLists.forEach(list -> list.forEach(AbstractFlyingObject::forward));
+    private void generateEnemy() {
+        // BOSS 机产生
+        if (this.generateStrategy.isTimeToGenerateBoss(this.boss, this.score)) {
+            this.boss = this.generateStrategy.generateBoss();
+            this.enemyAircraftObjects.add(this.boss);
+            this.musicStrategy.setBgm(AbstractMusicStrategy.BgmType.BOSS);
+        }
+        // 敌机产生
+        if (this.generateStrategy.isTimeToGenerateEnemy(this.time)) {
+            this.enemyAircraftObjects.addAll(this.generateStrategy.generateEnemy(enemyAircraftObjects.size()));
+        }
     }
 
     private void shootAction() {
-        this.enemyAircraftObjects.forEach(enemy -> this.enemyBullets.addAll(enemy.shoot()));
-        this.heroBullets.addAll(heroAircraft.shoot());
-        this.musicStrategy.playBullet();
+        // 敌机射出子弹
+        if (this.generateStrategy.isTimeForEnemyShoot(this.time)) {
+            this.enemyAircraftObjects.forEach(enemy -> this.enemyBullets.addAll(enemy.shoot()));
+            this.musicStrategy.playBullet();
+        }
+        // 英雄机射出子弹
+        if (this.generateStrategy.isTimeForHeroShoot(this.time)) {
+            this.heroBullets.addAll(heroAircraft.shoot());
+            this.musicStrategy.playBullet();
+        }
+    }
+
+    private void moveAction() {
+        this.elementLists.forEach(list -> list.forEach(AbstractFlyingObject::forward));
     }
 
     private void crashCheckAction() {

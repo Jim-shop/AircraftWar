@@ -9,7 +9,7 @@ import net.imshit.element.shoot.ShootStrategy;
  *
  * @author Jim
  */
-public class HeroShootStrategyFactory extends AbstractShootStrategyFactory {
+public class HeroShootStrategyFactory extends AbstractShootStrategyFactory<HeroBullet> {
     @Override
     public ShootStrategy<HeroBullet> getStrategy(int shootNum) {
         if (shootNum == 3) {

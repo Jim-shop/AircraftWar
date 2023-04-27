@@ -5,6 +5,7 @@ import net.imshit.element.aircraft.enemy.EliteEnemy;
 import net.imshit.element.aircraft.hero.HeroAircraft;
 import net.imshit.element.prop.BloodProp;
 import net.imshit.io.resource.ImageManager;
+import net.imshit.logic.generate.prop.EasyPropGenerateStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,41 +62,35 @@ class HeroAircraftTest {
     void forward() {
         this.heroAircraft.forward();
         // should make no action
-        assertAll(
-                () -> assertEquals(this.initialX, this.heroAircraft.getLocationX()),
-                () -> assertEquals(this.initialY, this.heroAircraft.getLocationY()),
-                () -> assertEquals(this.initialSpeedY, this.heroAircraft.getSpeedY()),
-                () -> assertEquals(this.initialHp, this.heroAircraft.getHp())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.heroAircraft.getLocationX()), () -> assertEquals(this.initialY, this.heroAircraft.getLocationY()), () -> assertEquals(this.initialSpeedY, this.heroAircraft.getSpeedY()), () -> assertEquals(this.initialHp, this.heroAircraft.getHp()));
     }
 
     @Test
     @DisplayName("Test plane crash detection")
     void planeCrash() {
         // 中心完全重合
-        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20, 20);
+        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20, 20, new EasyPropGenerateStrategy());
         assertTrue(this.heroAircraft.crash(same));
         var midWidthDis = (this.heroAircraft.getWidth() + same.getWidth()) / 2;
         assertAll(
                 // 右侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100, 20))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 右侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100, 20))),
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100, 20))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20)))
-        );
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))));
         var midHeightDis = (this.heroAircraft.getHeight() + same.getHeight()) / 2 / 2;
         assertAll(
                 // 上侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100, 20))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 上侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100, 20))),
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100, 20))),
+                () -> assertFalse(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100, 20)))
+                () -> assertTrue(this.heroAircraft.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100, 20, new EasyPropGenerateStrategy())))
 
         );
     }
@@ -116,8 +111,7 @@ class HeroAircraftTest {
                 // 左侧挨着判定框
                 () -> assertFalse(this.heroAircraft.crash(new BloodProp(this.initialX - midWidthDis, this.initialY, 0, 0))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new BloodProp(this.initialX - midWidthDis + 1, this.initialY, 0, 0)))
-        );
+                () -> assertTrue(this.heroAircraft.crash(new BloodProp(this.initialX - midWidthDis + 1, this.initialY, 0, 0))));
         var midHeightDis = (this.heroAircraft.getHeight() / 2 + same.getHeight()) / 2;
         assertAll(
                 // 上侧挨着判定框
@@ -127,22 +121,15 @@ class HeroAircraftTest {
                 // 左侧挨着判定框
                 () -> assertFalse(this.heroAircraft.crash(new BloodProp(this.initialX, this.initialY + midHeightDis, 0, 0))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.heroAircraft.crash(new BloodProp(this.initialX, this.initialY + midHeightDis - 1, 0, 0)))
-        );
+                () -> assertTrue(this.heroAircraft.crash(new BloodProp(this.initialX, this.initialY + midHeightDis - 1, 0, 0))));
     }
 
     @Test
     @DisplayName("Test `setLocation`, `getLocationX` and `getLocationY` method")
     void locationGetSet() {
-        assertAll(
-                () -> assertEquals(this.initialX, this.heroAircraft.getLocationX()),
-                () -> assertEquals(this.initialY, this.heroAircraft.getLocationY())
-        );
+        assertAll(() -> assertEquals(this.initialX, this.heroAircraft.getLocationX()), () -> assertEquals(this.initialY, this.heroAircraft.getLocationY()));
         this.heroAircraft.setLocation(114, 514);
-        assertAll(
-                () -> assertEquals(114, this.heroAircraft.getLocationX()),
-                () -> assertEquals(514, this.heroAircraft.getLocationY())
-        );
+        assertAll(() -> assertEquals(114, this.heroAircraft.getLocationX()), () -> assertEquals(514, this.heroAircraft.getLocationY()));
     }
 
     @Test

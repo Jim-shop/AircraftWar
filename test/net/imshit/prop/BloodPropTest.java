@@ -5,6 +5,7 @@ import net.imshit.element.aircraft.enemy.EliteEnemy;
 import net.imshit.element.prop.BloodProp;
 import net.imshit.gui.GamePanel;
 import net.imshit.io.resource.ImageManager;
+import net.imshit.logic.generate.prop.EasyPropGenerateStrategy;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,28 +49,28 @@ class BloodPropTest {
     @DisplayName("Test plane crash detection")
     void planeCrash() {
         // 中心完全重合
-        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20, 20);
+        var same = new EliteEnemy(this.initialX, this.initialY, 0, 0, 20, 20, new EasyPropGenerateStrategy());
         assertTrue(this.bloodProp.crash(same));
         var midWidthDis = (this.bloodProp.getWidth() + same.getWidth()) / 2;
         assertAll(
                 // 右侧挨着判定框
-                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100, 20))),
+                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX + midWidthDis, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 右侧恰好进入判定框
-                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100, 20))),
+                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX + midWidthDis - 1, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100, 20))),
+                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX - midWidthDis, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20))));
+                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX - midWidthDis + 1, this.initialY, 0, 0, 100, 20, new EasyPropGenerateStrategy()))));
         var midHeightDis = (this.bloodProp.getHeight() + same.getHeight() / 2) / 2;
         assertAll(
                 // 上侧挨着判定框
-                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100, 20))),
+                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 上侧恰好进入判定框
-                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100, 20))),
+                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY - midHeightDis + 1, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧挨着判定框
-                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100, 20))),
+                () -> assertFalse(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis, 0, 0, 100, 20, new EasyPropGenerateStrategy()))),
                 // 左侧恰好进入判定框
-                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100, 20)))
+                () -> assertTrue(this.bloodProp.crash(new EliteEnemy(this.initialX, this.initialY + midHeightDis - 1, 0, 0, 100, 20, new EasyPropGenerateStrategy())))
 
         );
     }
