@@ -3,8 +3,8 @@ package net.imshit.aircraft.enemy;
 import net.imshit.Config;
 import net.imshit.element.aircraft.enemy.EliteEnemy;
 import net.imshit.element.prop.BloodProp;
-import net.imshit.io.resource.ImageManager;
-import net.imshit.logic.generate.prop.EasyPropGenerateStrategy;
+import net.imshit.util.resource.ImageManager;
+import net.imshit.util.generate.prop.EasyPropGenerateStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;

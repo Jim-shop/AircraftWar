@@ -3,7 +3,7 @@ package net.imshit;
 import net.imshit.gui.GamePanel;
 import net.imshit.gui.ScoreboardPanel;
 import net.imshit.gui.SettingPanel;
-import net.imshit.io.resource.ImageManager;
+import net.imshit.util.resource.ImageManager;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;

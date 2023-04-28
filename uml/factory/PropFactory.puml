@@ -1,0 +1,32 @@
+@startuml
+
+abstract class AbstractPropFactory {
+    # speedX: float
+    # speedY: float
+    + {abstract} createProp(float locationX, float locationY): AbstractProp
+}
+
+class BloodPropFactory extends AbstractPropFactory {
+    + createProp(float locationX, float locationY): BloodProp
+}
+
+class BombPropFactory extends AbstractPropFactory {
+    + createProp(float locationX, float locationY): BombProp
+}
+
+class BulletPropFactory extends AbstractPropFactory {
+    + createProp(float locationX, float locationY): BulletProp
+}
+
+BloodPropFactory ..> BloodProp
+BombPropFactory ..> BombProp
+BulletPropFactory ..> BulletProp
+
+class AbstractPropGenerateStrategy extends AbstractPropFactory {
+}
+
+AbstractPropGenerateStrategy --> BloodPropFactory
+AbstractPropGenerateStrategy --> BombPropFactory
+AbstractPropGenerateStrategy --> BulletPropFactory
+
+@enduml

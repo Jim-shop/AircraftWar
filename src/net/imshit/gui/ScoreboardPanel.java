@@ -1,10 +1,10 @@
 package net.imshit.gui;
 
-import net.imshit.io.scoreboard.ScoreInfo;
-import net.imshit.io.scoreboard.ScoreboardDao;
-import net.imshit.io.scoreboard.ScoreboardDaoFile;
-import net.imshit.logic.config.Difficulty;
-import net.imshit.logic.callback.Callback;
+import net.imshit.util.dao.ScoreInfo;
+import net.imshit.util.dao.ScoreboardDao;
+import net.imshit.util.dao.ScoreboardDaoFile;
+import net.imshit.util.callback.Callback;
+import net.imshit.util.config.Difficulty;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -27,8 +27,8 @@ public class ScoreboardPanel extends JPanel implements Closeable {
     private final String[] caption = {"Name", "Score", "Time"};
     private final List<Callback<ScoreboardPanel>> callbacks = new LinkedList<>();
     private ScoreboardDao dao;
-    private String[][] displayData;
     private Difficulty difficulty;
+    private final DefaultTableModel model;
 
     public ScoreboardPanel() {
         super(new GridBagLayout());
@@ -132,6 +132,14 @@ public class ScoreboardPanel extends JPanel implements Closeable {
 
         /* 扫尾 */
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+
+        this.model = new DefaultTableModel(null, this.caption) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        this.table.setModel(model);
     }
 
     public void addScoreboardReturnCallback(Callback<ScoreboardPanel> callback) {
@@ -152,18 +160,10 @@ public class ScoreboardPanel extends JPanel implements Closeable {
     }
 
     private void refresh() {
-        var rawData = this.dao.getTopK(-1);
-        this.displayData = new String[rawData.size()][];
-        var index = 0;
-        for (var item : rawData) {
-            this.displayData[index++] = new String[]{item.name(), String.valueOf(item.score()), item.time().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)};
+        this.model.setRowCount(0);
+        for (var item : this.dao.getTopK(-1)) {
+            this.model.addRow(new String[]{item.name(), String.valueOf(item.score()), item.time().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)});
         }
-        this.table.setModel(new DefaultTableModel(this.displayData, this.caption) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
     }
 
     private void askAndSave(GamePanel host) {

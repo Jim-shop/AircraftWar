@@ -1,7 +1,7 @@
 package net.imshit.gui;
 
-import net.imshit.logic.config.Difficulty;
-import net.imshit.logic.callback.Callback;
+import net.imshit.util.config.Difficulty;
+import net.imshit.util.callback.Callback;
 
 import javax.swing.*;
 import java.awt.*;

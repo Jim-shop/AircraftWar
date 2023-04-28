@@ -13,9 +13,9 @@ import java.awt.image.BufferedImage;
  * @author Jim
  */
 public class DyingAnimation extends AbstractFlyingObject {
-    public static final int LIGHT_ADD = 0x20;
-    public static final int LIVE_MS = 500;
-    public static final int FLASH_MS = 100;
+    private static final int LIGHT_INCREMENT = 0x20;
+    private static final int LIVE_MS = 500;
+    private static final int FLASH_MS = 100;
     private final BufferedImage baseImage, lightImage;
     private int life = LIVE_MS;
 
@@ -34,9 +34,9 @@ public class DyingAnimation extends AbstractFlyingObject {
             for (int j = 0; j < height; j++) {
                 var argb = image.getRGB(i, j);
                 var a = (argb) >> 24 & 0xff;
-                var r = Math.min(((argb >> 16) & 0xff) + LIGHT_ADD, 0xff);
-                var g = Math.min(((argb >> 8) & 0xff) + LIGHT_ADD, 0xff);
-                var b = Math.min((argb & 0xff) + LIGHT_ADD, 0xff);
+                var r = Math.min(((argb >> 16) & 0xff) + LIGHT_INCREMENT, 0xff);
+                var g = Math.min(((argb >> 8) & 0xff) + LIGHT_INCREMENT, 0xff);
+                var b = Math.min((argb & 0xff) + LIGHT_INCREMENT, 0xff);
                 lightImage.setRGB(i, j, (a << 24) | (r << 16) | (g << 8) | b);
             }
         }

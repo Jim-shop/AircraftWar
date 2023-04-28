@@ -1,0 +1,17 @@
+@startuml
+
+class HeroAircraft extends AbstractAircraft {
+    - {static} INSTANCE: HeroAircraft
+    - HeroAircraft(float locationX, float locationY, int hp, int power, int shootNum)
+    + {static} getInstance(): HeroAircraft
+    + forward(): void
+    + increaseHp(int increment): void
+    + reset(): void
+}
+
+class GamePanel {}
+
+GamePanel -> HeroAircraft
+HeroAircraft -> HeroAircraft
+
+@enduml

@@ -1,7 +1,7 @@
 package net.imshit.element.prop;
 
 import net.imshit.gui.GamePanel;
-import net.imshit.logic.listener.Event;
+import net.imshit.util.listener.Event;
 
 /**
  * @author Jim

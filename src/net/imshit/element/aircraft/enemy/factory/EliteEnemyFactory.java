@@ -2,8 +2,8 @@ package net.imshit.element.aircraft.enemy.factory;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.enemy.EliteEnemy;
-import net.imshit.io.resource.ImageManager;
-import net.imshit.logic.generate.prop.AbstractPropGenerateStrategy;
+import net.imshit.util.resource.ImageManager;
+import net.imshit.util.generate.prop.AbstractPropGenerateStrategy;
 
 /**
  * @author Jim

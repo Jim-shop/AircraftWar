@@ -1,0 +1,36 @@
+@startuml
+
+interface ScoreboardDao extends Closeable {
+    + getTopK(int topK): List<ScoreInfo>
+    + addItem(ScoreInfo item): void
+    + deleteItem(ScoreInfo item): void
+    + deleteItem(int[] indices): void
+    + close(): void
+}
+
+class ScoreboardDaoFile implements ScoreboardDao {
+    - f: File
+    - buffer: List<ScoreInfo>
+    + ScoreboardDaoFile(String path)
+    + getTopK(int topK): List<ScoreInfo>
+    + addItem(ScoreInfo item): void
+    + deleteItem(ScoreInfo item): void
+    + deleteItem(int[] indices): void
+    + close(): void
+}
+
+class ScoreInfo implements Serializable {
+    - name: String
+    - score: int
+    - time: LocalDatetime
+    + ScoreInfo(String name, int score, LocalDatetime time)
+    + getName(): String
+    + getScore(): int
+    + getTime(): LocalDatetime
+}
+
+ScoreboardDaoFile -> ScoreInfo
+
+ScoreboardPanel --> ScoreboardDao
+
+@enduml

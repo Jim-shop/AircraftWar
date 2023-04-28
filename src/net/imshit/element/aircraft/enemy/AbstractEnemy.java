@@ -4,11 +4,12 @@ import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.bullet.EnemyBullet;
 import net.imshit.element.prop.AbstractProp;
 import net.imshit.element.shoot.enemy.EnemyShootStrategyFactory;
-import net.imshit.logic.listener.EnemyListener;
-import net.imshit.logic.listener.Event;
+import net.imshit.util.listener.EnemyListener;
+import net.imshit.util.listener.Event;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Jim
@@ -29,10 +30,8 @@ public abstract class AbstractEnemy extends AbstractAircraft<EnemyBullet> implem
 
     @Override
     public void notify(Event e) {
-            switch (e) {
-                case BOMB_ACTIVATE -> this.vanish();
-                default -> {
-                }
-            }
+        if (Objects.requireNonNull(e) == Event.BOMB_ACTIVATE) {
+            this.vanish();
+        }
     }
 }

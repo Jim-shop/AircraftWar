@@ -2,10 +2,11 @@ package net.imshit.element.aircraft.enemy;
 
 import net.imshit.Config;
 import net.imshit.element.prop.AbstractProp;
-import net.imshit.logic.generate.prop.AbstractPropGenerateStrategy;
-import net.imshit.logic.listener.Event;
+import net.imshit.util.generate.prop.AbstractPropGenerateStrategy;
+import net.imshit.util.listener.Event;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Boss敌机
@@ -46,10 +47,8 @@ public class BossEnemy extends AbstractEnemy {
 
     @Override
     public void notify(Event e) {
-        switch (e) {
-            case BOMB_ACTIVATE -> this.hp /= 2;
-            default -> {
-            }
+        if (Objects.requireNonNull(e) == Event.BOMB_ACTIVATE) {
+            this.hp /= 2;
         }
     }
 }

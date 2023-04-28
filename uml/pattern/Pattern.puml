@@ -1,0 +1,55 @@
+@startuml
+
+abstract class AbstractEnemyGenerateStrategy {
+    # mobFactory: AbstractEnemyFactory
+    # eliteFactory: AbstractEnemyFactory
+    # bossFactory: AbstractEnemyFactory
+    - time: int
+    - score: int
+    # mobProbability: double
+    # enemyMaxNumber: int
+    # bossScoreThreshold: int
+    # enemySummonInterval: int
+    # enemyShootInterval: int
+    # heroShootInterval: int
+    # hpIncreaseRate: double
+    # powerIncreaseRate: double
+    # speedIncreaseRate: double
+    # bossHpIncreaseRate: double
+    # mobBaseHp: int
+    # eliteBaseHp: int
+    # bossBaseHp: int
+    # eliteBasePower: int
+    # bossBasePower: int
+    - lastBossSummonScore: int
+    - lastEnemySummonTime: int
+    - lastEnemyShootTime: int
+    - lastHeroShootTime: int
+    + inform(int time, int score): void
+    + generateEnemy(int currentEnemyNum): List<AbstractEnemy>
+    + generateBoss(): AbstractEnemy
+    + isTimeToGenerateBoss(AbstractEnemy currentBoss): boolean
+    + isTimeToGenerateEnemy(): boolean
+    + isTimeForEnemyShoot(): boolean
+    + isTimeForHeroShoot(): boolean
+    + isTimeForHeroShoot(): boolean
+    + reset(): void
+}
+
+class EasyEnemyGenerateStrategy extends AbstractEnemyGenerateStrategy {
+    + EasyEnemyGenerateStrategy()
+    + generateBoss(): AbstractEnemy
+    + isTimeToGenerateBoss(AbstractEnemy currentBoss): boolean
+}
+
+class MediumEnemyGenerateStrategy extends AbstractEnemyGenerateStrategy {
+    + MediumEnemyGenerateStrategy()
+}
+
+class HardEnemyGenerateStrategy extends AbstractEnemyGenerateStrategy {
+    + HardEnemyGenerateStrategy()
+}
+
+GamePanel ..> AbstractEnemyGenerateStrategy
+
+@enduml

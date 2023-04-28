@@ -1,0 +1,41 @@
+@startuml
+
+enum Event {
+    BOMB_ACTIVATE
+}
+
+EnemyListener --> Event
+GamePanel --> Event
+BombProp --> Event
+
+interface EnemyListener {
+    + notify(Event e): void
+}
+
+abstract class AbstractEnemy implements EnemyListener {
+    ...
+    + notify(Event e): void
+}
+
+class EnemyBullet implements EnemyListener {
+    ...
+    + notify(Event e): void
+}
+
+class GamePanel {
+    ...
+    - enemyListenerLists: List<List<? extends EnemyListener>>
+    ...
+    + notify(Event e): void
+}
+
+GamePanel o..> EnemyListener
+
+class BombProp {
+    ...
+    + activate(GamePanel game): void
+}
+
+BombProp --> GamePanel
+
+@enduml

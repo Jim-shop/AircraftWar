@@ -1,7 +1,7 @@
 package net.imshit.element.aircraft.enemy;
 
 import net.imshit.element.prop.AbstractProp;
-import net.imshit.logic.generate.prop.AbstractPropGenerateStrategy;
+import net.imshit.util.generate.prop.AbstractPropGenerateStrategy;
 
 import java.util.List;
 

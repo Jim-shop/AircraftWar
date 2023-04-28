@@ -1,0 +1,27 @@
+@startuml
+
+abstract class AbstractEnemyFactory {
+    + {abstract} createEnemy(int hp, int power, float speed): AbstractEnemy
+}
+
+class EliteEnemyFactory extends AbstractEnemyFactory {
+    + createEnemy(int hp, int power, float speed): EliteEnemy
+}
+
+class MobEnemyFactory extends AbstractEnemyFactory {
+    + createEnemy(int hp, int power, float speed): MobEnemy
+}
+
+class BossEnemyFactory extends AbstractEnemyFactory {
+    + createEnemy(int hp, int power, float speed): BossEnemy
+}
+
+EliteEnemyFactory ..> EliteEnemy
+MobEnemyFactory ..> MobEnemy
+BossEnemyFactory ..> BossEnemy
+
+AbstractEnemyGenerateStrategy --> EliteEnemyFactory
+AbstractEnemyGenerateStrategy --> MobEnemyFactory
+AbstractEnemyGenerateStrategy --> BossEnemyFactory
+
+@enduml

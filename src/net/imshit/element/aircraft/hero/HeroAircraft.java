@@ -4,7 +4,7 @@ import net.imshit.Config;
 import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.bullet.HeroBullet;
 import net.imshit.element.shoot.hero.HeroShootStrategyFactory;
-import net.imshit.io.resource.ImageManager;
+import net.imshit.util.resource.ImageManager;
 
 /**
  * 英雄飞机，游戏玩家操控

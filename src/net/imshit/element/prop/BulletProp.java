@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class BulletProp extends AbstractProp {
 
-    private final AtomicInteger usedCount = new AtomicInteger(0);
+    private static final AtomicInteger USED_COUNT = new AtomicInteger(0);
 
     public BulletProp(float locationX, float locationY, float speedX, float speedY) {
         super(locationX, locationY, speedX, speedY);
@@ -17,7 +17,7 @@ public class BulletProp extends AbstractProp {
 
     @Override
     public void activate(GamePanel game) {
-        usedCount.getAndIncrement();
+        USED_COUNT.getAndIncrement();
         var heroAircraft = game.getHeroAircraft();
         heroAircraft.setShootNum(3);
         new Thread(() -> {
@@ -25,7 +25,7 @@ public class BulletProp extends AbstractProp {
                 Thread.sleep(10000);
             } catch (InterruptedException ignored) {
             }
-            if (usedCount.decrementAndGet() == 0) {
+            if (USED_COUNT.decrementAndGet() == 0) {
                 heroAircraft.setShootNum(1);
             }
         }).start();

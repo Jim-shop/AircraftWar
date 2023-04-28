@@ -1,0 +1,54 @@
+@startuml
+
+interface ShootStrategy<T extends AbstractBullet> {
+    + shoot(float x, float y, float speedY, int power): List<T>
+}
+
+interface EnemyShootStrategy extends ShootStrategy {
+    + shoot(float x, float y, float speedY, int power): List<EnemyBullet>
+}
+
+class EnemyDirectShootStrategy implements EnemyShootStrategy {
+    + shoot(float x, float y, float speedY, int power): List<EnemyBullet>
+}
+
+class EnemyNoShootStrategy implements EnemyShootStrategy {
+    + shoot(float x, float y, float speedY, int power): List<EnemyBullet>
+}
+
+class EnemyScatterShootStrategy implements EnemyShootStrategy {
+    + shoot(float x, float y, float speedY, int power): List<EnemyBullet>
+}
+
+abstract class AbstractShootStrategyFactory<T extends AbstractBullet> {
+    + {abstract} getStrategy(int shootNum): ShootStrategy<T>
+}
+
+class EnemyShootStrategyFactory extends AbstractShootStrategyFactory {
+    + getStrategy(int shootNum): ShootStrategy<EnemyBullet>
+}
+
+EnemyShootStrategyFactory ..> EnemyDirectShootStrategy
+EnemyShootStrategyFactory ..> EnemyNoShootStrategy
+EnemyShootStrategyFactory ..> EnemyScatterShootStrategy
+
+interface HeroShootStrategy extends ShootStrategy {
+    + shoot(float x, float y, float speedY, int power): List<HeroBullet>
+}
+
+class HeroDirectShootStrategy implements HeroShootStrategy {
+    + shoot(float x, float y, float speedY, int power): List<HeroBullet>
+}
+
+class HeroScatterShootStrategy implements HeroShootStrategy {
+    + shoot(float x, float y, float speedY, int power): List<HeroBullet>
+}
+
+class HeroShootStrategyFactory extends AbstractShootStrategyFactory {
+    + getStrategy(int shootNum): ShootStrategy<HeroBullet>
+}
+
+HeroShootStrategyFactory ..> HeroScatterShootStrategy
+HeroShootStrategyFactory ..> HeroDirectShootStrategy
+
+@enduml

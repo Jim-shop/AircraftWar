@@ -2,7 +2,7 @@ package net.imshit.element;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.AbstractAircraft;
-import net.imshit.io.resource.ImageManager;
+import net.imshit.util.resource.ImageManager;
 
 import java.awt.image.BufferedImage;
 

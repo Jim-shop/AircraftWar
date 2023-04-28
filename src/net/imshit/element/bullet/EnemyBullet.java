@@ -1,7 +1,9 @@
 package net.imshit.element.bullet;
 
-import net.imshit.logic.listener.EnemyListener;
-import net.imshit.logic.listener.Event;
+import net.imshit.util.listener.EnemyListener;
+import net.imshit.util.listener.Event;
+
+import java.util.Objects;
 
 /**
  * @author Jim
@@ -13,10 +15,8 @@ public class EnemyBullet extends AbstractBullet implements EnemyListener {
 
     @Override
     public void notify(Event e) {
-        switch (e) {
-            case BOMB_ACTIVATE -> this.vanish();
-            default -> {
-            }
+        if (Objects.requireNonNull(e) == Event.BOMB_ACTIVATE) {
+            this.vanish();
         }
     }
 }

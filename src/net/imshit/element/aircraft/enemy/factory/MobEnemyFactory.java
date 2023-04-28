@@ -2,7 +2,7 @@ package net.imshit.element.aircraft.enemy.factory;
 
 import net.imshit.Config;
 import net.imshit.element.aircraft.enemy.MobEnemy;
-import net.imshit.io.resource.ImageManager;
+import net.imshit.util.resource.ImageManager;
 
 /**
  * 普通敌机的工厂

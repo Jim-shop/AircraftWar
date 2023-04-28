@@ -1,0 +1,136 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractFlyingObject
+{
+    # locationX: float
+    # locationY: float
+    # speedX: float
+    # speedY: float
+    # image: BufferedImage
+    # width: float
+    # height: float
+    # isValid: boolean
+
+    + AbstractFlyingObject(float locationX, float locationY, float speedX, float speedY)
+    + forward(): void
+    + crash(AbstractFlyingObject flyingObject): boolean
+    + getLocationX(): float
+    + getLocationY(): float
+    + setLocation(float locationX, float locationY): void
+    + getSpeedY(): float
+    + getImage(): BufferedImage
+    + getWidth(): float
+    + getHeight(): float
+    + notValid(): boolean
+    + valid(): boolean
+    + vanish(): void
+}
+
+abstract class AbstractAircraft<T extends AbstractBullet> extends AbstractFlyingObject
+{
+	# maxHp: int
+    # hp: int
+	# power: int
+	# shootStrategyFactory<T>: AbstractShootStrategyFactory
+	# shootStrategy: ShootStrategy
+    + AbstractAircraft(float locationX, float locationY, float speedX, float speedY, int hp, int power, AbstractShootStrategyFactory<T> strategyFactory, int shootNum)
+    + setShootNum(int shootNum): void
+    + decreaseHp(int decrease): void
+    + getHp(): int
+    + getMaxHp(): int
+    + shoot(): List<T>
+    + getAnimation(): DyingAnimation
+}
+
+class HeroAircraft extends AbstractAircraft {
+    - {static} INSTANCE: HeroAircraft
+    - HeroAircraft(float locationX, float locationY, int hp, int power, int shootNum)
+    + {static} getInstance(): HeroAircraft
+    + forward(): void
+    + increaseHp(int increment): void
+    + reset(): void
+}
+
+interface EnemyListener {
+    + notify(Event e): void
+}
+
+abstract class AbstractEnemy extends AbstractAircraft implements EnemyListener {
+    + AbstractEnemy(float locationX, float locationY, float speedX, float speedY, int hp, int power, int shootNum)
+    + prop(): List<AbstractProp>
+    + getCredits(): int
+    + notify(Event e): void
+}
+
+class MobEnemy extends AbstractEnemy {
+    + MobEnemy(float locationX, float locationY, float speedX, float speedY, int hp)
+    + getCredits(): int
+}
+
+class EliteEnemy extends AbstractEnemy {
+    - propGenerateStrategy: AbstractPropGenerateStrategy
+    + EliteEnemy(float locationX, float locationY, float speedX, float speedY, int hp, int power, AbstractPropGenerateStrategy propGenerateStrategy)
+    + prop(): List<AbstractProp>
+    + getCredits(): int
+}
+
+class BossEnemy extends AbstractEnemy {
+    - propGenerateStrategy: AbstractPropGenerateStrategy
+    + BossEnemy(float locationX, float locationY, float speedX, float speedY, int hp, int power, int shootNum, AbstractPropGenerateStrategy propGenerateStrategy)
+    + forward(): void
+    + prop(): List<AbstractProp>
+    + getCredits(): int
+    + notify(Event e): void
+}
+
+abstract class AbstractBullet extends AbstractFlyingObject {
+    - power: int
+    + AbstractBullet(float locationX, float locationY, float speedX, float speedY, int power)
+    + forward(): void
+	+ getPower(): int
+}
+
+class HeroBullet extends AbstractBullet {
+    + HeroBullet(float locationX, float locationY, float speedX, float speedY, int power)
+}
+
+class EnemyBullet extends AbstractBullet implements EnemyListener {
+    + EnemyBullet(float locationX, float locationY, float speedX, float speedY, int power)
+    + notify(Event e): void
+}
+
+abstract class AbstractProp extends AbstractFlyingObject {
+    + AbstractProp(float locationX, float locationY, float speedX, float speedY)
+    + {abstract} activate(GamePanel game): void
+}
+
+class BloodProp extends AbstractProp {
+    + BloodProp(float locationX, float locationY, float speedX, float speedY)
+    + activate(GamePanel game): void
+}
+
+class BombProp extends AbstractProp {
+    + BombProp(float locationX, float locationY, float speedX, float speedY)
+    + activate(GamePanel game): void
+}
+
+class BulletProp extends AbstractProp {
+    - usedCount: AtomicInteger
+    + BulletProp(float locationX, float locationY, float speedX, float speedY)
+    + activate(GamePanel game): void
+}
+
+class DyingAnimation extends AbstractFlyingObject {
+    - {static} LIGHT_INCREMENT: int
+    - {static} LIVE_MS: int
+    - {static} FLASH_MS: int
+    - baseImage: BufferedImage
+    - lightImage: BufferedImage
+    - life: int
+    + DyingAnimation(AbstractAircraft<? extends AbstractBullet> aircraft)
+    - makeLightImage(BufferedImage image): BufferedImage
+    + forward(): void
+}
+
+@enduml
