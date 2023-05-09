@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author jim
  */
-public class EnemyNoShootable implements EnemyShootable {
+public class EnemyNoShootStrategy implements EnemyShootStrategy {
     @Override
     public List<EnemyBullet> shoot(float x, float y, float speedY, int power) {
         return List.of();

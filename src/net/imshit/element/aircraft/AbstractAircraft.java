@@ -3,8 +3,8 @@ package net.imshit.element.aircraft;
 import net.imshit.element.AbstractFlyingObject;
 import net.imshit.element.animation.DyingAnimation;
 import net.imshit.element.bullet.AbstractBullet;
-import net.imshit.element.shoot.AbstractShootableFactory;
-import net.imshit.element.shoot.Shootable;
+import net.imshit.element.shoot.AbstractShootStrategyFactory;
+import net.imshit.element.shoot.ShootStrategy;
 
 import java.util.List;
 
@@ -21,20 +21,20 @@ public abstract class AbstractAircraft<T extends AbstractBullet> extends Abstrac
     protected final int maxHp;
     protected int hp;
     protected final int power;
-    protected final AbstractShootableFactory<T> shootStrategyFactory;
-    protected Shootable<T> shootable;
+    protected final AbstractShootStrategyFactory<T> shootStrategyFactory;
+    protected ShootStrategy<T> shootStrategy;
 
-    public AbstractAircraft(float locationX, float locationY, float speedX, float speedY, int hp, int power, AbstractShootableFactory<T> strategyFactory, int shootNum) {
+    public AbstractAircraft(float locationX, float locationY, float speedX, float speedY, int hp, int power, AbstractShootStrategyFactory<T> strategyFactory, int shootNum) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;
         this.maxHp = hp;
         this.power = power;
         this.shootStrategyFactory = strategyFactory;
-        this.shootable = strategyFactory.getStrategy(shootNum);
+        this.shootStrategy = strategyFactory.getStrategy(shootNum);
     }
 
     public void setShootNum(int shootNum) {
-        this.shootable = this.shootStrategyFactory.getStrategy(shootNum);
+        this.shootStrategy = this.shootStrategyFactory.getStrategy(shootNum);
     }
 
     public void decreaseHp(int decrease) {
@@ -61,7 +61,7 @@ public abstract class AbstractAircraft<T extends AbstractBullet> extends Abstrac
      * @return 返回射出的子弹列表（可为空）
      */
     public List<T> shoot() {
-        return this.shootable.shoot(this.locationX, this.locationY, this.speedY, this.power);
+        return this.shootStrategy.shoot(this.locationX, this.locationY, this.speedY, this.power);
     }
 
     public DyingAnimation getAnimation() {

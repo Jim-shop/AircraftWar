@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Jim
  */
-public class EnemyScatterShootable implements EnemyShootable {
+public class EnemyScatterShootStrategy implements EnemyShootStrategy {
     @Override
     public List<EnemyBullet> shoot(float x, float y, float speedY, int power) {
         List<EnemyBullet> res = new LinkedList<>();

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Jim
  */
-public class HeroDirectShootable implements HeroShootable {
+public class HeroDirectShootStrategy implements HeroShootStrategy {
     @Override
     public List<HeroBullet> shoot(float x, float y, float speedY, int power) {
         int direction = -1;

@@ -3,7 +3,7 @@ package net.imshit.element.aircraft.hero;
 import net.imshit.Config;
 import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.bullet.HeroBullet;
-import net.imshit.element.shoot.hero.HeroShootableFactory;
+import net.imshit.element.shoot.hero.HeroShootStrategyFactory;
 import net.imshit.util.resource.ImageManager;
 
 /**
@@ -26,7 +26,7 @@ public class HeroAircraft extends AbstractAircraft<HeroBullet> {
      * @param shootNum  英雄机单次发射子弹数
      */
     private HeroAircraft(float locationX, float locationY, int hp, int power, int shootNum) {
-        super(locationX, locationY, 0, 0, hp, power, new HeroShootableFactory(), shootNum);
+        super(locationX, locationY, 0, 0, hp, power, new HeroShootStrategyFactory(), shootNum);
     }
 
 
