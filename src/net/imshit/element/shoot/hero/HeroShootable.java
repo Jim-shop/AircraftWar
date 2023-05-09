@@ -1,7 +1,7 @@
 package net.imshit.element.shoot.hero;
 
 import net.imshit.element.bullet.HeroBullet;
-import net.imshit.element.shoot.ShootStrategy;
+import net.imshit.element.shoot.Shootable;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Jim
  */
-public interface HeroShootStrategy extends ShootStrategy<HeroBullet> {
+public interface HeroShootable extends Shootable<HeroBullet> {
     /**
      * 英雄机射击接口
      * @param x      飞机水平位置

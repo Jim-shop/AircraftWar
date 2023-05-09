@@ -3,7 +3,7 @@ package net.imshit.element.aircraft.enemy;
 import net.imshit.element.aircraft.AbstractAircraft;
 import net.imshit.element.bullet.EnemyBullet;
 import net.imshit.element.prop.AbstractProp;
-import net.imshit.element.shoot.enemy.EnemyShootStrategyFactory;
+import net.imshit.element.shoot.enemy.EnemyShootableFactory;
 import net.imshit.util.listener.EnemyListener;
 import net.imshit.util.listener.Event;
 
@@ -17,7 +17,7 @@ import java.util.Objects;
 public abstract class AbstractEnemy extends AbstractAircraft<EnemyBullet> implements EnemyListener {
 
     public AbstractEnemy(float locationX, float locationY, float speedX, float speedY, int hp, int power, int shootNum) {
-        super(locationX, locationY, speedX, speedY, hp, power, new EnemyShootStrategyFactory(), shootNum);
+        super(locationX, locationY, speedX, speedY, hp, power, new EnemyShootableFactory(), shootNum);
     }
 
     public List<AbstractProp> prop() {

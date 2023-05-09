@@ -1,7 +1,7 @@
 package net.imshit.element.shoot.enemy;
 
 import net.imshit.element.bullet.EnemyBullet;
-import net.imshit.element.shoot.ShootStrategy;
+import net.imshit.element.shoot.Shootable;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Jim
  */
-public interface EnemyShootStrategy extends ShootStrategy<EnemyBullet> {
+public interface EnemyShootable extends Shootable<EnemyBullet> {
     /**
      * 敌机设计接口
      * @param x      飞机水平位置

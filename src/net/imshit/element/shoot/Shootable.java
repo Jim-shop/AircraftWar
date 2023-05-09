@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Jim
  */
-public interface ShootStrategy<T extends AbstractBullet> {
+public interface Shootable<T extends AbstractBullet> {
     /**
      * 返回子弹列表
      *
