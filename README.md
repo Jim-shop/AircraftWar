@@ -14,4 +14,8 @@
 - `📂resources` 多媒体资源
 - `📂src` 源码
 - `📂test` 单元测试代码
-- `📂uml` UML类图 
+- `📂uml` UML类图
+
+## 开源许可证
+
+[木兰公共许可证，第2版](https://license.coscl.org.cn/MulanPubL-2.0)
